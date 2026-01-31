@@ -200,3 +200,54 @@ export const USER_SAVED_LISTINGS_QUERY = defineQuery(/* groq */ `
     }
   }.savedListings
 `);
+
+// ============================================
+// Analytics Queries
+// ============================================
+
+// Get agent for analytics validation
+export const ANALYTICS_AGENT_QUERY = defineQuery(/* groq */ `
+  *[_type == "agent" && userId == $userId][0]{ _id, name, onboardingComplete }
+`);
+
+// Listing counts by status
+export const ANALYTICS_LISTINGS_TOTAL_QUERY = defineQuery(/* groq */ `
+  count(*[_type == "property" && agent._ref == $agentId])
+`);
+
+export const ANALYTICS_LISTINGS_ACTIVE_QUERY = defineQuery(/* groq */ `
+  count(*[_type == "property" && agent._ref == $agentId && status == "active"])
+`);
+
+export const ANALYTICS_LISTINGS_PENDING_QUERY = defineQuery(/* groq */ `
+  count(*[_type == "property" && agent._ref == $agentId && status == "pending"])
+`);
+
+export const ANALYTICS_LISTINGS_SOLD_QUERY = defineQuery(/* groq */ `
+  count(*[_type == "property" && agent._ref == $agentId && status == "sold"])
+`);
+
+// Lead counts by status
+export const ANALYTICS_LEADS_TOTAL_QUERY = defineQuery(/* groq */ `
+  count(*[_type == "lead" && agent._ref == $agentId])
+`);
+
+export const ANALYTICS_LEADS_NEW_QUERY = defineQuery(/* groq */ `
+  count(*[_type == "lead" && agent._ref == $agentId && status == "new"])
+`);
+
+export const ANALYTICS_LEADS_CONTACTED_QUERY = defineQuery(/* groq */ `
+  count(*[_type == "lead" && agent._ref == $agentId && status == "contacted"])
+`);
+
+export const ANALYTICS_LEADS_CLOSED_QUERY = defineQuery(/* groq */ `
+  count(*[_type == "lead" && agent._ref == $agentId && status == "closed"])
+`);
+
+// Leads grouped by property (top 10)
+export const ANALYTICS_LEADS_BY_PROPERTY_QUERY = defineQuery(/* groq */ `
+  *[_type == "property" && agent._ref == $agentId]{
+    "title": title,
+    "leadCount": count(*[_type == "lead" && property._ref == ^._id])
+  } | order(leadCount desc)[0...10]
+`);
