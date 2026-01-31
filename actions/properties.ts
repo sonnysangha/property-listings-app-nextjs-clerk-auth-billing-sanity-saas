@@ -99,8 +99,6 @@ export async function updateListing(listingId: string, data: ListingFormData) {
       updatedAt: new Date().toISOString(),
     })
     .commit();
-
-  // sanityLive handles real-time updates, no revalidation needed
 }
 
 export async function updateListingStatus(
@@ -139,7 +137,6 @@ export async function updateListingStatus(
       updatedAt: new Date().toISOString(),
     })
     .commit();
-  // sanityLive handles real-time updates
 }
 
 export async function deleteListing(listingId: string) {
@@ -169,5 +166,4 @@ export async function deleteListing(listingId: string) {
   }
 
   await client.delete(listingId);
-  // sanityLive handles real-time updates
 }
