@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckCircle2, Loader2, MapPin } from "lucide-react";
 import { useCallback, useEffect, useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, type Resolver } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { createListing, updateListing } from "@/actions/properties";
@@ -148,8 +148,7 @@ export function ListingForm({ listing, mode = "create" }: ListingFormProps) {
   });
 
   const form = useForm<FormData>({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    resolver: zodResolver(formSchema) as any,
+    resolver: zodResolver(formSchema) as Resolver<FormData>,
     defaultValues: {
       title: listing?.title || "",
       description: listing?.description || "",
