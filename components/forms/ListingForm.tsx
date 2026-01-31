@@ -1,8 +1,8 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
-import { useState, useTransition } from "react";
+import { CheckCircle2, Loader2, MapPin } from "lucide-react";
+import { useCallback, useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -26,7 +26,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { ImageUpload, type ImageItem } from "./ImageUpload";
+import type { GeocodingResult } from "@/lib/geocoding";
+import { useGeocoding } from "@/lib/hooks";
+import { type ImageItem, ImageUpload } from "./ImageUpload";
 
 const PROPERTY_TYPES = [
   { value: "house", label: "House" },
@@ -87,6 +89,11 @@ interface ListingImage {
   };
 }
 
+interface GeoPoint {
+  lat: number;
+  lng: number;
+}
+
 interface ListingFormProps {
   listing?: {
     _id: string;
@@ -105,6 +112,7 @@ interface ListingFormProps {
       state?: string;
       zipCode?: string;
     };
+    location?: GeoPoint;
     amenities?: string[];
     images?: ListingImage[];
   };
@@ -123,6 +131,21 @@ export function ListingForm({ listing, mode = "create" }: ListingFormProps) {
     })) || [];
 
   const [images, setImages] = useState<ImageItem[]>(initialImages);
+  const [location, setLocation] = useState<GeoPoint | undefined>(
+    listing?.location,
+  );
+
+  // Geocoding hook for auto-filling coordinates from address
+  const {
+    isLoading: isGeocoding,
+    error: geocodeError,
+    geocode,
+  } = useGeocoding({
+    debounceMs: 800,
+    onSuccess: (result: GeocodingResult) => {
+      setLocation({ lat: result.lat, lng: result.lng });
+    },
+  });
 
   const form = useForm<FormData>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -145,6 +168,23 @@ export function ListingForm({ listing, mode = "create" }: ListingFormProps) {
       amenities: listing?.amenities || [],
     },
   });
+
+  // Watch address fields and trigger geocoding when they change
+  const street = form.watch("street");
+  const city = form.watch("city");
+  const state = form.watch("state");
+  const zipCode = form.watch("zipCode");
+
+  // Trigger geocoding when address fields have enough data
+  const triggerGeocode = useCallback(() => {
+    if (city && state) {
+      geocode({ street, city, state, zipCode });
+    }
+  }, [street, city, state, zipCode, geocode]);
+
+  useEffect(() => {
+    triggerGeocode();
+  }, [triggerGeocode]);
 
   const onSubmit = (data: FormData) => {
     startTransition(async () => {
@@ -177,6 +217,7 @@ export function ListingForm({ listing, mode = "create" }: ListingFormProps) {
             state: data.state,
             zipCode: data.zipCode,
           },
+          location,
           amenities: data.amenities,
           images: imageRefs,
         };
@@ -453,6 +494,33 @@ export function ListingForm({ listing, mode = "create" }: ListingFormProps) {
                   </FormItem>
                 )}
               />
+            </div>
+
+            {/* Geocoding status indicator */}
+            <div className="flex items-center gap-2 text-sm">
+              {isGeocoding && (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                  <span className="text-muted-foreground">
+                    Finding coordinates...
+                  </span>
+                </>
+              )}
+              {!isGeocoding && location && (
+                <>
+                  <CheckCircle2 className="h-4 w-4 text-green-600" />
+                  <span className="text-green-600">
+                    Coordinates: {location.lat.toFixed(4)},{" "}
+                    {location.lng.toFixed(4)}
+                  </span>
+                </>
+              )}
+              {!isGeocoding && geocodeError && !location && (
+                <>
+                  <MapPin className="h-4 w-4 text-amber-500" />
+                  <span className="text-amber-500">{geocodeError}</span>
+                </>
+              )}
             </div>
           </CardContent>
         </Card>
