@@ -32,6 +32,7 @@ export const PROPERTIES_SEARCH_QUERY = defineQuery(/* groq */ `
     && price >= $minPrice && price <= $maxPrice
     && bedrooms >= $beds && bathrooms >= $baths
     && ($type == "" || propertyType == $type)
+    && ($city == "" || address.city == $city)
   ] | order(createdAt desc) [$start...$end] {
     _id,
     title,
@@ -52,6 +53,7 @@ export const PROPERTIES_COUNT_QUERY = defineQuery(/* groq */ `
     && price >= $minPrice && price <= $maxPrice
     && bedrooms >= $beds && bathrooms >= $baths
     && ($type == "" || propertyType == $type)
+    && ($city == "" || address.city == $city)
   ])
 `);
 

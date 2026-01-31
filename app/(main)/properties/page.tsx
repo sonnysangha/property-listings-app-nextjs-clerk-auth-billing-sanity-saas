@@ -48,6 +48,7 @@ export default async function PropertiesPage({
     beds: Number(params.beds) || 0,
     baths: Number(params.baths) || 0,
     type: params.type === "all" ? "" : params.type || "",
+    city: params.city || "",
     start,
     end,
   };
