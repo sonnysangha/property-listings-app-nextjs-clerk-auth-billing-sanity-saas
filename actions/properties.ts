@@ -1,7 +1,6 @@
 "use server";
 
 import { auth } from "@clerk/nextjs/server";
-import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { client } from "@/lib/sanity/client";
 import type { ListingFormData } from "@/types";
@@ -52,7 +51,6 @@ export async function createListing(data: ListingFormData) {
     updatedAt: new Date().toISOString(),
   });
 
-  revalidatePath("/dashboard/listings");
   redirect("/dashboard/listings");
 }
 
@@ -102,8 +100,7 @@ export async function updateListing(listingId: string, data: ListingFormData) {
     })
     .commit();
 
-  revalidatePath("/dashboard/listings");
-  revalidatePath(`/properties/${slugify(data.title)}`);
+  // sanityLive handles real-time updates, no revalidation needed
 }
 
 export async function updateListingStatus(
@@ -142,8 +139,7 @@ export async function updateListingStatus(
       updatedAt: new Date().toISOString(),
     })
     .commit();
-
-  revalidatePath("/dashboard/listings");
+  // sanityLive handles real-time updates
 }
 
 export async function deleteListing(listingId: string) {
@@ -173,6 +169,5 @@ export async function deleteListing(listingId: string) {
   }
 
   await client.delete(listingId);
-
-  revalidatePath("/dashboard/listings");
+  // sanityLive handles real-time updates
 }
