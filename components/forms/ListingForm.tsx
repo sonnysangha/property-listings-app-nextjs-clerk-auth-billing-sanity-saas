@@ -1,8 +1,8 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
-import { useState, useTransition } from "react";
+import { CheckCircle2, Loader2, MapPin } from "lucide-react";
+import { useCallback, useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -26,9 +26,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import type { GeocodingResult } from "@/lib/geocoding";
+import { useGeocoding } from "@/lib/hooks";
 import { ImageUpload, type ImageItem } from "./ImageUpload";
 import { LocationPicker } from "./LocationPicker";
-import type { GeoPoint } from "@/types";
 
 const PROPERTY_TYPES = [
   { value: "house", label: "House" },
@@ -80,13 +81,21 @@ const formSchema = z.object({
   amenities: z.array(z.string()).optional(),
 });
 
-type FormData = z.infer<typeof formSchema>;
+// Input type: what the form fields receive (strings from inputs)
+type FormDataInput = z.input<typeof formSchema>;
+// Output type: what validation produces (coerced to proper types)
+type FormDataOutput = z.output<typeof formSchema>;
 
 interface ListingImage {
   asset: {
     _id: string;
     url: string;
   };
+}
+
+interface GeoPoint {
+  lat: number;
+  lng: number;
 }
 
 interface ListingFormProps {
@@ -137,21 +146,20 @@ export function ListingForm({ listing, mode = "create" }: ListingFormProps) {
     geocode,
   } = useGeocoding({
     debounceMs: 800,
-    onSuccess: (result) => {
+    onSuccess: (result: GeocodingResult) => {
       setLocation({ lat: result.lat, lng: result.lng });
     },
   });
 
-  const form = useForm<FormData>({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    resolver: zodResolver(formSchema) as any,
+  const form = useForm<FormDataInput, unknown, FormDataOutput>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       title: listing?.title || "",
       description: listing?.description || "",
       price: listing?.price || 0,
       propertyType:
-        (listing?.propertyType as FormData["propertyType"]) || "house",
-      status: (listing?.status as FormData["status"]) || "active",
+        (listing?.propertyType as FormDataOutput["propertyType"]) || "house",
+      status: (listing?.status as FormDataOutput["status"]) || "active",
       bedrooms: listing?.bedrooms || 0,
       bathrooms: listing?.bathrooms || 0,
       squareFeet: listing?.squareFeet || 0,
@@ -164,7 +172,24 @@ export function ListingForm({ listing, mode = "create" }: ListingFormProps) {
     },
   });
 
-  const onSubmit = (data: FormData) => {
+  // Watch address fields and trigger geocoding when they change
+  const street = form.watch("street");
+  const city = form.watch("city");
+  const state = form.watch("state");
+  const zipCode = form.watch("zipCode");
+
+  // Trigger geocoding when address fields have enough data
+  const triggerGeocode = useCallback(() => {
+    if (city && state) {
+      geocode({ street, city, state, zipCode });
+    }
+  }, [street, city, state, zipCode, geocode]);
+
+  useEffect(() => {
+    triggerGeocode();
+  }, [triggerGeocode]);
+
+  const onSubmit = (data: FormDataOutput) => {
     startTransition(async () => {
       try {
         // Convert images to Sanity format
@@ -264,7 +289,16 @@ export function ListingForm({ listing, mode = "create" }: ListingFormProps) {
                   <FormItem>
                     <FormLabel>Price ($)</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="450000" {...field} />
+                      <Input
+                        type="number"
+                        placeholder="450000"
+                        name={field.name}
+                        onBlur={field.onBlur}
+                        ref={field.ref}
+                        disabled={field.disabled}
+                        value={String(field.value ?? "")}
+                        onChange={(e) => field.onChange(e.target.value)}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -359,7 +393,16 @@ export function ListingForm({ listing, mode = "create" }: ListingFormProps) {
                   <FormItem>
                     <FormLabel>Bedrooms</FormLabel>
                     <FormControl>
-                      <Input type="number" min="0" {...field} />
+                      <Input
+                        type="number"
+                        min="0"
+                        name={field.name}
+                        onBlur={field.onBlur}
+                        ref={field.ref}
+                        disabled={field.disabled}
+                        value={String(field.value ?? "")}
+                        onChange={(e) => field.onChange(e.target.value)}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -373,7 +416,17 @@ export function ListingForm({ listing, mode = "create" }: ListingFormProps) {
                   <FormItem>
                     <FormLabel>Bathrooms</FormLabel>
                     <FormControl>
-                      <Input type="number" min="0" step="0.5" {...field} />
+                      <Input
+                        type="number"
+                        min="0"
+                        step="0.5"
+                        name={field.name}
+                        onBlur={field.onBlur}
+                        ref={field.ref}
+                        disabled={field.disabled}
+                        value={String(field.value ?? "")}
+                        onChange={(e) => field.onChange(e.target.value)}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -387,7 +440,16 @@ export function ListingForm({ listing, mode = "create" }: ListingFormProps) {
                   <FormItem>
                     <FormLabel>Square Feet</FormLabel>
                     <FormControl>
-                      <Input type="number" min="0" {...field} />
+                      <Input
+                        type="number"
+                        min="0"
+                        name={field.name}
+                        onBlur={field.onBlur}
+                        ref={field.ref}
+                        disabled={field.disabled}
+                        value={String(field.value ?? "")}
+                        onChange={(e) => field.onChange(e.target.value)}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -401,7 +463,16 @@ export function ListingForm({ listing, mode = "create" }: ListingFormProps) {
                   <FormItem>
                     <FormLabel>Year Built</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="2020" {...field} />
+                      <Input
+                        type="number"
+                        placeholder="2020"
+                        name={field.name}
+                        onBlur={field.onBlur}
+                        ref={field.ref}
+                        disabled={field.disabled}
+                        value={String(field.value ?? "")}
+                        onChange={(e) => field.onChange(e.target.value)}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -472,6 +543,33 @@ export function ListingForm({ listing, mode = "create" }: ListingFormProps) {
                   </FormItem>
                 )}
               />
+            </div>
+
+            {/* Geocoding status indicator */}
+            <div className="flex items-center gap-2 text-sm">
+              {isGeocoding && (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                  <span className="text-muted-foreground">
+                    Finding coordinates...
+                  </span>
+                </>
+              )}
+              {!isGeocoding && location && (
+                <>
+                  <CheckCircle2 className="h-4 w-4 text-green-600" />
+                  <span className="text-green-600">
+                    Coordinates: {location.lat.toFixed(4)},{" "}
+                    {location.lng.toFixed(4)}
+                  </span>
+                </>
+              )}
+              {!isGeocoding && geocodeError && !location && (
+                <>
+                  <MapPin className="h-4 w-4 text-amber-500" />
+                  <span className="text-amber-500">{geocodeError}</span>
+                </>
+              )}
             </div>
           </CardContent>
         </Card>

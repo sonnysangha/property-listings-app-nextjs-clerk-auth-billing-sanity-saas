@@ -1,1 +1,2 @@
-export { useReducedMotion, useAnimationDuration } from "./useReducedMotion";
+export { useGeocoding } from "./useGeocoding";
+export { useAnimationDuration, useReducedMotion } from "./useReducedMotion";
