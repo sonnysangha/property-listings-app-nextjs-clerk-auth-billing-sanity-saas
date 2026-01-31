@@ -28,7 +28,8 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import type { GeocodingResult } from "@/lib/geocoding";
 import { useGeocoding } from "@/lib/hooks";
-import { type ImageItem, ImageUpload } from "./ImageUpload";
+import { ImageUpload, type ImageItem } from "./ImageUpload";
+import { LocationPicker } from "./LocationPicker";
 
 const PROPERTY_TYPES = [
   { value: "house", label: "House" },
@@ -570,6 +571,19 @@ export function ListingForm({ listing, mode = "create" }: ListingFormProps) {
                 </>
               )}
             </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Location on Map</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <LocationPicker
+              value={location}
+              onChange={setLocation}
+              disabled={isPending}
+            />
           </CardContent>
         </Card>
 

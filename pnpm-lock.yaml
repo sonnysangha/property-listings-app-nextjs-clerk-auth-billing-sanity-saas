@@ -114,6 +114,9 @@ importers:
       '@types/lodash.debounce':
         specifier: ^4.0.9
         version: 4.0.9
+      '@types/mapbox__mapbox-sdk':
+        specifier: ^0.16.3
+        version: 0.16.3
       '@types/node':
         specifier: ^20
         version: 20.19.30
@@ -2919,6 +2922,12 @@ packages:
 
   '@types/lodash@4.17.23':
     resolution: {integrity: sha512-RDvF6wTulMPjrNdCoYRC8gNR880JNGT8uB+REUpC2Ns4pRqQJhGz90wh7rgdXDPpCczF3VGktDuFGVnz8zP7HA==}
+
+  '@types/mapbox-gl@3.4.1':
+    resolution: {integrity: sha512-NsGKKtgW93B+UaLPti6B7NwlxYlES5DpV5Gzj9F75rK5ALKsqSk15CiEHbOnTr09RGbr6ZYiCdI+59NNNcAImg==}
+
+  '@types/mapbox__mapbox-sdk@0.16.3':
+    resolution: {integrity: sha512-kxhKRxwTK1BBWBcPgJ6GRC2UZMZ6DwcgkphyeuXA4uTzXRAwhmJYtS1BUAIC9uqYiORWk5LJSCi/IZOk0QAnkA==}
 
   '@types/mapbox__point-geometry@0.1.4':
     resolution: {integrity: sha512-mUWlSxAmYLfwnRBmgYV86tgYmMIICX4kza8YnE/eIlywGe2XoOxlpVnXWwir92xRLjwyarqwpu2EJKD2pk0IUA==}
@@ -9295,6 +9304,16 @@ snapshots:
       '@types/lodash': 4.17.23
 
   '@types/lodash@4.17.23': {}
+
+  '@types/mapbox-gl@3.4.1':
+    dependencies:
+      '@types/geojson': 7946.0.16
+
+  '@types/mapbox__mapbox-sdk@0.16.3':
+    dependencies:
+      '@types/geojson': 7946.0.16
+      '@types/mapbox-gl': 3.4.1
+      '@types/node': 20.19.30
 
   '@types/mapbox__point-geometry@0.1.4': {}
 
