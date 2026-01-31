@@ -1,0 +1,167 @@
+[
+  {
+    "_id": "seed_lead_1",
+    "propertyId": "seed_property_1",
+    "agentId": "seed_agent_1",
+    "buyerName": "Thomas Wright",
+    "buyerEmail": "thomas.wright@email.com",
+    "buyerPhone": "(415) 555-2001",
+    "message": "I'm very interested in this property. Would love to schedule a viewing this weekend if possible.",
+    "status": "new",
+    "daysAgo": 1
+  },
+  {
+    "_id": "seed_lead_2",
+    "propertyId": "seed_property_2",
+    "agentId": "seed_agent_2",
+    "buyerName": "Amanda Chen",
+    "buyerEmail": "amanda.chen@email.com",
+    "buyerPhone": "(213) 555-2002",
+    "message": "The penthouse looks amazing! Is there flexibility on the price?",
+    "status": "new",
+    "daysAgo": 2
+  },
+  {
+    "_id": "seed_lead_3",
+    "propertyId": "seed_property_3",
+    "agentId": "seed_agent_5",
+    "buyerName": "Brian Foster",
+    "buyerEmail": "brian.foster@email.com",
+    "buyerPhone": "(206) 555-2003",
+    "message": "We love Victorian homes. Can we see this property next Tuesday?",
+    "status": "contacted",
+    "daysAgo": 5
+  },
+  {
+    "_id": "seed_lead_4",
+    "propertyId": "seed_property_4",
+    "agentId": "seed_agent_3",
+    "buyerName": "Jessica Palmer",
+    "buyerEmail": "jessica.palmer@email.com",
+    "buyerPhone": "(512) 555-2004",
+    "message": "The Hill Country location is exactly what we're looking for. Available for a tour?",
+    "status": "new",
+    "daysAgo": 1
+  },
+  {
+    "_id": "seed_lead_5",
+    "propertyId": "seed_property_5",
+    "agentId": "seed_agent_4",
+    "buyerName": "Christopher Davis",
+    "buyerEmail": "chris.davis@email.com",
+    "buyerPhone": "(305) 555-2005",
+    "message": "Relocating to Miami from NYC. This condo looks perfect.",
+    "status": "contacted",
+    "daysAgo": 8
+  },
+  {
+    "_id": "seed_lead_6",
+    "propertyId": "seed_property_6",
+    "agentId": "seed_agent_6",
+    "buyerName": "Michelle Roberts",
+    "buyerEmail": "michelle.roberts@email.com",
+    "buyerPhone": "(303) 555-2006",
+    "message": "The mountain views are stunning. Is the home still available?",
+    "status": "closed",
+    "daysAgo": 15
+  },
+  {
+    "_id": "seed_lead_7",
+    "propertyId": "seed_property_8",
+    "agentId": "seed_agent_2",
+    "buyerName": "Andrew Kim",
+    "buyerEmail": "andrew.kim@email.com",
+    "buyerPhone": "(312) 555-2007",
+    "message": "I work downtown and this location is perfect. What's the HOA fee?",
+    "status": "new",
+    "daysAgo": 3
+  },
+  {
+    "_id": "seed_lead_8",
+    "propertyId": "seed_property_9",
+    "agentId": "seed_agent_1",
+    "buyerName": "Laura Thompson",
+    "buyerEmail": "laura.thompson@email.com",
+    "buyerPhone": "(617) 555-2008",
+    "message": "Back Bay is my dream neighborhood. Please send more details.",
+    "status": "contacted",
+    "daysAgo": 10
+  },
+  {
+    "_id": "seed_lead_9",
+    "propertyId": "seed_property_10",
+    "agentId": "seed_agent_6",
+    "buyerName": "Robert Hughes",
+    "buyerEmail": "robert.hughes@email.com",
+    "buyerPhone": "(480) 555-2009",
+    "message": "We're looking for a desert home with a pool. This looks ideal.",
+    "status": "new",
+    "daysAgo": 2
+  },
+  {
+    "_id": "seed_lead_10",
+    "propertyId": "seed_property_13",
+    "agentId": "seed_agent_5",
+    "buyerName": "Sarah Mitchell",
+    "buyerEmail": "sarah.mitchell.buyer@email.com",
+    "buyerPhone": "(206) 555-2010",
+    "message": "Waterfront living is a dream. Is the dock slip included?",
+    "status": "closed",
+    "daysAgo": 20
+  },
+  {
+    "_id": "seed_lead_11",
+    "propertyId": "seed_property_14",
+    "agentId": "seed_agent_3",
+    "buyerName": "Michael Brown",
+    "buyerEmail": "michael.brown@email.com",
+    "buyerPhone": "(512) 555-2011",
+    "message": "Love the modern farmhouse style. What's the neighborhood like?",
+    "status": "new",
+    "daysAgo": 1
+  },
+  {
+    "_id": "seed_lead_12",
+    "propertyId": "seed_property_18",
+    "agentId": "seed_agent_2",
+    "buyerName": "Jennifer Lopez",
+    "buyerEmail": "jennifer.lopez@email.com",
+    "buyerPhone": "(312) 555-2012",
+    "message": "Lincoln Park has always been our top choice. Excited to see this one!",
+    "status": "contacted",
+    "daysAgo": 7
+  },
+  {
+    "_id": "seed_lead_13",
+    "propertyId": "seed_property_20",
+    "agentId": "seed_agent_6",
+    "buyerName": "William Turner",
+    "buyerEmail": "william.turner@email.com",
+    "buyerPhone": "(480) 555-2013",
+    "message": "I'm an avid golfer. This property is perfect. When can I see it?",
+    "status": "new",
+    "daysAgo": 4
+  },
+  {
+    "_id": "seed_lead_14",
+    "propertyId": "seed_property_22",
+    "agentId": "seed_agent_2",
+    "buyerName": "Lisa Wang",
+    "buyerEmail": "lisa.wang@email.com",
+    "buyerPhone": "(310) 555-2014",
+    "message": "Venice Beach vibes! Is the bonus studio permitted?",
+    "status": "new",
+    "daysAgo": 2
+  },
+  {
+    "_id": "seed_lead_15",
+    "propertyId": "seed_property_25",
+    "agentId": "seed_agent_4",
+    "buyerName": "David Martinez",
+    "buyerEmail": "david.martinez.buyer@email.com",
+    "buyerPhone": "(305) 555-2015",
+    "message": "Coconut Grove is beautiful. My family would love this villa.",
+    "status": "closed",
+    "daysAgo": 25
+  }
+]

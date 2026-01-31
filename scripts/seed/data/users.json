@@ -1,0 +1,86 @@
+[
+  {
+    "_id": "seed_user_1",
+    "clerkId": "seed_clerk_user_1",
+    "name": "Alex Johnson",
+    "email": "alex.johnson@email.com",
+    "phone": "(415) 555-1001",
+    "savedListings": [
+      "seed_property_1",
+      "seed_property_3",
+      "seed_property_6",
+      "seed_property_11"
+    ]
+  },
+  {
+    "_id": "seed_user_2",
+    "clerkId": "seed_clerk_user_2",
+    "name": "Maria Garcia",
+    "email": "maria.garcia@email.com",
+    "phone": "(213) 555-1002",
+    "savedListings": ["seed_property_2", "seed_property_12", "seed_property_22"]
+  },
+  {
+    "_id": "seed_user_3",
+    "clerkId": "seed_clerk_user_3",
+    "name": "James Wilson",
+    "email": "james.wilson@email.com",
+    "phone": "(512) 555-1003",
+    "savedListings": ["seed_property_4", "seed_property_14", "seed_property_24"]
+  },
+  {
+    "_id": "seed_user_4",
+    "clerkId": "seed_clerk_user_4",
+    "name": "Emily Brown",
+    "email": "emily.brown@email.com",
+    "phone": "(305) 555-1004",
+    "savedListings": [
+      "seed_property_5",
+      "seed_property_15",
+      "seed_property_25",
+      "seed_property_10"
+    ]
+  },
+  {
+    "_id": "seed_user_5",
+    "clerkId": "seed_clerk_user_5",
+    "name": "Daniel Lee",
+    "email": "daniel.lee@email.com",
+    "phone": "(206) 555-1005",
+    "savedListings": [
+      "seed_property_3",
+      "seed_property_7",
+      "seed_property_13",
+      "seed_property_23"
+    ]
+  },
+  {
+    "_id": "seed_user_6",
+    "clerkId": "seed_clerk_user_6",
+    "name": "Sophie Taylor",
+    "email": "sophie.taylor@email.com",
+    "phone": "(303) 555-1006",
+    "savedListings": ["seed_property_6", "seed_property_16"]
+  },
+  {
+    "_id": "seed_user_7",
+    "clerkId": "seed_clerk_user_7",
+    "name": "Kevin Martinez",
+    "email": "kevin.martinez@email.com",
+    "phone": "(312) 555-1007",
+    "savedListings": [
+      "seed_property_8",
+      "seed_property_18",
+      "seed_property_9",
+      "seed_property_19"
+    ]
+  },
+  {
+    "_id": "seed_user_8",
+    "clerkId": "seed_clerk_user_8",
+    "name": "Rachel Anderson",
+    "email": "rachel.anderson@email.com",
+    "phone": "(617) 555-1008",
+    "savedListings": ["seed_property_9", "seed_property_19", "seed_property_1"]
+  }
+]

@@ -1,0 +1,178 @@
+"use server";
+
+import { auth } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { client } from "@/lib/sanity/client";
+import type { ListingFormData } from "@/types";
+
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/--+/g, "-")
+    .trim();
+}
+
+export async function createListing(data: ListingFormData) {
+  const { userId } = await auth();
+
+  if (!userId) {
+    throw new Error("Not authenticated");
+  }
+
+  const agent = await client.fetch(
+    `*[_type == "agent" && userId == $userId][0]{ _id }`,
+    { userId },
+  );
+
+  if (!agent) {
+    throw new Error("Agent not found");
+  }
+
+  await client.create({
+    _type: "property",
+    title: data.title,
+    slug: { _type: "slug", current: slugify(data.title) },
+    description: data.description,
+    price: data.price,
+    propertyType: data.propertyType,
+    status: "active",
+    bedrooms: data.bedrooms,
+    bathrooms: data.bathrooms,
+    squareFeet: data.squareFeet,
+    yearBuilt: data.yearBuilt,
+    address: data.address,
+    location: data.location,
+    amenities: data.amenities || [],
+    agent: { _type: "reference", _ref: agent._id },
+    featured: false,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  });
+
+  revalidatePath("/dashboard/listings");
+  redirect("/dashboard/listings");
+}
+
+export async function updateListing(listingId: string, data: ListingFormData) {
+  const { userId } = await auth();
+
+  if (!userId) {
+    throw new Error("Not authenticated");
+  }
+
+  const agent = await client.fetch(
+    `*[_type == "agent" && userId == $userId][0]{ _id }`,
+    { userId },
+  );
+
+  if (!agent) {
+    throw new Error("Agent not found");
+  }
+
+  // Verify ownership
+  const listing = await client.fetch(
+    `*[_type == "property" && _id == $id][0]{ agent }`,
+    { id: listingId },
+  );
+
+  if (!listing || listing.agent._ref !== agent._id) {
+    throw new Error("Unauthorized");
+  }
+
+  await client
+    .patch(listingId)
+    .set({
+      title: data.title,
+      slug: { _type: "slug", current: slugify(data.title) },
+      description: data.description,
+      price: data.price,
+      propertyType: data.propertyType,
+      status: data.status || "active",
+      bedrooms: data.bedrooms,
+      bathrooms: data.bathrooms,
+      squareFeet: data.squareFeet,
+      yearBuilt: data.yearBuilt,
+      address: data.address,
+      location: data.location,
+      amenities: data.amenities || [],
+      updatedAt: new Date().toISOString(),
+    })
+    .commit();
+
+  revalidatePath("/dashboard/listings");
+  revalidatePath(`/properties/${data.title}`);
+}
+
+export async function updateListingStatus(
+  listingId: string,
+  status: "active" | "pending" | "sold",
+) {
+  const { userId } = await auth();
+
+  if (!userId) {
+    throw new Error("Not authenticated");
+  }
+
+  const agent = await client.fetch(
+    `*[_type == "agent" && userId == $userId][0]{ _id }`,
+    { userId },
+  );
+
+  if (!agent) {
+    throw new Error("Agent not found");
+  }
+
+  // Verify ownership
+  const listing = await client.fetch(
+    `*[_type == "property" && _id == $id][0]{ agent }`,
+    { id: listingId },
+  );
+
+  if (!listing || listing.agent._ref !== agent._id) {
+    throw new Error("Unauthorized");
+  }
+
+  await client
+    .patch(listingId)
+    .set({
+      status,
+      updatedAt: new Date().toISOString(),
+    })
+    .commit();
+
+  revalidatePath("/dashboard/listings");
+}
+
+export async function deleteListing(listingId: string) {
+  const { userId } = await auth();
+
+  if (!userId) {
+    throw new Error("Not authenticated");
+  }
+
+  const agent = await client.fetch(
+    `*[_type == "agent" && userId == $userId][0]{ _id }`,
+    { userId },
+  );
+
+  if (!agent) {
+    throw new Error("Agent not found");
+  }
+
+  // Verify ownership
+  const listing = await client.fetch(
+    `*[_type == "property" && _id == $id][0]{ agent }`,
+    { id: listingId },
+  );
+
+  if (!listing || listing.agent._ref !== agent._id) {
+    throw new Error("Unauthorized");
+  }
+
+  await client.delete(listingId);
+
+  revalidatePath("/dashboard/listings");
+}

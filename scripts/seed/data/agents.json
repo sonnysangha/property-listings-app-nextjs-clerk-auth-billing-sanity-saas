@@ -1,0 +1,74 @@
+[
+  {
+    "_id": "seed_agent_1",
+    "userId": "seed_clerk_agent_1",
+    "name": "Sarah Mitchell",
+    "email": "sarah.mitchell@remax.com",
+    "phone": "(415) 555-0101",
+    "bio": "With over 15 years of experience in the San Francisco Bay Area real estate market, I specialize in luxury homes and investment properties. My dedication to client satisfaction and deep market knowledge have helped hundreds of families find their dream homes. I believe in building lasting relationships and providing personalized service every step of the way.",
+    "licenseNumber": "DRE#01892345",
+    "agency": "RE/MAX Premier",
+    "photoUrl": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400",
+    "onboardingComplete": true
+  },
+  {
+    "_id": "seed_agent_2",
+    "userId": "seed_clerk_agent_2",
+    "name": "Michael Chen",
+    "email": "michael.chen@coldwellbanker.com",
+    "phone": "(213) 555-0202",
+    "bio": "As a second-generation real estate professional, I bring a unique blend of traditional values and modern marketing strategies to every transaction. Specializing in the Los Angeles metropolitan area, I've closed over $100 million in sales. Fluent in English and Mandarin, I'm committed to serving our diverse community with excellence.",
+    "licenseNumber": "DRE#02034567",
+    "agency": "Coldwell Banker Realty",
+    "photoUrl": "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400",
+    "onboardingComplete": true
+  },
+  {
+    "_id": "seed_agent_3",
+    "userId": "seed_clerk_agent_3",
+    "name": "Jennifer Rodriguez",
+    "email": "jennifer.rodriguez@kw.com",
+    "phone": "(512) 555-0303",
+    "bio": "Austin native and real estate enthusiast with a passion for helping first-time homebuyers navigate the exciting journey of homeownership. With 8 years of experience and a background in interior design, I help clients see the potential in every property. Let's find your perfect home together!",
+    "licenseNumber": "TREC#0654321",
+    "agency": "Keller Williams Realty",
+    "photoUrl": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400",
+    "onboardingComplete": true
+  },
+  {
+    "_id": "seed_agent_4",
+    "userId": "seed_clerk_agent_4",
+    "name": "David Thompson",
+    "email": "david.thompson@century21.com",
+    "phone": "(305) 555-0404",
+    "bio": "Miami's waterfront property specialist with 12 years of experience in luxury condos and beachfront homes. I understand the unique lifestyle that South Florida offers and work tirelessly to match clients with properties that exceed their expectations. Certified Luxury Home Marketing Specialist (CLHMS).",
+    "licenseNumber": "FL#SL3456789",
+    "agency": "Century 21",
+    "photoUrl": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400",
+    "onboardingComplete": true
+  },
+  {
+    "_id": "seed_agent_5",
+    "userId": "seed_clerk_agent_5",
+    "name": "Emily Watson",
+    "email": "emily.watson@compass.com",
+    "phone": "(206) 555-0505",
+    "bio": "Seattle real estate expert helping clients navigate the Pacific Northwest market for over a decade. From cozy Capitol Hill condos to expansive Eastside estates, I provide the insights and support needed to make informed decisions. Former tech executive turned realtor—I understand what busy professionals need.",
+    "licenseNumber": "WA#23456",
+    "agency": "Compass",
+    "photoUrl": "https://images.unsplash.com/photo-1598550874175-4d0ef436c909?w=400",
+    "onboardingComplete": true
+  },
+  {
+    "_id": "seed_agent_6",
+    "userId": "seed_clerk_agent_6",
+    "name": "Robert Martinez",
+    "email": "robert.martinez@rmrealty.com",
+    "phone": "(303) 555-0606",
+    "bio": "Independent broker serving the Denver metro area with personalized attention and honest advice. I've built my business on referrals and repeat clients who appreciate my straightforward approach. Whether you're buying your first condo or selling a family estate, I'm here to guide you through every step.",
+    "licenseNumber": "CO#FA100234",
+    "agency": "Martinez Real Estate",
+    "photoUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400",
+    "onboardingComplete": true
+  }
+]

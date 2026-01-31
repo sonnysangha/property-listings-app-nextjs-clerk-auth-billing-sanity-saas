@@ -1,0 +1,771 @@
+[
+  {
+    "_id": "seed_property_1",
+    "title": "Modern Hillside Estate with Bay Views",
+    "slug": "modern-hillside-estate-bay-views",
+    "description": "Stunning contemporary home perched on the hills of San Francisco with panoramic views of the Bay. This architectural masterpiece features floor-to-ceiling windows, an open floor plan, chef's kitchen with premium appliances, and a seamless indoor-outdoor living experience. The primary suite offers a spa-like bathroom and private terrace. Smart home technology throughout.",
+    "price": 3450000,
+    "propertyType": "house",
+    "status": "active",
+    "bedrooms": 5,
+    "bathrooms": 4,
+    "squareFeet": 4200,
+    "yearBuilt": 2019,
+    "address": {
+      "street": "1847 Twin Peaks Blvd",
+      "city": "San Francisco",
+      "state": "CA",
+      "zipCode": "94131"
+    },
+    "location": { "lat": 37.7544, "lng": -122.4477 },
+    "amenities": [
+      "pool",
+      "garage",
+      "fireplace",
+      "central-ac",
+      "hardwood-floors",
+      "security-system"
+    ],
+    "agentId": "seed_agent_1",
+    "featured": true,
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1200",
+      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200",
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200",
+      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200"
+    ]
+  },
+  {
+    "_id": "seed_property_2",
+    "title": "Luxury Downtown Penthouse",
+    "slug": "luxury-downtown-penthouse-la",
+    "description": "Exclusive penthouse living in the heart of downtown Los Angeles. This stunning residence spans the entire top floor with 360-degree views of the city skyline and mountains. Features include a private rooftop terrace, wine cellar, home theater, and concierge services. Building amenities include a rooftop pool, fitness center, and 24-hour security.",
+    "price": 2850000,
+    "propertyType": "condo",
+    "status": "active",
+    "bedrooms": 3,
+    "bathrooms": 3,
+    "squareFeet": 3100,
+    "yearBuilt": 2021,
+    "address": {
+      "street": "900 W Olympic Blvd PH",
+      "city": "Los Angeles",
+      "state": "CA",
+      "zipCode": "90015"
+    },
+    "location": { "lat": 34.0407, "lng": -118.2668 },
+    "amenities": ["gym", "pool", "parking", "security-system", "central-ac"],
+    "agentId": "seed_agent_2",
+    "featured": true,
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200",
+      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200",
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200"
+    ]
+  },
+  {
+    "_id": "seed_property_3",
+    "title": "Charming Victorian in Capitol Hill",
+    "slug": "charming-victorian-capitol-hill",
+    "description": "Beautifully restored Victorian home in Seattle's vibrant Capitol Hill neighborhood. Original details include ornate moldings, pocket doors, and a stunning staircase. Modern updates include a gourmet kitchen, updated bathrooms, and energy-efficient systems. Steps from restaurants, shops, and nightlife. Detached garage with ADU potential.",
+    "price": 1275000,
+    "propertyType": "house",
+    "status": "active",
+    "bedrooms": 4,
+    "bathrooms": 2,
+    "squareFeet": 2800,
+    "yearBuilt": 1905,
+    "address": {
+      "street": "512 15th Ave E",
+      "city": "Seattle",
+      "state": "WA",
+      "zipCode": "98112"
+    },
+    "location": { "lat": 47.6234, "lng": -122.3128 },
+    "amenities": ["fireplace", "hardwood-floors", "garden", "garage"],
+    "agentId": "seed_agent_5",
+    "featured": true,
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=1200",
+      "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1200",
+      "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200",
+      "https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=1200"
+    ]
+  },
+  {
+    "_id": "seed_property_4",
+    "title": "Austin Hill Country Retreat",
+    "slug": "austin-hill-country-retreat",
+    "description": "Escape to this stunning Hill Country estate just 20 minutes from downtown Austin. Set on 5 private acres with mature oak trees, this home offers the perfect blend of luxury and nature. Features include a resort-style pool, outdoor kitchen, guest casita, and breathtaking sunset views. Open concept living with soaring ceilings.",
+    "price": 1895000,
+    "propertyType": "house",
+    "status": "active",
+    "bedrooms": 5,
+    "bathrooms": 4,
+    "squareFeet": 4500,
+    "yearBuilt": 2017,
+    "address": {
+      "street": "4521 Bee Cave Rd",
+      "city": "Austin",
+      "state": "TX",
+      "zipCode": "78746"
+    },
+    "location": { "lat": 30.3074, "lng": -97.8369 },
+    "amenities": [
+      "pool",
+      "garage",
+      "fireplace",
+      "central-ac",
+      "garden",
+      "security-system"
+    ],
+    "agentId": "seed_agent_3",
+    "featured": true,
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1200",
+      "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1200",
+      "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=1200",
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200"
+    ]
+  },
+  {
+    "_id": "seed_property_5",
+    "title": "Oceanfront Condo in Miami Beach",
+    "slug": "oceanfront-condo-miami-beach",
+    "description": "Wake up to stunning ocean views in this completely renovated Miami Beach condo. Floor-to-ceiling windows showcase the turquoise waters of the Atlantic. Designer finishes throughout including Italian porcelain floors, custom cabinetry, and Miele appliances. Building features beach service, two pools, spa, and valet parking.",
+    "price": 1650000,
+    "propertyType": "condo",
+    "status": "active",
+    "bedrooms": 2,
+    "bathrooms": 2,
+    "squareFeet": 1450,
+    "yearBuilt": 2018,
+    "address": {
+      "street": "3737 Collins Ave #1204",
+      "city": "Miami Beach",
+      "state": "FL",
+      "zipCode": "33140"
+    },
+    "location": { "lat": 25.8324, "lng": -80.1225 },
+    "amenities": ["pool", "gym", "parking", "balcony", "security-system"],
+    "agentId": "seed_agent_4",
+    "featured": true,
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200",
+      "https://images.unsplash.com/photo-1600607687644-aac4c3eac7f4?w=1200",
+      "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=1200"
+    ]
+  },
+  {
+    "_id": "seed_property_6",
+    "title": "Modern Mountain View Home",
+    "slug": "modern-mountain-view-denver",
+    "description": "Contemporary gem in Denver's desirable Highlands neighborhood with stunning mountain views from every level. This architect-designed home features an open floor plan, walls of glass, and a rooftop deck perfect for entertaining. Gourmet kitchen with waterfall island and butler's pantry. Walking distance to shops and restaurants.",
+    "price": 1450000,
+    "propertyType": "house",
+    "status": "active",
+    "bedrooms": 4,
+    "bathrooms": 3,
+    "squareFeet": 3200,
+    "yearBuilt": 2020,
+    "address": {
+      "street": "2847 W 32nd Ave",
+      "city": "Denver",
+      "state": "CO",
+      "zipCode": "80211"
+    },
+    "location": { "lat": 39.7621, "lng": -105.0175 },
+    "amenities": [
+      "garage",
+      "fireplace",
+      "central-ac",
+      "hardwood-floors",
+      "balcony"
+    ],
+    "agentId": "seed_agent_6",
+    "featured": true,
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200",
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200",
+      "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1200",
+      "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200"
+    ]
+  },
+  {
+    "_id": "seed_property_7",
+    "title": "Cozy Craftsman Bungalow",
+    "slug": "cozy-craftsman-bungalow-portland",
+    "description": "Classic Portland Craftsman in the heart of Alberta Arts District. Original built-ins, hardwood floors, and charming details throughout. Updated kitchen with quartz counters and stainless appliances. Large backyard with raised garden beds and mature fruit trees. Detached studio perfect for home office or guest quarters.",
+    "price": 675000,
+    "propertyType": "house",
+    "status": "active",
+    "bedrooms": 3,
+    "bathrooms": 2,
+    "squareFeet": 1650,
+    "yearBuilt": 1924,
+    "address": {
+      "street": "2156 NE Alberta St",
+      "city": "Portland",
+      "state": "OR",
+      "zipCode": "97211"
+    },
+    "location": { "lat": 45.5589, "lng": -122.6435 },
+    "amenities": ["fireplace", "hardwood-floors", "garden", "washer-dryer"],
+    "agentId": "seed_agent_5",
+    "featured": false,
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?w=1200",
+      "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1200",
+      "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=1200"
+    ]
+  },
+  {
+    "_id": "seed_property_8",
+    "title": "Downtown Chicago High-Rise",
+    "slug": "downtown-chicago-high-rise",
+    "description": "Sophisticated living in Chicago's prestigious Gold Coast. This corner unit offers sweeping views of Lake Michigan and the city skyline. Floor-to-ceiling windows flood the space with natural light. Building amenities include 24-hour doorman, fitness center, rooftop terrace, and indoor pool. Steps from Michigan Avenue shopping.",
+    "price": 895000,
+    "propertyType": "apartment",
+    "status": "active",
+    "bedrooms": 2,
+    "bathrooms": 2,
+    "squareFeet": 1400,
+    "yearBuilt": 2015,
+    "address": {
+      "street": "1000 N Lake Shore Dr #2505",
+      "city": "Chicago",
+      "state": "IL",
+      "zipCode": "60611"
+    },
+    "location": { "lat": 41.9014, "lng": -87.6257 },
+    "amenities": ["gym", "pool", "parking", "central-ac", "security-system"],
+    "agentId": "seed_agent_2",
+    "featured": false,
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200",
+      "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200",
+      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200"
+    ]
+  },
+  {
+    "_id": "seed_property_9",
+    "title": "Historic Brownstone in Back Bay",
+    "slug": "historic-brownstone-back-bay",
+    "description": "Elegant Back Bay brownstone on one of Boston's most coveted blocks. This meticulously maintained home retains its original grandeur with 12-foot ceilings, crown moldings, and working fireplaces in every room. Modern amenities include a renovated chef's kitchen and central air. Private garden and deeded parking.",
+    "price": 2350000,
+    "propertyType": "townhouse",
+    "status": "active",
+    "bedrooms": 4,
+    "bathrooms": 3,
+    "squareFeet": 3400,
+    "yearBuilt": 1885,
+    "address": {
+      "street": "234 Commonwealth Ave",
+      "city": "Boston",
+      "state": "MA",
+      "zipCode": "02116"
+    },
+    "location": { "lat": 42.3517, "lng": -71.0755 },
+    "amenities": [
+      "fireplace",
+      "hardwood-floors",
+      "garden",
+      "parking",
+      "central-ac"
+    ],
+    "agentId": "seed_agent_1",
+    "featured": false,
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1200",
+      "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1200",
+      "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200",
+      "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=1200"
+    ]
+  },
+  {
+    "_id": "seed_property_10",
+    "title": "Desert Contemporary in Scottsdale",
+    "slug": "desert-contemporary-scottsdale",
+    "description": "Architectural masterpiece in prestigious Paradise Valley. This desert contemporary home blends seamlessly with its natural surroundings while offering every modern luxury. Negative-edge pool overlooks the McDowell Mountains. Chef's kitchen with La Cornue range. Primary suite with spa bath and private courtyard. Smart home throughout.",
+    "price": 2750000,
+    "propertyType": "house",
+    "status": "active",
+    "bedrooms": 5,
+    "bathrooms": 5,
+    "squareFeet": 5200,
+    "yearBuilt": 2022,
+    "address": {
+      "street": "5678 N Mockingbird Ln",
+      "city": "Phoenix",
+      "state": "AZ",
+      "zipCode": "85253"
+    },
+    "location": { "lat": 33.5331, "lng": -111.9428 },
+    "amenities": [
+      "pool",
+      "garage",
+      "central-ac",
+      "fireplace",
+      "security-system",
+      "garden"
+    ],
+    "agentId": "seed_agent_6",
+    "featured": false,
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1200",
+      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200",
+      "https://images.unsplash.com/photo-1600607687644-aac4c3eac7f4?w=1200"
+    ]
+  },
+  {
+    "_id": "seed_property_11",
+    "title": "Urban Loft in SoMa",
+    "slug": "urban-loft-soma-sf",
+    "description": "Stunning live/work loft in a converted warehouse in San Francisco's SoMa district. 16-foot ceilings, exposed brick, and massive factory windows create an inspiring space. Open floor plan perfect for artists or those who work from home. Building includes secure bike storage and rooftop deck. Walking distance to tech hubs.",
+    "price": 925000,
+    "propertyType": "apartment",
+    "status": "active",
+    "bedrooms": 1,
+    "bathrooms": 1,
+    "squareFeet": 1200,
+    "yearBuilt": 1920,
+    "address": {
+      "street": "655 Natoma St #3",
+      "city": "San Francisco",
+      "state": "CA",
+      "zipCode": "94103"
+    },
+    "location": { "lat": 37.7793, "lng": -122.4085 },
+    "amenities": ["hardwood-floors", "washer-dryer", "parking"],
+    "agentId": "seed_agent_1",
+    "featured": false,
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200",
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200"
+    ]
+  },
+  {
+    "_id": "seed_property_12",
+    "title": "Spanish Revival in Silver Lake",
+    "slug": "spanish-revival-silver-lake",
+    "description": "Enchanting Spanish Revival home in the hills of Silver Lake with sweeping views of the reservoir and beyond. Original tile work, arched doorways, and beamed ceilings. Updated kitchen and bathrooms while preserving period charm. Terraced gardens with mature landscaping. Detached guest house with full bath.",
+    "price": 1575000,
+    "propertyType": "house",
+    "status": "pending",
+    "bedrooms": 3,
+    "bathrooms": 2,
+    "squareFeet": 2100,
+    "yearBuilt": 1928,
+    "address": {
+      "street": "2234 Micheltorena St",
+      "city": "Los Angeles",
+      "state": "CA",
+      "zipCode": "90039"
+    },
+    "location": { "lat": 34.0894, "lng": -118.2701 },
+    "amenities": ["fireplace", "hardwood-floors", "garden", "garage"],
+    "agentId": "seed_agent_2",
+    "featured": false,
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200",
+      "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=1200",
+      "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1200"
+    ]
+  },
+  {
+    "_id": "seed_property_13",
+    "title": "Waterfront Townhome",
+    "slug": "waterfront-townhome-seattle",
+    "description": "Rare opportunity for waterfront living on Lake Union. This end-unit townhome offers direct water access with private dock slip. Open concept living with walls of glass framing spectacular water and city views. Chef's kitchen with premium appliances. Rooftop deck with 360-degree views. Two-car garage with EV charging.",
+    "price": 1850000,
+    "propertyType": "townhouse",
+    "status": "active",
+    "bedrooms": 3,
+    "bathrooms": 3,
+    "squareFeet": 2400,
+    "yearBuilt": 2016,
+    "address": {
+      "street": "1234 Westlake Ave N #8",
+      "city": "Seattle",
+      "state": "WA",
+      "zipCode": "98109"
+    },
+    "location": { "lat": 47.6358, "lng": -122.3378 },
+    "amenities": [
+      "garage",
+      "fireplace",
+      "central-ac",
+      "balcony",
+      "security-system"
+    ],
+    "agentId": "seed_agent_5",
+    "featured": false,
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1200",
+      "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1200",
+      "https://images.unsplash.com/photo-1600607687644-aac4c3eac7f4?w=1200"
+    ]
+  },
+  {
+    "_id": "seed_property_14",
+    "title": "East Austin Modern Farmhouse",
+    "slug": "east-austin-modern-farmhouse",
+    "description": "Brand new modern farmhouse in trendy East Austin. This thoughtfully designed home combines contemporary style with farmhouse warmth. Features include shiplap walls, black steel windows, and custom millwork. Chef's kitchen opens to covered patio with outdoor fireplace. Walking distance to restaurants and breweries on East 6th.",
+    "price": 875000,
+    "propertyType": "house",
+    "status": "active",
+    "bedrooms": 3,
+    "bathrooms": 2,
+    "squareFeet": 1900,
+    "yearBuilt": 2023,
+    "address": {
+      "street": "1507 E 7th St",
+      "city": "Austin",
+      "state": "TX",
+      "zipCode": "78702"
+    },
+    "location": { "lat": 30.2638, "lng": -97.7201 },
+    "amenities": [
+      "fireplace",
+      "central-ac",
+      "hardwood-floors",
+      "washer-dryer",
+      "garage"
+    ],
+    "agentId": "seed_agent_3",
+    "featured": false,
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200",
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200",
+      "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200"
+    ]
+  },
+  {
+    "_id": "seed_property_15",
+    "title": "Art Deco Condo in Coral Gables",
+    "slug": "art-deco-condo-coral-gables",
+    "description": "Stunning Art Deco gem in the heart of Coral Gables. This lovingly restored condo features original terrazzo floors, curved walls, and period details throughout. Updated kitchen and bathroom with modern amenities. Building includes pool and lush tropical grounds. Walk to Miracle Mile shops and restaurants.",
+    "price": 485000,
+    "propertyType": "condo",
+    "status": "active",
+    "bedrooms": 2,
+    "bathrooms": 1,
+    "squareFeet": 1100,
+    "yearBuilt": 1936,
+    "address": {
+      "street": "301 Anastasia Ave #405",
+      "city": "Miami",
+      "state": "FL",
+      "zipCode": "33134"
+    },
+    "location": { "lat": 25.7502, "lng": -80.2617 },
+    "amenities": ["pool", "hardwood-floors", "parking"],
+    "agentId": "seed_agent_4",
+    "featured": false,
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200",
+      "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=1200"
+    ]
+  },
+  {
+    "_id": "seed_property_16",
+    "title": "Mountain Retreat with Acreage",
+    "slug": "mountain-retreat-evergreen",
+    "description": "Private mountain retreat on 10 wooded acres just 45 minutes from downtown Denver. This custom log home offers the perfect escape with modern amenities. Great room with stone fireplace and soaring ceilings. Gourmet kitchen with hickory cabinets. Wrap-around deck with hot tub overlooking meadow. Wildlife viewing daily.",
+    "price": 1125000,
+    "propertyType": "house",
+    "status": "active",
+    "bedrooms": 4,
+    "bathrooms": 3,
+    "squareFeet": 3800,
+    "yearBuilt": 2008,
+    "address": {
+      "street": "28456 Evergreen Pkwy",
+      "city": "Denver",
+      "state": "CO",
+      "zipCode": "80439"
+    },
+    "location": { "lat": 39.6336, "lng": -105.3211 },
+    "amenities": ["fireplace", "garage", "garden", "security-system"],
+    "agentId": "seed_agent_6",
+    "featured": false,
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=1200",
+      "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1200",
+      "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=1200",
+      "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1200"
+    ]
+  },
+  {
+    "_id": "seed_property_17",
+    "title": "Pearl District Loft",
+    "slug": "pearl-district-loft-portland",
+    "description": "Industrial-chic loft in Portland's trendy Pearl District. This corner unit features exposed ductwork, concrete floors, and floor-to-ceiling windows. Open floor plan with modern kitchen featuring Bertazzoni range. Building amenities include rooftop deck, fitness center, and secure parking. Walk score of 98.",
+    "price": 545000,
+    "propertyType": "apartment",
+    "status": "sold",
+    "bedrooms": 1,
+    "bathrooms": 1,
+    "squareFeet": 950,
+    "yearBuilt": 2010,
+    "address": {
+      "street": "1125 NW 9th Ave #302",
+      "city": "Portland",
+      "state": "OR",
+      "zipCode": "97209"
+    },
+    "location": { "lat": 45.5294, "lng": -122.6819 },
+    "amenities": ["gym", "parking", "washer-dryer"],
+    "agentId": "seed_agent_5",
+    "featured": false,
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200",
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200"
+    ]
+  },
+  {
+    "_id": "seed_property_18",
+    "title": "Lincoln Park Greystone",
+    "slug": "lincoln-park-greystone-chicago",
+    "description": "Stunning greystone in Chicago's coveted Lincoln Park neighborhood. This beautifully renovated home features an open main floor, chef's kitchen with Wolf and Sub-Zero appliances, and family room addition with radiant heat. Four bedrooms upstairs including primary suite with spa bath. Landscaped yard with bluestone patio.",
+    "price": 1875000,
+    "propertyType": "house",
+    "status": "active",
+    "bedrooms": 4,
+    "bathrooms": 4,
+    "squareFeet": 4100,
+    "yearBuilt": 1895,
+    "address": {
+      "street": "2345 N Burling St",
+      "city": "Chicago",
+      "state": "IL",
+      "zipCode": "60614"
+    },
+    "location": { "lat": 41.9234, "lng": -87.6501 },
+    "amenities": [
+      "fireplace",
+      "hardwood-floors",
+      "garden",
+      "garage",
+      "central-ac",
+      "dishwasher"
+    ],
+    "agentId": "seed_agent_2",
+    "featured": false,
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1200",
+      "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1200",
+      "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200",
+      "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=1200"
+    ]
+  },
+  {
+    "_id": "seed_property_19",
+    "title": "Beacon Hill Townhouse",
+    "slug": "beacon-hill-townhouse-boston",
+    "description": "Classic Beacon Hill townhouse on a gas-lit cobblestone street. This three-story home offers quintessential Boston living with modern updates. Original pine floors, working shutters, and multiple fireplaces. Updated kitchen with marble counters. Private brick patio. Steps from the Boston Common and Charles Street shops.",
+    "price": 1950000,
+    "propertyType": "townhouse",
+    "status": "pending",
+    "bedrooms": 3,
+    "bathrooms": 2,
+    "squareFeet": 2200,
+    "yearBuilt": 1842,
+    "address": {
+      "street": "45 Pinckney St",
+      "city": "Boston",
+      "state": "MA",
+      "zipCode": "02114"
+    },
+    "location": { "lat": 42.3579, "lng": -71.0686 },
+    "amenities": ["fireplace", "hardwood-floors", "garden"],
+    "agentId": "seed_agent_1",
+    "featured": false,
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200",
+      "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=1200",
+      "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1200"
+    ]
+  },
+  {
+    "_id": "seed_property_20",
+    "title": "Golf Course Estate",
+    "slug": "golf-course-estate-scottsdale",
+    "description": "Elegant estate home on the 15th fairway of a championship golf course. This Mediterranean-inspired home features a grand entry, formal living and dining rooms, and a resort-style backyard with pool, spa, and outdoor kitchen. Primary suite with sitting room and luxury bath. Four-car garage with golf cart bay.",
+    "price": 1695000,
+    "propertyType": "house",
+    "status": "active",
+    "bedrooms": 5,
+    "bathrooms": 4,
+    "squareFeet": 4800,
+    "yearBuilt": 2005,
+    "address": {
+      "street": "9876 E Doubletree Ranch Rd",
+      "city": "Phoenix",
+      "state": "AZ",
+      "zipCode": "85258"
+    },
+    "location": { "lat": 33.5697, "lng": -111.8993 },
+    "amenities": [
+      "pool",
+      "garage",
+      "central-ac",
+      "fireplace",
+      "garden",
+      "security-system"
+    ],
+    "agentId": "seed_agent_6",
+    "featured": false,
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1200",
+      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200",
+      "https://images.unsplash.com/photo-1600607687644-aac4c3eac7f4?w=1200",
+      "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=1200"
+    ]
+  },
+  {
+    "_id": "seed_property_21",
+    "title": "Marina District Flat",
+    "slug": "marina-district-flat-sf",
+    "description": "Bright and spacious flat in San Francisco's Marina District. This top-floor unit features bay windows, period details, and peek-a-boo bay views. Updated kitchen with stainless appliances. In-unit washer/dryer. One-car garage parking. Steps from Chestnut Street shops, restaurants, and the waterfront.",
+    "price": 1195000,
+    "propertyType": "apartment",
+    "status": "active",
+    "bedrooms": 2,
+    "bathrooms": 1,
+    "squareFeet": 1150,
+    "yearBuilt": 1925,
+    "address": {
+      "street": "2156 Chestnut St #3",
+      "city": "San Francisco",
+      "state": "CA",
+      "zipCode": "94123"
+    },
+    "location": { "lat": 37.8005, "lng": -122.4367 },
+    "amenities": ["hardwood-floors", "washer-dryer", "garage"],
+    "agentId": "seed_agent_1",
+    "featured": false,
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200",
+      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200"
+    ]
+  },
+  {
+    "_id": "seed_property_22",
+    "title": "Venice Beach Bungalow",
+    "slug": "venice-beach-bungalow",
+    "description": "Quintessential Venice Beach bungalow just blocks from the ocean. This charming home has been lovingly updated while maintaining its original character. Open living/dining with wood-burning fireplace. Covered front porch perfect for morning coffee. Private backyard with fruit trees. Bonus studio with separate entrance.",
+    "price": 1350000,
+    "propertyType": "house",
+    "status": "active",
+    "bedrooms": 2,
+    "bathrooms": 2,
+    "squareFeet": 1400,
+    "yearBuilt": 1920,
+    "address": {
+      "street": "733 Palms Blvd",
+      "city": "Los Angeles",
+      "state": "CA",
+      "zipCode": "90291"
+    },
+    "location": { "lat": 33.9925, "lng": -118.4634 },
+    "amenities": ["fireplace", "hardwood-floors", "garden", "washer-dryer"],
+    "agentId": "seed_agent_2",
+    "featured": false,
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?w=1200",
+      "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1200",
+      "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200"
+    ]
+  },
+  {
+    "_id": "seed_property_23",
+    "title": "South Lake Union Condo",
+    "slug": "south-lake-union-condo-seattle",
+    "description": "Modern condo in Seattle's booming South Lake Union neighborhood. This light-filled unit features floor-to-ceiling windows, sleek finishes, and an open floor plan. Building amenities include rooftop deck with Space Needle views, fitness center, and resident lounge. Walk to Amazon campus, restaurants, and Lake Union Park.",
+    "price": 625000,
+    "propertyType": "condo",
+    "status": "active",
+    "bedrooms": 1,
+    "bathrooms": 1,
+    "squareFeet": 875,
+    "yearBuilt": 2019,
+    "address": {
+      "street": "400 Fairview Ave N #1205",
+      "city": "Seattle",
+      "state": "WA",
+      "zipCode": "98109"
+    },
+    "location": { "lat": 47.6249, "lng": -122.3339 },
+    "amenities": ["gym", "parking", "central-ac", "washer-dryer"],
+    "agentId": "seed_agent_5",
+    "featured": false,
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200",
+      "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200"
+    ]
+  },
+  {
+    "_id": "seed_property_24",
+    "title": "Mueller Development Home",
+    "slug": "mueller-development-austin",
+    "description": "Energy-efficient home in Austin's award-winning Mueller development. This LEED-certified home features solar panels, tankless water heater, and drought-tolerant landscaping. Open floor plan with modern finishes. Walk to local shops, restaurants, and the Thinkery children's museum. Community pool and extensive trail system.",
+    "price": 595000,
+    "propertyType": "house",
+    "status": "sold",
+    "bedrooms": 3,
+    "bathrooms": 2,
+    "squareFeet": 1650,
+    "yearBuilt": 2018,
+    "address": {
+      "street": "4512 Berkman Dr",
+      "city": "Austin",
+      "state": "TX",
+      "zipCode": "78723"
+    },
+    "location": { "lat": 30.2972, "lng": -97.7028 },
+    "amenities": ["pool", "garage", "central-ac", "washer-dryer"],
+    "agentId": "seed_agent_3",
+    "featured": false,
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200",
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200"
+    ]
+  },
+  {
+    "_id": "seed_property_25",
+    "title": "Coconut Grove Villa",
+    "slug": "coconut-grove-villa-miami",
+    "description": "Mediterranean-style villa in the heart of Coconut Grove. This beautifully landscaped property offers privacy and tranquility minutes from downtown Miami. Features include a courtyard entry, formal living and dining rooms, and a covered loggia overlooking the pool. Gourmet kitchen with Butler's pantry. Impact windows throughout.",
+    "price": 2250000,
+    "propertyType": "house",
+    "status": "pending",
+    "bedrooms": 5,
+    "bathrooms": 4,
+    "squareFeet": 4200,
+    "yearBuilt": 2012,
+    "address": {
+      "street": "3678 Poinciana Ave",
+      "city": "Miami",
+      "state": "FL",
+      "zipCode": "33133"
+    },
+    "location": { "lat": 25.7257, "lng": -80.2409 },
+    "amenities": [
+      "pool",
+      "garage",
+      "central-ac",
+      "fireplace",
+      "garden",
+      "security-system"
+    ],
+    "agentId": "seed_agent_4",
+    "featured": false,
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200",
+      "https://images.unsplash.com/photo-1600607687644-aac4c3eac7f4?w=1200",
+      "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=1200",
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200"
+    ]
+  }
+]
