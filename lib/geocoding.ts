@@ -3,27 +3,18 @@
  * Converts addresses to coordinates (lat/lng)
  */
 
+import type {
+  GeocodeResponse,
+  GeocodeFeature,
+} from "@mapbox/mapbox-sdk/services/geocoding";
+
 export interface GeocodingResult {
   lat: number;
   lng: number;
   formattedAddress: string;
 }
 
-export interface GeocodingError {
-  message: string;
-  code: "NO_RESULTS" | "API_ERROR" | "INVALID_TOKEN" | "NETWORK_ERROR";
-}
-
-interface MapboxFeature {
-  center: [number, number]; // [lng, lat]
-  place_name: string;
-  relevance: number;
-}
-
-interface MapboxResponse {
-  features: MapboxFeature[];
-  message?: string;
-}
+export type { GeocodeResponse, GeocodeFeature };
 
 /**
  * Geocode an address to coordinates using Mapbox
@@ -57,7 +48,7 @@ export async function geocodeAddress(
       return null;
     }
 
-    const data: MapboxResponse = await response.json();
+    const data: GeocodeResponse = await response.json();
 
     if (!data.features || data.features.length === 0) {
       return null;
