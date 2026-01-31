@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -26,6 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { ImageUpload, type ImageItem } from "./ImageUpload";
 
 const PROPERTY_TYPES = [
   { value: "house", label: "House" },
@@ -79,6 +80,13 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
+interface ListingImage {
+  asset: {
+    _id: string;
+    url: string;
+  };
+}
+
 interface ListingFormProps {
   listing?: {
     _id: string;
@@ -98,6 +106,7 @@ interface ListingFormProps {
       zipCode?: string;
     };
     amenities?: string[];
+    images?: ListingImage[];
   };
   mode?: "create" | "edit";
 }
@@ -105,8 +114,19 @@ interface ListingFormProps {
 export function ListingForm({ listing, mode = "create" }: ListingFormProps) {
   const [isPending, startTransition] = useTransition();
 
+  // Initialize images from listing data
+  const initialImages: ImageItem[] =
+    listing?.images?.map((img) => ({
+      id: img.asset._id,
+      url: img.asset.url,
+      assetRef: img.asset._id,
+    })) || [];
+
+  const [images, setImages] = useState<ImageItem[]>(initialImages);
+
   const form = useForm<FormData>({
-    resolver: zodResolver(formSchema),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: zodResolver(formSchema) as any,
     defaultValues: {
       title: listing?.title || "",
       description: listing?.description || "",
@@ -129,6 +149,18 @@ export function ListingForm({ listing, mode = "create" }: ListingFormProps) {
   const onSubmit = (data: FormData) => {
     startTransition(async () => {
       try {
+        // Convert images to Sanity format
+        const imageRefs = images
+          .filter((img) => !img.isUploading && img.assetRef)
+          .map((img) => ({
+            _type: "image" as const,
+            _key: img.id,
+            asset: {
+              _type: "reference" as const,
+              _ref: img.assetRef,
+            },
+          }));
+
         const formData = {
           title: data.title,
           description: data.description,
@@ -146,6 +178,7 @@ export function ListingForm({ listing, mode = "create" }: ListingFormProps) {
             zipCode: data.zipCode,
           },
           amenities: data.amenities,
+          images: imageRefs,
         };
 
         if (mode === "edit" && listing) {
@@ -277,6 +310,20 @@ export function ListingForm({ listing, mode = "create" }: ListingFormProps) {
                 )}
               />
             )}
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Property Images</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ImageUpload
+              images={images}
+              onChange={setImages}
+              maxImages={10}
+              disabled={isPending}
+            />
           </CardContent>
         </Card>
 
