@@ -2,7 +2,7 @@ import { ChevronLeft, ChevronRight, Home, LayoutGrid, Map } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
-import { MapView } from "@/components/map/MapView";
+import { DynamicMapView } from "@/components/map/DynamicMapView";
 import { FilterSidebar } from "@/components/property/FilterSidebar";
 import { PropertyGrid } from "@/components/property/PropertyGrid";
 import { Button } from "@/components/ui/button";
@@ -283,7 +283,7 @@ export default async function PropertiesPage({
 
               <TabsContent value="map" className="mt-0">
                 <div className="h-[600px] rounded-2xl overflow-hidden border border-border/50 shadow-warm">
-                  <MapView properties={properties || []} />
+                  <DynamicMapView properties={properties || []} />
                 </div>
               </TabsContent>
             </Tabs>

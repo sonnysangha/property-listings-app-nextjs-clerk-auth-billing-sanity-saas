@@ -11,7 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { client } from "@/lib/sanity/client";
+import { getAgentByUserId } from "@/lib/sanity/cached-queries";
 import { sanityFetch } from "@/lib/sanity/live";
 import { AGENT_LEADS_QUERY } from "@/lib/sanity/queries";
 
