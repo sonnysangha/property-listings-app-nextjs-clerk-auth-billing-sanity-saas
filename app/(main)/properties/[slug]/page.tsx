@@ -6,7 +6,6 @@ import {
   Check,
   ChevronRight,
   MapPin,
-  Share2,
   Square,
 } from "lucide-react";
 import type { Metadata } from "next";
@@ -17,8 +16,8 @@ import { AgentCard } from "@/components/property/AgentCard";
 import { ContactAgentButton } from "@/components/property/ContactAgentButton";
 import { ImageGallery } from "@/components/property/ImageGallery";
 import { SavePropertyButton } from "@/components/property/SavePropertyButton";
+import { SharePropertyButton } from "@/components/property/SharePropertyButton";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { sanityFetch } from "@/lib/sanity/live";
 import { PROPERTY_DETAIL_QUERY } from "@/lib/sanity/queries";
@@ -130,9 +129,10 @@ export default async function PropertyPage({
                 </div>
                 <div className="flex gap-2">
                   {userId && <SavePropertyButton propertyId={property._id} />}
-                  <Button variant="outline" size="icon" aria-label="Share property">
-                    <Share2 className="h-5 w-5" aria-hidden="true" />
-                  </Button>
+                  <SharePropertyButton
+                    title={property.title}
+                    price={formatPrice(property.price)}
+                  />
                 </div>
               </div>
 
