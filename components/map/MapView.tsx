@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Map, { Marker, NavigationControl, Popup } from "react-map-gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
 import type { Property } from "@/types";
@@ -25,22 +25,28 @@ export function MapView({
     zoom: 4,
   });
 
+  const hasCenteredRef = useRef(false);
+
   // Calculate bounds from properties if they exist
   const validProperties = properties.filter(
     (p) => p.location?.lat && p.location?.lng,
   );
 
-  // If we have properties with locations, center on the first one
-  if (validProperties.length > 0 && viewState.zoom === 4) {
-    const firstProperty = validProperties[0];
-    if (firstProperty.location) {
-      setViewState({
-        longitude: firstProperty.location.lng,
-        latitude: firstProperty.location.lat,
-        zoom: 10,
-      });
+  // Center on first property when properties load (only once)
+  useEffect(() => {
+    if (hasCenteredRef.current) return;
+    if (validProperties.length > 0) {
+      const firstProperty = validProperties[0];
+      if (firstProperty.location) {
+        setViewState({
+          longitude: firstProperty.location.lng,
+          latitude: firstProperty.location.lat,
+          zoom: 10,
+        });
+        hasCenteredRef.current = true;
+      }
     }
-  }
+  }, [validProperties]);
 
   const handleMarkerClick = useCallback(
     (property: Property) => {
