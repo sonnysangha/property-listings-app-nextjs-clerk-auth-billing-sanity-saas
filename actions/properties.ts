@@ -103,7 +103,7 @@ export async function updateListing(listingId: string, data: ListingFormData) {
     .commit();
 
   revalidatePath("/dashboard/listings");
-  revalidatePath(`/properties/${data.title}`);
+  revalidatePath(`/properties/${slugify(data.title)}`);
 }
 
 export async function updateListingStatus(
