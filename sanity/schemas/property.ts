@@ -169,6 +169,25 @@ export const property = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "lotSize",
+      title: "Lot Size (sq ft)",
+      type: "number",
+      validation: (Rule) => Rule.min(0),
+    }),
+    defineField({
+      name: "openHouseDate",
+      title: "Open House Date",
+      type: "datetime",
+      description: "Scheduled open house date/time (if any)",
+    }),
+    defineField({
+      name: "originalPrice",
+      title: "Original Price",
+      type: "number",
+      description: "Original listing price (if reduced)",
+      validation: (Rule) => Rule.positive(),
+    }),
+    defineField({
       name: "featured",
       title: "Featured",
       type: "boolean",
