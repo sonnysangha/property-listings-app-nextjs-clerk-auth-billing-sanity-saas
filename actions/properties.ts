@@ -3,7 +3,43 @@
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { client } from "@/lib/sanity/client";
-import type { ListingFormData } from "@/types";
+
+interface ImageReference {
+  _type: "image";
+  _key: string;
+  asset: {
+    _type: "reference";
+    _ref: string;
+  };
+}
+
+interface Address {
+  street: string;
+  city: string;
+  state: string;
+  zipCode: string;
+}
+
+interface GeoPoint {
+  lat: number;
+  lng: number;
+}
+
+interface ListingFormDataWithImages {
+  title: string;
+  description: string;
+  price: number;
+  propertyType: "house" | "apartment" | "condo" | "townhouse" | "land";
+  status?: "active" | "pending" | "sold";
+  bedrooms: number;
+  bathrooms: number;
+  squareFeet: number;
+  yearBuilt?: number;
+  address: Address;
+  location?: GeoPoint;
+  amenities?: string[];
+  images?: ImageReference[];
+}
 
 function slugify(text: string): string {
   return text
@@ -14,7 +50,7 @@ function slugify(text: string): string {
     .trim();
 }
 
-export async function createListing(data: ListingFormData) {
+export async function createListing(data: ListingFormDataWithImages) {
   const { userId } = await auth();
 
   if (!userId) {
@@ -45,6 +81,7 @@ export async function createListing(data: ListingFormData) {
     address: data.address,
     location: data.location,
     amenities: data.amenities || [],
+    images: data.images || [],
     agent: { _type: "reference", _ref: agent._id },
     featured: false,
     createdAt: new Date().toISOString(),
@@ -54,7 +91,10 @@ export async function createListing(data: ListingFormData) {
   redirect("/dashboard/listings");
 }
 
-export async function updateListing(listingId: string, data: ListingFormData) {
+export async function updateListing(
+  listingId: string,
+  data: ListingFormDataWithImages,
+) {
   const { userId } = await auth();
 
   if (!userId) {
@@ -96,6 +136,7 @@ export async function updateListing(listingId: string, data: ListingFormData) {
       address: data.address,
       location: data.location,
       amenities: data.amenities || [],
+      images: data.images || [],
       updatedAt: new Date().toISOString(),
     })
     .commit();
