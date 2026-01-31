@@ -30,6 +30,17 @@ interface SearchParams {
   type?: string;
   city?: string;
   page?: string;
+  // Advanced filters
+  minSqft?: string;
+  maxSqft?: string;
+  minYear?: string;
+  maxYear?: string;
+  minLotSize?: string;
+  maxLotSize?: string;
+  daysOnMarket?: string;
+  openHouse?: string;
+  priceReduced?: string;
+  amenities?: string;
 }
 
 export default async function PropertiesPage({
@@ -42,6 +53,9 @@ export default async function PropertiesPage({
   const start = (page - 1) * ITEMS_PER_PAGE;
   const end = start + ITEMS_PER_PAGE;
 
+  // Parse amenities from comma-separated string
+  const amenitiesList = params.amenities?.split(",").filter(Boolean) || [];
+
   const queryParams = {
     minPrice: Number(params.minPrice) || 0,
     maxPrice: Number(params.maxPrice) || 100000000,
@@ -49,6 +63,18 @@ export default async function PropertiesPage({
     baths: Number(params.baths) || 0,
     type: params.type === "all" ? "" : params.type || "",
     city: params.city || "",
+    // Advanced filters
+    minSqft: Number(params.minSqft) || 0,
+    maxSqft: Number(params.maxSqft) || 0,
+    minYear: Number(params.minYear) || 0,
+    maxYear: Number(params.maxYear) || 0,
+    minLotSize: Number(params.minLotSize) || 0,
+    maxLotSize: Number(params.maxLotSize) || 0,
+    daysOnMarket: Number(params.daysOnMarket) || 0,
+    openHouse: params.openHouse === "true",
+    priceReduced: params.priceReduced === "true",
+    amenities: amenitiesList,
+    amenitiesCount: amenitiesList.length,
     start,
     end,
   };
@@ -71,14 +97,27 @@ export default async function PropertiesPage({
     params.beds ||
     params.baths ||
     (params.type && params.type !== "all") ||
-    params.city;
+    params.city ||
+    params.minSqft ||
+    params.maxSqft ||
+    params.minYear ||
+    params.maxYear ||
+    params.minLotSize ||
+    params.maxLotSize ||
+    params.daysOnMarket ||
+    params.openHouse === "true" ||
+    params.priceReduced === "true" ||
+    params.amenities;
 
   return (
     <div className="min-h-screen bg-accent/20">
       {/* Header */}
       <div className="bg-background border-b border-border/50">
         <div className="container py-8">
-          <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-4" aria-label="Breadcrumb">
+          <nav
+            className="flex items-center gap-2 text-sm text-muted-foreground mb-4"
+            aria-label="Breadcrumb"
+          >
             <Link href="/" className="hover:text-foreground transition-colors">
               Home
             </Link>
@@ -99,7 +138,9 @@ export default async function PropertiesPage({
           {/* Sidebar */}
           <aside className="lg:w-80 flex-shrink-0">
             <div className="lg:sticky lg:top-24">
-              <Suspense fallback={<Skeleton className="h-[500px] w-full rounded-2xl" />}>
+              <Suspense
+                fallback={<Skeleton className="h-[500px] w-full rounded-2xl" />}
+              >
                 <FilterSidebar />
               </Suspense>
             </div>
@@ -159,20 +200,32 @@ export default async function PropertiesPage({
                                 page: String(page - 1),
                               }).toString()}`}
                             >
-                              <ChevronLeft className="h-4 w-4 mr-1" aria-hidden="true" />
+                              <ChevronLeft
+                                className="h-4 w-4 mr-1"
+                                aria-hidden="true"
+                              />
                               Previous
                             </Link>
                           </Button>
                         ) : (
                           <Button variant="outline" size="sm" disabled>
-                            <ChevronLeft className="h-4 w-4 mr-1" aria-hidden="true" />
+                            <ChevronLeft
+                              className="h-4 w-4 mr-1"
+                              aria-hidden="true"
+                            />
                             Previous
                           </Button>
                         )}
 
                         <span className="flex items-center px-4 text-sm text-muted-foreground tabular-nums">
-                          Page <span className="font-medium text-foreground mx-1">{page}</span> of{" "}
-                          <span className="font-medium text-foreground ml-1">{totalPages}</span>
+                          Page{" "}
+                          <span className="font-medium text-foreground mx-1">
+                            {page}
+                          </span>{" "}
+                          of{" "}
+                          <span className="font-medium text-foreground ml-1">
+                            {totalPages}
+                          </span>
                         </span>
 
                         {page < totalPages ? (
@@ -184,13 +237,19 @@ export default async function PropertiesPage({
                               }).toString()}`}
                             >
                               Next
-                              <ChevronRight className="h-4 w-4 ml-1" aria-hidden="true" />
+                              <ChevronRight
+                                className="h-4 w-4 ml-1"
+                                aria-hidden="true"
+                              />
                             </Link>
                           </Button>
                         ) : (
                           <Button variant="outline" size="sm" disabled>
                             Next
-                            <ChevronRight className="h-4 w-4 ml-1" aria-hidden="true" />
+                            <ChevronRight
+                              className="h-4 w-4 ml-1"
+                              aria-hidden="true"
+                            />
                           </Button>
                         )}
                       </nav>
@@ -200,7 +259,10 @@ export default async function PropertiesPage({
                   /* Empty State */
                   <div className="text-center py-16 bg-background rounded-2xl border border-border/50">
                     <div className="w-16 h-16 bg-muted rounded-2xl flex items-center justify-center mx-auto mb-4">
-                      <Home className="h-8 w-8 text-muted-foreground" aria-hidden="true" />
+                      <Home
+                        className="h-8 w-8 text-muted-foreground"
+                        aria-hidden="true"
+                      />
                     </div>
                     <h3 className="text-lg font-semibold font-heading mb-2">
                       No Properties Found

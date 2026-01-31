@@ -1,9 +1,15 @@
 "use client";
 
-import { Filter, RotateCcw, Search } from "lucide-react";
+import { ChevronDown, Filter, RotateCcw, Search } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -40,9 +46,48 @@ const BATHROOM_OPTIONS = [
   { value: "4", label: "4+" },
 ];
 
+const DAYS_ON_MARKET_OPTIONS = [
+  { value: "0", label: "Any" },
+  { value: "1", label: "Last 24 hours" },
+  { value: "3", label: "Last 3 days" },
+  { value: "7", label: "Last 7 days" },
+  { value: "14", label: "Last 14 days" },
+  { value: "30", label: "Last 30 days" },
+];
+
+const AMENITIES_OPTIONS = [
+  { value: "pool", label: "Pool" },
+  { value: "garage", label: "Garage" },
+  { value: "gym", label: "Gym" },
+  { value: "garden", label: "Garden" },
+  { value: "fireplace", label: "Fireplace" },
+  { value: "central-ac", label: "Central AC" },
+  { value: "hardwood-floors", label: "Hardwood Floors" },
+  { value: "washer-dryer", label: "Washer/Dryer" },
+  { value: "dishwasher", label: "Dishwasher" },
+  { value: "balcony", label: "Balcony" },
+  { value: "parking", label: "Parking" },
+  { value: "security-system", label: "Security System" },
+];
+
 export function FilterSidebar() {
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  const [moreFiltersOpen, setMoreFiltersOpen] = useState(
+    Boolean(
+      searchParams.get("minSqft") ||
+        searchParams.get("maxSqft") ||
+        searchParams.get("minYear") ||
+        searchParams.get("maxYear") ||
+        searchParams.get("minLotSize") ||
+        searchParams.get("maxLotSize") ||
+        searchParams.get("daysOnMarket") ||
+        searchParams.get("openHouse") ||
+        searchParams.get("priceReduced") ||
+        searchParams.get("amenities"),
+    ),
+  );
 
   const [filters, setFilters] = useState({
     minPrice: searchParams.get("minPrice") || "",
@@ -51,22 +96,61 @@ export function FilterSidebar() {
     baths: searchParams.get("baths") || "0",
     type: searchParams.get("type") || "all",
     city: searchParams.get("city") || "",
+    // Advanced filters
+    minSqft: searchParams.get("minSqft") || "",
+    maxSqft: searchParams.get("maxSqft") || "",
+    minYear: searchParams.get("minYear") || "",
+    maxYear: searchParams.get("maxYear") || "",
+    minLotSize: searchParams.get("minLotSize") || "",
+    maxLotSize: searchParams.get("maxLotSize") || "",
+    daysOnMarket: searchParams.get("daysOnMarket") || "0",
+    openHouse: searchParams.get("openHouse") === "true",
+    priceReduced: searchParams.get("priceReduced") === "true",
+    amenities: searchParams.get("amenities")?.split(",").filter(Boolean) || [],
   });
 
-  const handleFilterChange = (key: string, value: string) => {
+  const handleFilterChange = (
+    key: string,
+    value: string | boolean | string[],
+  ) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const handleAmenityToggle = (amenity: string) => {
+    setFilters((prev) => ({
+      ...prev,
+      amenities: prev.amenities.includes(amenity)
+        ? prev.amenities.filter((a) => a !== amenity)
+        : [...prev.amenities, amenity],
+    }));
   };
 
   const applyFilters = () => {
     const params = new URLSearchParams();
 
+    // Basic filters
     if (filters.minPrice) params.set("minPrice", filters.minPrice);
     if (filters.maxPrice) params.set("maxPrice", filters.maxPrice);
     if (filters.beds && filters.beds !== "0") params.set("beds", filters.beds);
     if (filters.baths && filters.baths !== "0")
       params.set("baths", filters.baths);
-    if (filters.type && filters.type !== "all") params.set("type", filters.type);
+    if (filters.type && filters.type !== "all")
+      params.set("type", filters.type);
     if (filters.city) params.set("city", filters.city);
+
+    // Advanced filters
+    if (filters.minSqft) params.set("minSqft", filters.minSqft);
+    if (filters.maxSqft) params.set("maxSqft", filters.maxSqft);
+    if (filters.minYear) params.set("minYear", filters.minYear);
+    if (filters.maxYear) params.set("maxYear", filters.maxYear);
+    if (filters.minLotSize) params.set("minLotSize", filters.minLotSize);
+    if (filters.maxLotSize) params.set("maxLotSize", filters.maxLotSize);
+    if (filters.daysOnMarket && filters.daysOnMarket !== "0")
+      params.set("daysOnMarket", filters.daysOnMarket);
+    if (filters.openHouse) params.set("openHouse", "true");
+    if (filters.priceReduced) params.set("priceReduced", "true");
+    if (filters.amenities.length > 0)
+      params.set("amenities", filters.amenities.join(","));
 
     router.push(`/properties?${params.toString()}`);
   };
@@ -79,6 +163,16 @@ export function FilterSidebar() {
       baths: "0",
       type: "all",
       city: "",
+      minSqft: "",
+      maxSqft: "",
+      minYear: "",
+      maxYear: "",
+      minLotSize: "",
+      maxLotSize: "",
+      daysOnMarket: "0",
+      openHouse: false,
+      priceReduced: false,
+      amenities: [],
     });
     router.push("/properties");
   };
@@ -89,7 +183,27 @@ export function FilterSidebar() {
     (filters.beds && filters.beds !== "0") ||
     (filters.baths && filters.baths !== "0") ||
     (filters.type && filters.type !== "all") ||
-    filters.city;
+    filters.city ||
+    filters.minSqft ||
+    filters.maxSqft ||
+    filters.minYear ||
+    filters.maxYear ||
+    filters.minLotSize ||
+    filters.maxLotSize ||
+    (filters.daysOnMarket && filters.daysOnMarket !== "0") ||
+    filters.openHouse ||
+    filters.priceReduced ||
+    filters.amenities.length > 0;
+
+  const advancedFiltersCount = [
+    filters.minSqft || filters.maxSqft,
+    filters.minYear || filters.maxYear,
+    filters.minLotSize || filters.maxLotSize,
+    filters.daysOnMarket && filters.daysOnMarket !== "0",
+    filters.openHouse,
+    filters.priceReduced,
+    filters.amenities.length > 0,
+  ].filter(Boolean).length;
 
   return (
     <div className="bg-background rounded-2xl border border-border/50 shadow-warm p-6">
@@ -226,6 +340,232 @@ export function FilterSidebar() {
             </Select>
           </div>
         </div>
+
+        {/* More Filters - Collapsible */}
+        <Collapsible open={moreFiltersOpen} onOpenChange={setMoreFiltersOpen}>
+          <CollapsibleTrigger asChild>
+            <button
+              type="button"
+              className="flex items-center justify-between w-full py-3 px-4 bg-accent/50 hover:bg-accent rounded-xl transition-colors"
+            >
+              <span className="text-sm font-medium flex items-center gap-2">
+                More Filters
+                {advancedFiltersCount > 0 && (
+                  <span className="bg-primary text-primary-foreground text-xs px-2 py-0.5 rounded-full">
+                    {advancedFiltersCount}
+                  </span>
+                )}
+              </span>
+              <ChevronDown
+                className={`h-4 w-4 text-muted-foreground transition-transform ${
+                  moreFiltersOpen ? "rotate-180" : ""
+                }`}
+                aria-hidden="true"
+              />
+            </button>
+          </CollapsibleTrigger>
+          <CollapsibleContent className="pt-4 space-y-6">
+            {/* Square Feet */}
+            <div className="space-y-2">
+              <Label className="text-sm font-medium">Square Feet</Label>
+              <div className="flex gap-3">
+                <div className="flex-1">
+                  <Label htmlFor="minSqft" className="sr-only">
+                    Minimum square feet
+                  </Label>
+                  <Input
+                    id="minSqft"
+                    type="number"
+                    placeholder="Min…"
+                    value={filters.minSqft}
+                    onChange={(e) =>
+                      handleFilterChange("minSqft", e.target.value)
+                    }
+                    className="tabular-nums"
+                  />
+                </div>
+                <div className="flex items-center text-muted-foreground">–</div>
+                <div className="flex-1">
+                  <Label htmlFor="maxSqft" className="sr-only">
+                    Maximum square feet
+                  </Label>
+                  <Input
+                    id="maxSqft"
+                    type="number"
+                    placeholder="Max…"
+                    value={filters.maxSqft}
+                    onChange={(e) =>
+                      handleFilterChange("maxSqft", e.target.value)
+                    }
+                    className="tabular-nums"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Year Built */}
+            <div className="space-y-2">
+              <Label className="text-sm font-medium">Year Built</Label>
+              <div className="flex gap-3">
+                <div className="flex-1">
+                  <Label htmlFor="minYear" className="sr-only">
+                    Minimum year
+                  </Label>
+                  <Input
+                    id="minYear"
+                    type="number"
+                    placeholder="Min…"
+                    value={filters.minYear}
+                    onChange={(e) =>
+                      handleFilterChange("minYear", e.target.value)
+                    }
+                    className="tabular-nums"
+                  />
+                </div>
+                <div className="flex items-center text-muted-foreground">–</div>
+                <div className="flex-1">
+                  <Label htmlFor="maxYear" className="sr-only">
+                    Maximum year
+                  </Label>
+                  <Input
+                    id="maxYear"
+                    type="number"
+                    placeholder="Max…"
+                    value={filters.maxYear}
+                    onChange={(e) =>
+                      handleFilterChange("maxYear", e.target.value)
+                    }
+                    className="tabular-nums"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Lot Size */}
+            <div className="space-y-2">
+              <Label className="text-sm font-medium">Lot Size (sq ft)</Label>
+              <div className="flex gap-3">
+                <div className="flex-1">
+                  <Label htmlFor="minLotSize" className="sr-only">
+                    Minimum lot size
+                  </Label>
+                  <Input
+                    id="minLotSize"
+                    type="number"
+                    placeholder="Min…"
+                    value={filters.minLotSize}
+                    onChange={(e) =>
+                      handleFilterChange("minLotSize", e.target.value)
+                    }
+                    className="tabular-nums"
+                  />
+                </div>
+                <div className="flex items-center text-muted-foreground">–</div>
+                <div className="flex-1">
+                  <Label htmlFor="maxLotSize" className="sr-only">
+                    Maximum lot size
+                  </Label>
+                  <Input
+                    id="maxLotSize"
+                    type="number"
+                    placeholder="Max…"
+                    value={filters.maxLotSize}
+                    onChange={(e) =>
+                      handleFilterChange("maxLotSize", e.target.value)
+                    }
+                    className="tabular-nums"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Days on Market */}
+            <div className="space-y-2">
+              <Label htmlFor="daysOnMarket" className="text-sm font-medium">
+                Days on Market
+              </Label>
+              <Select
+                value={filters.daysOnMarket}
+                onValueChange={(value) =>
+                  handleFilterChange("daysOnMarket", value)
+                }
+              >
+                <SelectTrigger id="daysOnMarket" className="w-full">
+                  <SelectValue placeholder="Any" />
+                </SelectTrigger>
+                <SelectContent>
+                  {DAYS_ON_MARKET_OPTIONS.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Quick Filters */}
+            <div className="space-y-3">
+              <Label className="text-sm font-medium">Quick Filters</Label>
+              <div className="space-y-2">
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="openHouse"
+                    checked={filters.openHouse}
+                    onCheckedChange={(checked) =>
+                      handleFilterChange("openHouse", checked === true)
+                    }
+                  />
+                  <Label
+                    htmlFor="openHouse"
+                    className="text-sm cursor-pointer font-normal"
+                  >
+                    Open house scheduled
+                  </Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="priceReduced"
+                    checked={filters.priceReduced}
+                    onCheckedChange={(checked) =>
+                      handleFilterChange("priceReduced", checked === true)
+                    }
+                  />
+                  <Label
+                    htmlFor="priceReduced"
+                    className="text-sm cursor-pointer font-normal"
+                  >
+                    Price reduced
+                  </Label>
+                </div>
+              </div>
+            </div>
+
+            {/* Amenities */}
+            <div className="space-y-3">
+              <Label className="text-sm font-medium">Amenities</Label>
+              <div className="grid grid-cols-2 gap-2">
+                {AMENITIES_OPTIONS.map((amenity) => (
+                  <div
+                    key={amenity.value}
+                    className="flex items-center space-x-2"
+                  >
+                    <Checkbox
+                      id={`amenity-${amenity.value}`}
+                      checked={filters.amenities.includes(amenity.value)}
+                      onCheckedChange={() => handleAmenityToggle(amenity.value)}
+                    />
+                    <Label
+                      htmlFor={`amenity-${amenity.value}`}
+                      className="text-sm cursor-pointer font-normal"
+                    >
+                      {amenity.label}
+                    </Label>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </CollapsibleContent>
+        </Collapsible>
 
         {/* Action Buttons */}
         <div className="pt-2 space-y-3">
