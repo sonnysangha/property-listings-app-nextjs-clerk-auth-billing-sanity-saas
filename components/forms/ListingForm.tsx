@@ -46,20 +46,13 @@ const STATUS_OPTIONS = [
   { value: "sold", label: "Sold" },
 ];
 
-const AMENITIES = [
-  { value: "pool", label: "Pool" },
-  { value: "garage", label: "Garage" },
-  { value: "gym", label: "Gym" },
-  { value: "garden", label: "Garden" },
-  { value: "fireplace", label: "Fireplace" },
-  { value: "central-ac", label: "Central AC" },
-  { value: "hardwood-floors", label: "Hardwood Floors" },
-  { value: "washer-dryer", label: "Washer/Dryer" },
-  { value: "dishwasher", label: "Dishwasher" },
-  { value: "balcony", label: "Balcony" },
-  { value: "parking", label: "Parking" },
-  { value: "security-system", label: "Security System" },
-];
+// Amenity type from Sanity
+interface Amenity {
+  _id: string;
+  value: string;
+  label: string;
+  icon?: string | null;
+}
 
 const formSchema = z.object({
   title: z.string().min(5, "Title must be at least 5 characters"),
@@ -121,10 +114,15 @@ interface ListingFormProps {
     amenities?: string[];
     images?: ListingImage[];
   };
+  amenities: Amenity[];
   mode?: "create" | "edit";
 }
 
-export function ListingForm({ listing, mode = "create" }: ListingFormProps) {
+export function ListingForm({
+  listing,
+  amenities,
+  mode = "create",
+}: ListingFormProps) {
   const [isPending, startTransition] = useTransition();
 
   // Initialize images from listing data
@@ -494,7 +492,7 @@ export function ListingForm({ listing, mode = "create" }: ListingFormProps) {
               render={({ field }) => (
                 <FormItem>
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {AMENITIES.map((amenity) => (
+                    {amenities.map((amenity) => (
                       <div
                         key={amenity.value}
                         className="flex items-center space-x-2"

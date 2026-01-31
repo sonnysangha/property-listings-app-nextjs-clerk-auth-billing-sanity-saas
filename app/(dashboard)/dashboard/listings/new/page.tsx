@@ -2,6 +2,8 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { ListingForm } from "@/components/forms/ListingForm";
 import { client } from "@/lib/sanity/client";
+import { sanityFetch } from "@/lib/sanity/live";
+import { AMENITIES_QUERY } from "@/lib/sanity/queries";
 
 export default async function NewListingPage() {
   const { userId } = await auth();
@@ -19,6 +21,10 @@ export default async function NewListingPage() {
     redirect("/dashboard/onboarding");
   }
 
+  const { data: amenities } = await sanityFetch({
+    query: AMENITIES_QUERY,
+  });
+
   return (
     <div className="max-w-3xl">
       <div className="mb-8">
@@ -28,7 +34,7 @@ export default async function NewListingPage() {
         </p>
       </div>
 
-      <ListingForm />
+      <ListingForm amenities={amenities} />
     </div>
   );
 }

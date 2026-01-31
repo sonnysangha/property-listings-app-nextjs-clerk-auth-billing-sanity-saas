@@ -144,22 +144,7 @@ export const property = defineType({
       title: "Amenities",
       type: "array",
       of: [{ type: "string" }],
-      options: {
-        list: [
-          { title: "Pool", value: "pool" },
-          { title: "Garage", value: "garage" },
-          { title: "Gym", value: "gym" },
-          { title: "Garden", value: "garden" },
-          { title: "Fireplace", value: "fireplace" },
-          { title: "Central AC", value: "central-ac" },
-          { title: "Hardwood Floors", value: "hardwood-floors" },
-          { title: "Washer/Dryer", value: "washer-dryer" },
-          { title: "Dishwasher", value: "dishwasher" },
-          { title: "Balcony", value: "balcony" },
-          { title: "Parking", value: "parking" },
-          { title: "Security System", value: "security-system" },
-        ],
-      },
+      description: "Amenity values are managed in the Amenities collection",
     }),
     defineField({
       name: "agent",
