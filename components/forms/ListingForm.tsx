@@ -47,10 +47,10 @@ const STATUS_OPTIONS = [
 ];
 
 // Amenity type from Sanity
-interface Amenity {
+export interface Amenity {
   _id: string;
-  value: string;
-  label: string;
+  name: string;
+  slug: string;
   icon?: string | null;
 }
 
@@ -491,36 +491,42 @@ export function ListingForm({
               name="amenities"
               render={({ field }) => (
                 <FormItem>
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {amenities.map((amenity) => (
-                      <div
-                        key={amenity.value}
-                        className="flex items-center space-x-2"
-                      >
-                        <Checkbox
-                          id={amenity.value}
-                          checked={field.value?.includes(amenity.value)}
-                          onCheckedChange={(checked: boolean) => {
-                            const currentValue = field.value || [];
-                            if (checked) {
-                              field.onChange([...currentValue, amenity.value]);
-                            } else {
-                              field.onChange(
-                                currentValue.filter((v) => v !== amenity.value)
-                              );
-                            }
-                          }}
-                          disabled={isPending}
-                        />
-                        <label
-                          htmlFor={amenity.value}
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                  {amenities.length > 0 ? (
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                      {amenities.map((amenity) => (
+                        <div
+                          key={amenity._id}
+                          className="flex items-center space-x-2"
                         >
-                          {amenity.label}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
+                          <Checkbox
+                            id={amenity.slug}
+                            checked={field.value?.includes(amenity.slug)}
+                            onCheckedChange={(checked: boolean) => {
+                              const currentValue = field.value || [];
+                              if (checked) {
+                                field.onChange([...currentValue, amenity.slug]);
+                              } else {
+                                field.onChange(
+                                  currentValue.filter((v) => v !== amenity.slug)
+                                );
+                              }
+                            }}
+                            disabled={isPending}
+                          />
+                          <label
+                            htmlFor={amenity.slug}
+                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                          >
+                            {amenity.name}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-muted-foreground">
+                      No amenities available. Add amenities in Sanity Studio.
+                    </p>
+                  )}
                   <FormMessage />
                 </FormItem>
               )}
