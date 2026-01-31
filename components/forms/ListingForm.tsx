@@ -27,6 +27,8 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { ImageUpload, type ImageItem } from "./ImageUpload";
+import { LocationPicker } from "./LocationPicker";
+import type { GeoPoint } from "@/types";
 
 const PROPERTY_TYPES = [
   { value: "house", label: "House" },
@@ -105,6 +107,7 @@ interface ListingFormProps {
       state?: string;
       zipCode?: string;
     };
+    location?: GeoPoint;
     amenities?: string[];
     images?: ListingImage[];
   };
@@ -123,6 +126,21 @@ export function ListingForm({ listing, mode = "create" }: ListingFormProps) {
     })) || [];
 
   const [images, setImages] = useState<ImageItem[]>(initialImages);
+  const [location, setLocation] = useState<GeoPoint | undefined>(
+    listing?.location,
+  );
+
+  // Geocoding hook for auto-filling coordinates from address
+  const {
+    isLoading: isGeocoding,
+    error: geocodeError,
+    geocode,
+  } = useGeocoding({
+    debounceMs: 800,
+    onSuccess: (result) => {
+      setLocation({ lat: result.lat, lng: result.lng });
+    },
+  });
 
   const form = useForm<FormData>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -177,6 +195,7 @@ export function ListingForm({ listing, mode = "create" }: ListingFormProps) {
             state: data.state,
             zipCode: data.zipCode,
           },
+          location,
           amenities: data.amenities,
           images: imageRefs,
         };
@@ -454,6 +473,19 @@ export function ListingForm({ listing, mode = "create" }: ListingFormProps) {
                 )}
               />
             </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Location on Map</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <LocationPicker
+              value={location}
+              onChange={setLocation}
+              disabled={isPending}
+            />
           </CardContent>
         </Card>
 
