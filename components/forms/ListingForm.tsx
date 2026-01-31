@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckCircle2, Loader2, MapPin } from "lucide-react";
 import { useCallback, useEffect, useState, useTransition } from "react";
-import { useForm, type Resolver } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { createListing, updateListing } from "@/actions/properties";
@@ -80,7 +80,10 @@ const formSchema = z.object({
   amenities: z.array(z.string()).optional(),
 });
 
-type FormData = z.infer<typeof formSchema>;
+// Input type: what the form fields receive (strings from inputs)
+type FormDataInput = z.input<typeof formSchema>;
+// Output type: what validation produces (coerced to proper types)
+type FormDataOutput = z.output<typeof formSchema>;
 
 interface ListingImage {
   asset: {
@@ -147,15 +150,15 @@ export function ListingForm({ listing, mode = "create" }: ListingFormProps) {
     },
   });
 
-  const form = useForm<FormData>({
-    resolver: zodResolver(formSchema) as Resolver<FormData>,
+  const form = useForm<FormDataInput, unknown, FormDataOutput>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       title: listing?.title || "",
       description: listing?.description || "",
       price: listing?.price || 0,
       propertyType:
-        (listing?.propertyType as FormData["propertyType"]) || "house",
-      status: (listing?.status as FormData["status"]) || "active",
+        (listing?.propertyType as FormDataOutput["propertyType"]) || "house",
+      status: (listing?.status as FormDataOutput["status"]) || "active",
       bedrooms: listing?.bedrooms || 0,
       bathrooms: listing?.bathrooms || 0,
       squareFeet: listing?.squareFeet || 0,
@@ -185,7 +188,7 @@ export function ListingForm({ listing, mode = "create" }: ListingFormProps) {
     triggerGeocode();
   }, [triggerGeocode]);
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = (data: FormDataOutput) => {
     startTransition(async () => {
       try {
         // Convert images to Sanity format
@@ -285,7 +288,16 @@ export function ListingForm({ listing, mode = "create" }: ListingFormProps) {
                   <FormItem>
                     <FormLabel>Price ($)</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="450000" {...field} />
+                      <Input
+                        type="number"
+                        placeholder="450000"
+                        name={field.name}
+                        onBlur={field.onBlur}
+                        ref={field.ref}
+                        disabled={field.disabled}
+                        value={String(field.value ?? "")}
+                        onChange={(e) => field.onChange(e.target.value)}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -380,7 +392,16 @@ export function ListingForm({ listing, mode = "create" }: ListingFormProps) {
                   <FormItem>
                     <FormLabel>Bedrooms</FormLabel>
                     <FormControl>
-                      <Input type="number" min="0" {...field} />
+                      <Input
+                        type="number"
+                        min="0"
+                        name={field.name}
+                        onBlur={field.onBlur}
+                        ref={field.ref}
+                        disabled={field.disabled}
+                        value={String(field.value ?? "")}
+                        onChange={(e) => field.onChange(e.target.value)}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -394,7 +415,17 @@ export function ListingForm({ listing, mode = "create" }: ListingFormProps) {
                   <FormItem>
                     <FormLabel>Bathrooms</FormLabel>
                     <FormControl>
-                      <Input type="number" min="0" step="0.5" {...field} />
+                      <Input
+                        type="number"
+                        min="0"
+                        step="0.5"
+                        name={field.name}
+                        onBlur={field.onBlur}
+                        ref={field.ref}
+                        disabled={field.disabled}
+                        value={String(field.value ?? "")}
+                        onChange={(e) => field.onChange(e.target.value)}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -408,7 +439,16 @@ export function ListingForm({ listing, mode = "create" }: ListingFormProps) {
                   <FormItem>
                     <FormLabel>Square Feet</FormLabel>
                     <FormControl>
-                      <Input type="number" min="0" {...field} />
+                      <Input
+                        type="number"
+                        min="0"
+                        name={field.name}
+                        onBlur={field.onBlur}
+                        ref={field.ref}
+                        disabled={field.disabled}
+                        value={String(field.value ?? "")}
+                        onChange={(e) => field.onChange(e.target.value)}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -422,7 +462,16 @@ export function ListingForm({ listing, mode = "create" }: ListingFormProps) {
                   <FormItem>
                     <FormLabel>Year Built</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="2020" {...field} />
+                      <Input
+                        type="number"
+                        placeholder="2020"
+                        name={field.name}
+                        onBlur={field.onBlur}
+                        ref={field.ref}
+                        disabled={field.disabled}
+                        value={String(field.value ?? "")}
+                        onChange={(e) => field.onChange(e.target.value)}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
