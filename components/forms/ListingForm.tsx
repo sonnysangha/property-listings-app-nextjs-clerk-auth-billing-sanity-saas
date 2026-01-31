@@ -26,6 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import type { GeocodingResult } from "@/lib/geocoding";
 import { useGeocoding } from "@/lib/hooks";
 import { ImageUpload, type ImageItem } from "./ImageUpload";
@@ -45,7 +46,7 @@ const STATUS_OPTIONS = [
   { value: "sold", label: "Sold" },
 ];
 
-const _AMENITIES = [
+const AMENITIES = [
   { value: "pool", label: "Pool" },
   { value: "garage", label: "Garage" },
   { value: "gym", label: "Gym" },
@@ -479,6 +480,53 @@ export function ListingForm({ listing, mode = "create" }: ListingFormProps) {
                 )}
               />
             </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Amenities</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <FormField
+              control={form.control}
+              name="amenities"
+              render={({ field }) => (
+                <FormItem>
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {AMENITIES.map((amenity) => (
+                      <div
+                        key={amenity.value}
+                        className="flex items-center space-x-2"
+                      >
+                        <Checkbox
+                          id={amenity.value}
+                          checked={field.value?.includes(amenity.value)}
+                          onCheckedChange={(checked: boolean) => {
+                            const currentValue = field.value || [];
+                            if (checked) {
+                              field.onChange([...currentValue, amenity.value]);
+                            } else {
+                              field.onChange(
+                                currentValue.filter((v) => v !== amenity.value)
+                              );
+                            }
+                          }}
+                          disabled={isPending}
+                        />
+                        <label
+                          htmlFor={amenity.value}
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                        >
+                          {amenity.label}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </CardContent>
         </Card>
 
