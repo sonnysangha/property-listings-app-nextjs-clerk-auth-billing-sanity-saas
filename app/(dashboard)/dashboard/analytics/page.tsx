@@ -41,11 +41,8 @@ export type AnalyticsData = {
 };
 
 export default async function AnalyticsPage() {
+  // Auth redirect handled by middleware (proxy.ts) and layout
   const { userId } = await auth();
-
-  if (!userId) {
-    redirect("/sign-in");
-  }
 
   const agent = await client.fetch(ANALYTICS_AGENT_QUERY, { userId });
 
