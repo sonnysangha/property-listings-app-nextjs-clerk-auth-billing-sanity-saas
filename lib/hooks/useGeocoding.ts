@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import debounce from "lodash.debounce";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   buildAddressString,
   type GeocodingResult,
@@ -49,8 +50,16 @@ export function useGeocoding(
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
+
+  // Store callbacks in refs to avoid recreating debounced function
+  const onSuccessRef = useRef(onSuccess);
+  const onErrorRef = useRef(onError);
+
+  useEffect(() => {
+    onSuccessRef.current = onSuccess;
+    onErrorRef.current = onError;
+  }, [onSuccess, onError]);
 
   const clear = useCallback(() => {
     setResult(null);
@@ -58,30 +67,15 @@ export function useGeocoding(
     setIsLoading(false);
   }, []);
 
-  const geocode = useCallback(
-    (address: AddressComponents) => {
-      // Clear any pending debounce
-      if (debounceTimerRef.current) {
-        clearTimeout(debounceTimerRef.current);
-      }
+  // Debounced geocoding function using lodash
+  const debouncedGeocode = useMemo(
+    () =>
+      debounce(async (addressString: string) => {
+        // Abort any in-flight request
+        if (abortControllerRef.current) {
+          abortControllerRef.current.abort();
+        }
 
-      // Abort any in-flight request
-      if (abortControllerRef.current) {
-        abortControllerRef.current.abort();
-      }
-
-      const addressString = buildAddressString(address);
-
-      // Don't geocode if address is too short
-      if (addressString.length < 5) {
-        clear();
-        return;
-      }
-
-      setIsLoading(true);
-      setError(null);
-
-      debounceTimerRef.current = setTimeout(async () => {
         abortControllerRef.current = new AbortController();
 
         try {
@@ -90,12 +84,12 @@ export function useGeocoding(
           if (geocodeResult) {
             setResult(geocodeResult);
             setError(null);
-            onSuccess?.(geocodeResult);
+            onSuccessRef.current?.(geocodeResult);
           } else {
             setResult(null);
             const errorMsg = "Could not find coordinates for this address";
             setError(errorMsg);
-            onError?.(errorMsg);
+            onErrorRef.current?.(errorMsg);
           }
         } catch (err) {
           if (err instanceof Error && err.name === "AbortError") {
@@ -103,26 +97,41 @@ export function useGeocoding(
           }
           const errorMsg = "Failed to geocode address";
           setError(errorMsg);
-          onError?.(errorMsg);
+          onErrorRef.current?.(errorMsg);
         } finally {
           setIsLoading(false);
         }
-      }, debounceMs);
+      }, debounceMs),
+    [debounceMs],
+  );
+
+  const geocode = useCallback(
+    (address: AddressComponents) => {
+      const addressString = buildAddressString(address);
+
+      // Don't geocode if address is too short
+      if (addressString.length < 5) {
+        debouncedGeocode.cancel();
+        clear();
+        return;
+      }
+
+      setIsLoading(true);
+      setError(null);
+      debouncedGeocode(addressString);
     },
-    [debounceMs, onSuccess, onError, clear],
+    [debouncedGeocode, clear],
   );
 
   // Cleanup on unmount
   useEffect(() => {
     return () => {
-      if (debounceTimerRef.current) {
-        clearTimeout(debounceTimerRef.current);
-      }
+      debouncedGeocode.cancel();
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();
       }
     };
-  }, []);
+  }, [debouncedGeocode]);
 
   return {
     result,
