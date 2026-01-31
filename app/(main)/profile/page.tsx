@@ -54,7 +54,6 @@ export default async function ProfilePage() {
             </CardContent>
           </Card>
         </Protect>
-
       </div>
     </div>
   );
