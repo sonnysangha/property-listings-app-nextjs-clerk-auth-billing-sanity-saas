@@ -2,6 +2,7 @@
 
 import {
   ArrowLeft,
+  CreditCard,
   Home,
   LayoutDashboard,
   ListPlus,
@@ -42,6 +43,12 @@ const navItems = [
     label: "Agent Profile",
     icon: User,
     description: "Your public profile",
+  },
+  {
+    href: "/dashboard/billing",
+    label: "Billing",
+    icon: CreditCard,
+    description: "Manage subscription",
   },
 ];
 
