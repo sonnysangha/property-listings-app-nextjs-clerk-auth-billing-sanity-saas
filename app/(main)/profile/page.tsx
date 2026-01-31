@@ -55,19 +55,6 @@ export default async function ProfilePage() {
           </Card>
         </Protect>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Account Settings</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground mb-4">
-              Manage your account settings, password, and email in Clerk.
-            </p>
-            <Button variant="outline" asChild>
-              <Link href="/user-profile">Account Settings</Link>
-            </Button>
-          </CardContent>
-        </Card>
       </div>
     </div>
   );

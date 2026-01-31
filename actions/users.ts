@@ -125,3 +125,8 @@ export async function getUserSavedIds(): Promise<string[]> {
 
   return user?.savedIds || [];
 }
+
+export async function isPropertySaved(propertyId: string): Promise<boolean> {
+  const savedIds = await getUserSavedIds();
+  return savedIds.includes(propertyId);
+}
