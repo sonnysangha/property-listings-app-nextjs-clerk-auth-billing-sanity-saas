@@ -1,0 +1,14 @@
+[
+  { "name": "Pool", "slug": "pool", "icon": "waves", "order": 1 },
+  { "name": "Garage", "slug": "garage", "icon": "car", "order": 2 },
+  { "name": "Gym", "slug": "gym", "icon": "dumbbell", "order": 3 },
+  { "name": "Garden", "slug": "garden", "icon": "flower-2", "order": 4 },
+  { "name": "Fireplace", "slug": "fireplace", "icon": "flame", "order": 5 },
+  { "name": "Central AC", "slug": "central-ac", "icon": "air-vent", "order": 6 },
+  { "name": "Hardwood Floors", "slug": "hardwood-floors", "icon": "layers", "order": 7 },
+  { "name": "Washer/Dryer", "slug": "washer-dryer", "icon": "washing-machine", "order": 8 },
+  { "name": "Dishwasher", "slug": "dishwasher", "icon": "utensils", "order": 9 },
+  { "name": "Balcony", "slug": "balcony", "icon": "door-open", "order": 10 },
+  { "name": "Parking", "slug": "parking", "icon": "parking-square", "order": 11 },
+  { "name": "Security System", "slug": "security-system", "icon": "shield-check", "order": 12 }
+]

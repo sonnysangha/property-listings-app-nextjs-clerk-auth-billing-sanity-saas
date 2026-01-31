@@ -33,6 +33,9 @@ const users = JSON.parse(
 const leads = JSON.parse(
   fs.readFileSync(path.join(dataDir, "leads.json"), "utf-8"),
 );
+const amenities = JSON.parse(
+  fs.readFileSync(path.join(dataDir, "amenities.json"), "utf-8"),
+);
 
 async function uploadImage(url: string): Promise<string | null> {
   try {
@@ -223,6 +226,31 @@ async function seedUsers() {
   console.log(`\n✅ Seeded ${users.length} users.\n`);
 }
 
+async function seedAmenities() {
+  console.log("\n🏷️ Seeding amenities...\n");
+
+  for (const amenity of amenities) {
+    console.log(`  Creating amenity: ${amenity.name}`);
+
+    const doc = {
+      _id: `seed_amenity_${amenity.slug}`,
+      _type: "amenity",
+      name: amenity.name,
+      slug: {
+        _type: "slug",
+        current: amenity.slug,
+      },
+      icon: amenity.icon,
+      order: amenity.order,
+    };
+
+    await client.createOrReplace(doc);
+    console.log(`  ✓ Created amenity: ${amenity.name}`);
+  }
+
+  console.log(`\n✅ Seeded ${amenities.length} amenities.\n`);
+}
+
 async function seedLeads() {
   console.log("\n📧 Seeding leads...\n");
 
@@ -286,6 +314,7 @@ async function main() {
     }
 
     // Seed in dependency order
+    await seedAmenities();
     await seedAgents();
     await seedProperties();
     await seedUsers();
@@ -293,6 +322,7 @@ async function main() {
 
     console.log("\n🎉 Seed complete!\n");
     console.log("Summary:");
+    console.log(`  - ${amenities.length} amenities`);
     console.log(`  - ${agents.length} agents`);
     console.log(`  - ${properties.length} properties`);
     console.log(`  - ${users.length} users`);

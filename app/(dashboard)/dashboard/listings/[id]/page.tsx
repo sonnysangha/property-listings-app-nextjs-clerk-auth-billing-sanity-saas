@@ -3,7 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { ListingForm } from "@/components/forms/ListingForm";
 import { client } from "@/lib/sanity/client";
 import { sanityFetch } from "@/lib/sanity/live";
-import { LISTING_BY_ID_QUERY } from "@/lib/sanity/queries";
+import { AMENITIES_QUERY, LISTING_BY_ID_QUERY } from "@/lib/sanity/queries";
 
 export default async function EditListingPage({
   params,
@@ -26,10 +26,15 @@ export default async function EditListingPage({
     redirect("/dashboard/onboarding");
   }
 
-  const { data: listing } = await sanityFetch({
-    query: LISTING_BY_ID_QUERY,
-    params: { id },
-  });
+  const [{ data: listing }, { data: amenities }] = await Promise.all([
+    sanityFetch({
+      query: LISTING_BY_ID_QUERY,
+      params: { id },
+    }),
+    sanityFetch({
+      query: AMENITIES_QUERY,
+    }),
+  ]);
 
   if (!listing) {
     notFound();
@@ -47,7 +52,7 @@ export default async function EditListingPage({
         <p className="text-muted-foreground">Update your property details</p>
       </div>
 
-      <ListingForm listing={listing} mode="edit" />
+      <ListingForm listing={listing} amenities={amenities} mode="edit" />
     </div>
   );
 }
