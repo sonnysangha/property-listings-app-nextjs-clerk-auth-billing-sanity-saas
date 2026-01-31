@@ -1,0 +1,14 @@
+[
+  { "_id": "seed_amenity_pool", "value": "pool", "label": "Pool", "order": 1 },
+  { "_id": "seed_amenity_garage", "value": "garage", "label": "Garage", "order": 2 },
+  { "_id": "seed_amenity_gym", "value": "gym", "label": "Gym", "order": 3 },
+  { "_id": "seed_amenity_garden", "value": "garden", "label": "Garden", "order": 4 },
+  { "_id": "seed_amenity_fireplace", "value": "fireplace", "label": "Fireplace", "order": 5 },
+  { "_id": "seed_amenity_central_ac", "value": "central-ac", "label": "Central AC", "order": 6 },
+  { "_id": "seed_amenity_hardwood_floors", "value": "hardwood-floors", "label": "Hardwood Floors", "order": 7 },
+  { "_id": "seed_amenity_washer_dryer", "value": "washer-dryer", "label": "Washer/Dryer", "order": 8 },
+  { "_id": "seed_amenity_dishwasher", "value": "dishwasher", "label": "Dishwasher", "order": 9 },
+  { "_id": "seed_amenity_balcony", "value": "balcony", "label": "Balcony", "order": 10 },
+  { "_id": "seed_amenity_parking", "value": "parking", "label": "Parking", "order": 11 },
+  { "_id": "seed_amenity_security_system", "value": "security-system", "label": "Security System", "order": 12 }
+]

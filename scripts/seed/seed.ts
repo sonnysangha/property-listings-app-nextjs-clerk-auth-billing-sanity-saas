@@ -21,6 +21,9 @@ const shouldClean = process.argv.includes("--clean");
 
 // Load JSON data
 const dataDir = path.join(__dirname, "data");
+const amenities = JSON.parse(
+  fs.readFileSync(path.join(dataDir, "amenities.json"), "utf-8"),
+);
 const agents = JSON.parse(
   fs.readFileSync(path.join(dataDir, "agents.json"), "utf-8"),
 );
@@ -80,6 +83,27 @@ async function cleanSeedData() {
   }
 
   console.log("\n✅ Seed data cleaned.\n");
+}
+
+async function seedAmenities() {
+  console.log("\n🏷️ Seeding amenities...\n");
+
+  for (const amenity of amenities) {
+    console.log(`  Creating amenity: ${amenity.label}`);
+
+    const doc = {
+      _id: amenity._id,
+      _type: "amenity",
+      value: amenity.value,
+      label: amenity.label,
+      order: amenity.order,
+    };
+
+    await client.createOrReplace(doc);
+    console.log(`  ✓ Created amenity: ${amenity.label}`);
+  }
+
+  console.log(`\n✅ Seeded ${amenities.length} amenities.\n`);
 }
 
 async function seedAgents() {
@@ -286,6 +310,7 @@ async function main() {
     }
 
     // Seed in dependency order
+    await seedAmenities();
     await seedAgents();
     await seedProperties();
     await seedUsers();
@@ -293,6 +318,7 @@ async function main() {
 
     console.log("\n🎉 Seed complete!\n");
     console.log("Summary:");
+    console.log(`  - ${amenities.length} amenities`);
     console.log(`  - ${agents.length} agents`);
     console.log(`  - ${properties.length} properties`);
     console.log(`  - ${users.length} users`);

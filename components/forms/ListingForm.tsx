@@ -26,6 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import type { GeocodingResult } from "@/lib/geocoding";
 import { useGeocoding } from "@/lib/hooks";
 import { ImageUpload, type ImageItem } from "./ImageUpload";
@@ -45,20 +46,13 @@ const STATUS_OPTIONS = [
   { value: "sold", label: "Sold" },
 ];
 
-const _AMENITIES = [
-  { value: "pool", label: "Pool" },
-  { value: "garage", label: "Garage" },
-  { value: "gym", label: "Gym" },
-  { value: "garden", label: "Garden" },
-  { value: "fireplace", label: "Fireplace" },
-  { value: "central-ac", label: "Central AC" },
-  { value: "hardwood-floors", label: "Hardwood Floors" },
-  { value: "washer-dryer", label: "Washer/Dryer" },
-  { value: "dishwasher", label: "Dishwasher" },
-  { value: "balcony", label: "Balcony" },
-  { value: "parking", label: "Parking" },
-  { value: "security-system", label: "Security System" },
-];
+// Amenity type from Sanity
+interface Amenity {
+  _id: string;
+  value: string;
+  label: string;
+  icon?: string | null;
+}
 
 const formSchema = z.object({
   title: z.string().min(5, "Title must be at least 5 characters"),
@@ -120,10 +114,15 @@ interface ListingFormProps {
     amenities?: string[];
     images?: ListingImage[];
   };
+  amenities: Amenity[];
   mode?: "create" | "edit";
 }
 
-export function ListingForm({ listing, mode = "create" }: ListingFormProps) {
+export function ListingForm({
+  listing,
+  amenities,
+  mode = "create",
+}: ListingFormProps) {
   const [isPending, startTransition] = useTransition();
 
   // Initialize images from listing data
@@ -479,6 +478,53 @@ export function ListingForm({ listing, mode = "create" }: ListingFormProps) {
                 )}
               />
             </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Amenities</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <FormField
+              control={form.control}
+              name="amenities"
+              render={({ field }) => (
+                <FormItem>
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {amenities.map((amenity) => (
+                      <div
+                        key={amenity.value}
+                        className="flex items-center space-x-2"
+                      >
+                        <Checkbox
+                          id={amenity.value}
+                          checked={field.value?.includes(amenity.value)}
+                          onCheckedChange={(checked: boolean) => {
+                            const currentValue = field.value || [];
+                            if (checked) {
+                              field.onChange([...currentValue, amenity.value]);
+                            } else {
+                              field.onChange(
+                                currentValue.filter((v) => v !== amenity.value)
+                              );
+                            }
+                          }}
+                          disabled={isPending}
+                        />
+                        <label
+                          htmlFor={amenity.value}
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                        >
+                          {amenity.label}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </CardContent>
         </Card>
 
