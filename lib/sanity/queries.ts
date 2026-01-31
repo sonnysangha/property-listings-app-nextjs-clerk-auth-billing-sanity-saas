@@ -33,17 +33,33 @@ export const PROPERTIES_SEARCH_QUERY = defineQuery(/* groq */ `
     && bedrooms >= $beds && bathrooms >= $baths
     && ($type == "" || propertyType == $type)
     && ($city == "" || address.city == $city)
+    && ($minSqft == 0 || squareFeet >= $minSqft)
+    && ($maxSqft == 0 || squareFeet <= $maxSqft)
+    && ($minYear == 0 || yearBuilt >= $minYear)
+    && ($maxYear == 0 || yearBuilt <= $maxYear)
+    && ($minLotSize == 0 || lotSize >= $minLotSize)
+    && ($maxLotSize == 0 || lotSize <= $maxLotSize)
+    && ($daysOnMarket == 0 || dateTime(createdAt) >= dateTime(now()) - 60*60*24*$daysOnMarket)
+    && ($openHouse == false || (openHouseDate != null && dateTime(openHouseDate) >= dateTime(now())))
+    && ($priceReduced == false || (originalPrice != null && price < originalPrice))
+    && ($amenitiesCount == 0 || count((amenities)[@ in $amenities]) == $amenitiesCount)
   ] | order(createdAt desc) [$start...$end] {
     _id,
     title,
     "slug": slug.current,
     price,
+    originalPrice,
     bedrooms,
     bathrooms,
     squareFeet,
+    yearBuilt,
+    lotSize,
     address,
     "image": images[0] { ${imageFragment} },
-    location
+    location,
+    amenities,
+    openHouseDate,
+    createdAt
   }
 `);
 
@@ -54,6 +70,16 @@ export const PROPERTIES_COUNT_QUERY = defineQuery(/* groq */ `
     && bedrooms >= $beds && bathrooms >= $baths
     && ($type == "" || propertyType == $type)
     && ($city == "" || address.city == $city)
+    && ($minSqft == 0 || squareFeet >= $minSqft)
+    && ($maxSqft == 0 || squareFeet <= $maxSqft)
+    && ($minYear == 0 || yearBuilt >= $minYear)
+    && ($maxYear == 0 || yearBuilt <= $maxYear)
+    && ($minLotSize == 0 || lotSize >= $minLotSize)
+    && ($maxLotSize == 0 || lotSize <= $maxLotSize)
+    && ($daysOnMarket == 0 || dateTime(createdAt) >= dateTime(now()) - 60*60*24*$daysOnMarket)
+    && ($openHouse == false || (openHouseDate != null && dateTime(openHouseDate) >= dateTime(now())))
+    && ($priceReduced == false || (originalPrice != null && price < originalPrice))
+    && ($amenitiesCount == 0 || count((amenities)[@ in $amenities]) == $amenitiesCount)
   ])
 `);
 
