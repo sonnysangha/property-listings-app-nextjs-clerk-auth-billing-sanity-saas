@@ -19,6 +19,7 @@ import { SavePropertyButton } from "@/components/property/SavePropertyButton";
 import { SharePropertyButton } from "@/components/property/SharePropertyButton";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { StatBadge } from "@/components/ui/stat-badge";
 import { sanityFetch } from "@/lib/sanity/live";
 import { PROPERTY_DETAIL_QUERY } from "@/lib/sanity/queries";
 
@@ -158,59 +159,31 @@ export default async function PropertyPage({
 
             {/* Property Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="bg-background rounded-2xl border border-border/50 p-5 shadow-warm">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                    <Bed className="h-6 w-6 text-primary" aria-hidden="true" />
-                  </div>
-                  <div>
-                    <p className="text-2xl font-bold font-heading tabular-nums">
-                      {property.bedrooms}
-                    </p>
-                    <p className="text-sm text-muted-foreground">Bedrooms</p>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-background rounded-2xl border border-border/50 p-5 shadow-warm">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-secondary/20 flex items-center justify-center">
-                    <Bath className="h-6 w-6 text-secondary" aria-hidden="true" />
-                  </div>
-                  <div>
-                    <p className="text-2xl font-bold font-heading tabular-nums">
-                      {property.bathrooms}
-                    </p>
-                    <p className="text-sm text-muted-foreground">Bathrooms</p>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-background rounded-2xl border border-border/50 p-5 shadow-warm">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                    <Square className="h-6 w-6 text-primary" aria-hidden="true" />
-                  </div>
-                  <div>
-                    <p className="text-2xl font-bold font-heading tabular-nums">
-                      {property.squareFeet?.toLocaleString()}
-                    </p>
-                    <p className="text-sm text-muted-foreground">Sq&nbsp;Ft</p>
-                  </div>
-                </div>
-              </div>
+              <StatBadge
+                icon={Bed}
+                value={property.bedrooms}
+                label="Bedrooms"
+                color="primary"
+              />
+              <StatBadge
+                icon={Bath}
+                value={property.bathrooms}
+                label="Bathrooms"
+                color="secondary"
+              />
+              <StatBadge
+                icon={Square}
+                value={property.squareFeet || 0}
+                label="Sq Ft"
+                color="primary"
+              />
               {property.yearBuilt && (
-                <div className="bg-background rounded-2xl border border-border/50 p-5 shadow-warm">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-xl bg-secondary/20 flex items-center justify-center">
-                      <Calendar className="h-6 w-6 text-secondary" aria-hidden="true" />
-                    </div>
-                    <div>
-                      <p className="text-2xl font-bold font-heading tabular-nums">
-                        {property.yearBuilt}
-                      </p>
-                      <p className="text-sm text-muted-foreground">Year Built</p>
-                    </div>
-                  </div>
-                </div>
+                <StatBadge
+                  icon={Calendar}
+                  value={property.yearBuilt}
+                  label="Year Built"
+                  color="secondary"
+                />
               )}
             </div>
 

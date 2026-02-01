@@ -13,6 +13,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { EmptyState } from "@/components/ui/empty-state";
+import { SectionHeader } from "@/components/ui/section-header";
 import {
   Table,
   TableBody,
@@ -65,18 +67,18 @@ export default async function ListingsPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-3xl font-bold">My Listings</h1>
-          <p className="text-muted-foreground">Manage your property listings</p>
-        </div>
-        <Button asChild>
-          <Link href="/dashboard/listings/new">
-            <Plus className="h-4 w-4 mr-2" />
-            Add Listing
-          </Link>
-        </Button>
-      </div>
+      <SectionHeader
+        title="My Listings"
+        subtitle="Manage your property listings"
+        action={
+          <Button asChild>
+            <Link href="/dashboard/listings/new">
+              <Plus className="h-4 w-4 mr-2" />
+              Add Listing
+            </Link>
+          </Button>
+        }
+      />
 
       {listings && listings.length > 0 ? (
         <div className="border rounded-lg">
@@ -162,18 +164,18 @@ export default async function ListingsPage() {
           </Table>
         </div>
       ) : (
-        <div className="text-center py-16 border rounded-lg">
-          <h2 className="text-xl font-semibold mb-2">No listings yet</h2>
-          <p className="text-muted-foreground mb-6">
-            Create your first property listing to get started.
-          </p>
-          <Button asChild>
-            <Link href="/dashboard/listings/new">
-              <Plus className="h-4 w-4 mr-2" />
-              Create Listing
-            </Link>
-          </Button>
-        </div>
+        <EmptyState
+          title="No listings yet"
+          description="Create your first property listing to get started."
+          action={
+            <Button asChild>
+              <Link href="/dashboard/listings/new">
+                <Plus className="h-4 w-4 mr-2" />
+                Create Listing
+              </Link>
+            </Button>
+          }
+        />
       )}
     </div>
   );

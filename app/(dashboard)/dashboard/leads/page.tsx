@@ -3,6 +3,8 @@ import { ExternalLink, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { LeadStatusSelect } from "@/components/dashboard/LeadStatusSelect";
+import { EmptyState } from "@/components/ui/empty-state";
+import { SectionHeader } from "@/components/ui/section-header";
 import {
   Table,
   TableBody,
@@ -45,12 +47,10 @@ export default async function LeadsPage() {
 
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold">Leads Inbox</h1>
-        <p className="text-muted-foreground">
-          Manage inquiries from potential buyers
-        </p>
-      </div>
+      <SectionHeader
+        title="Leads Inbox"
+        subtitle="Manage inquiries from potential buyers"
+      />
 
       {leads && leads.length > 0 ? (
         <div className="border rounded-lg">
@@ -112,14 +112,11 @@ export default async function LeadsPage() {
           </Table>
         </div>
       ) : (
-        <div className="text-center py-16 border rounded-lg">
-          <MessageSquare className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-          <h2 className="text-xl font-semibold mb-2">No leads yet</h2>
-          <p className="text-muted-foreground">
-            When buyers contact you about your listings, their inquiries will
-            appear here.
-          </p>
-        </div>
+        <EmptyState
+          icon={MessageSquare}
+          title="No leads yet"
+          description="When buyers contact you about your listings, their inquiries will appear here."
+        />
       )}
     </div>
   );

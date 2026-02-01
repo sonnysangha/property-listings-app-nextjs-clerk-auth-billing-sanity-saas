@@ -1,13 +1,11 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { updateUserProfile } from "@/actions/users";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -17,6 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { LoadingButton } from "@/components/ui/loading-button";
 import type { User } from "@/types";
 
 const formSchema = z.object({
@@ -94,16 +93,9 @@ export function ProfileForm({ user }: ProfileFormProps) {
           )}
         />
 
-        <Button type="submit" disabled={isPending}>
-          {isPending ? (
-            <>
-              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-              Saving...
-            </>
-          ) : (
-            "Save Changes"
-          )}
-        </Button>
+        <LoadingButton type="submit" loading={isPending} loadingText="Saving...">
+          Save Changes
+        </LoadingButton>
       </form>
     </Form>
   );

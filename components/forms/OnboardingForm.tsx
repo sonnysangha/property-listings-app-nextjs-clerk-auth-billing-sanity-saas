@@ -1,13 +1,11 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { completeUserOnboarding } from "@/actions/users";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Form,
@@ -18,6 +16,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { LoadingButton } from "@/components/ui/loading-button";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -97,16 +96,9 @@ export function OnboardingForm({ defaultName, email }: OnboardingFormProps) {
               )}
             />
 
-            <Button type="submit" className="w-full" disabled={isPending}>
-              {isPending ? (
-                <>
-                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  Setting up...
-                </>
-              ) : (
-                "Complete Setup"
-              )}
-            </Button>
+            <LoadingButton type="submit" className="w-full" loading={isPending} loadingText="Setting up...">
+              Complete Setup
+            </LoadingButton>
           </form>
         </Form>
       </CardContent>

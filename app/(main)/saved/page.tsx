@@ -4,6 +4,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { PropertyGrid } from "@/components/property/PropertyGrid";
 import { Button } from "@/components/ui/button";
+import { EmptyState } from "@/components/ui/empty-state";
 import { sanityFetch } from "@/lib/sanity/live";
 import { USER_SAVED_LISTINGS_QUERY } from "@/lib/sanity/queries";
 
@@ -29,16 +30,17 @@ export default async function SavedListingsPage() {
       {savedProperties && savedProperties.length > 0 ? (
         <PropertyGrid properties={savedProperties} showRemoveButton />
       ) : (
-        <div className="text-center py-16 bg-muted rounded-lg">
-          <Heart className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-          <h2 className="text-xl font-semibold mb-2">No saved listings yet</h2>
-          <p className="text-muted-foreground mb-6">
-            Start browsing properties and save your favorites here.
-          </p>
-          <Button asChild>
-            <Link href="/properties">Browse Properties</Link>
-          </Button>
-        </div>
+        <EmptyState
+          icon={Heart}
+          title="No saved listings yet"
+          description="Start browsing properties and save your favorites here."
+          action={
+            <Button asChild>
+              <Link href="/properties">Browse Properties</Link>
+            </Button>
+          }
+          className="bg-muted"
+        />
       )}
     </div>
   );

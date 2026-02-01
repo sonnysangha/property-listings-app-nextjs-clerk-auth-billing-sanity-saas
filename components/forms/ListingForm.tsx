@@ -9,6 +9,7 @@ import { z } from "zod";
 import { createListing, updateListing } from "@/actions/properties";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -18,6 +19,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { LoadingButton } from "@/components/ui/loading-button";
 import {
   Select,
   SelectContent,
@@ -26,7 +28,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
 import type { GeocodingResult } from "@/lib/geocoding";
 import { useGeocoding } from "@/lib/hooks";
 import { ImageUpload, type ImageItem } from "./ImageUpload";
@@ -643,18 +644,9 @@ export function ListingForm({
           <Button type="button" variant="outline" asChild>
             <a href="/dashboard/listings">Cancel</a>
           </Button>
-          <Button type="submit" disabled={isPending}>
-            {isPending ? (
-              <>
-                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                Saving...
-              </>
-            ) : mode === "edit" ? (
-              "Update Listing"
-            ) : (
-              "Create Listing"
-            )}
-          </Button>
+          <LoadingButton type="submit" loading={isPending} loadingText="Saving...">
+            {mode === "edit" ? "Update Listing" : "Create Listing"}
+          </LoadingButton>
         </div>
       </form>
     </Form>
