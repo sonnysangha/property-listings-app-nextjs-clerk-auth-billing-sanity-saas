@@ -1,14 +1,14 @@
 [
-  { "_id": "seed_amenity_pool", "value": "pool", "label": "Pool", "order": 1 },
-  { "_id": "seed_amenity_garage", "value": "garage", "label": "Garage", "order": 2 },
-  { "_id": "seed_amenity_gym", "value": "gym", "label": "Gym", "order": 3 },
-  { "_id": "seed_amenity_garden", "value": "garden", "label": "Garden", "order": 4 },
-  { "_id": "seed_amenity_fireplace", "value": "fireplace", "label": "Fireplace", "order": 5 },
-  { "_id": "seed_amenity_central_ac", "value": "central-ac", "label": "Central AC", "order": 6 },
-  { "_id": "seed_amenity_hardwood_floors", "value": "hardwood-floors", "label": "Hardwood Floors", "order": 7 },
-  { "_id": "seed_amenity_washer_dryer", "value": "washer-dryer", "label": "Washer/Dryer", "order": 8 },
-  { "_id": "seed_amenity_dishwasher", "value": "dishwasher", "label": "Dishwasher", "order": 9 },
-  { "_id": "seed_amenity_balcony", "value": "balcony", "label": "Balcony", "order": 10 },
-  { "_id": "seed_amenity_parking", "value": "parking", "label": "Parking", "order": 11 },
-  { "_id": "seed_amenity_security_system", "value": "security-system", "label": "Security System", "order": 12 }
+  { "name": "Pool", "slug": "pool", "icon": "waves", "order": 1 },
+  { "name": "Garage", "slug": "garage", "icon": "car", "order": 2 },
+  { "name": "Gym", "slug": "gym", "icon": "dumbbell", "order": 3 },
+  { "name": "Garden", "slug": "garden", "icon": "flower-2", "order": 4 },
+  { "name": "Fireplace", "slug": "fireplace", "icon": "flame", "order": 5 },
+  { "name": "Central AC", "slug": "central-ac", "icon": "air-vent", "order": 6 },
+  { "name": "Hardwood Floors", "slug": "hardwood-floors", "icon": "layers", "order": 7 },
+  { "name": "Washer/Dryer", "slug": "washer-dryer", "icon": "washing-machine", "order": 8 },
+  { "name": "Dishwasher", "slug": "dishwasher", "icon": "utensils", "order": 9 },
+  { "name": "Balcony", "slug": "balcony", "icon": "door-open", "order": 10 },
+  { "name": "Parking", "slug": "parking", "icon": "parking-square", "order": 11 },
+  { "name": "Security System", "slug": "security-system", "icon": "shield-check", "order": 12 }
 ]

@@ -22,10 +22,7 @@ export default async function LeadsPage() {
     redirect("/sign-in");
   }
 
-  const agent = await client.fetch(
-    `*[_type == "agent" && userId == $userId][0]{ _id, onboardingComplete }`,
-    { userId },
-  );
+  const agent = await getAgentByUserId(userId);
 
   if (!agent?.onboardingComplete) {
     redirect("/dashboard/onboarding");
