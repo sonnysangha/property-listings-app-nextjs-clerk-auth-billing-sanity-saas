@@ -3,6 +3,10 @@
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { client } from "@/lib/sanity/client";
+import {
+  AGENT_ID_BY_USER_QUERY,
+  PROPERTY_AGENT_REF_QUERY,
+} from "@/lib/sanity/queries";
 
 interface ImageReference {
   _type: "image";
@@ -57,10 +61,7 @@ export async function createListing(data: ListingFormDataWithImages) {
     throw new Error("Not authenticated");
   }
 
-  const agent = await client.fetch(
-    `*[_type == "agent" && userId == $userId][0]{ _id }`,
-    { userId },
-  );
+  const agent = await client.fetch(AGENT_ID_BY_USER_QUERY, { userId });
 
   if (!agent) {
     throw new Error("Agent not found");
@@ -101,20 +102,16 @@ export async function updateListing(
     throw new Error("Not authenticated");
   }
 
-  const agent = await client.fetch(
-    `*[_type == "agent" && userId == $userId][0]{ _id }`,
-    { userId },
-  );
+  const agent = await client.fetch(AGENT_ID_BY_USER_QUERY, { userId });
 
   if (!agent) {
     throw new Error("Agent not found");
   }
 
   // Verify ownership
-  const listing = await client.fetch(
-    `*[_type == "property" && _id == $id][0]{ agent }`,
-    { id: listingId },
-  );
+  const listing = await client.fetch(PROPERTY_AGENT_REF_QUERY, {
+    id: listingId,
+  });
 
   if (!listing || listing.agent._ref !== agent._id) {
     throw new Error("Unauthorized");
@@ -152,20 +149,16 @@ export async function updateListingStatus(
     throw new Error("Not authenticated");
   }
 
-  const agent = await client.fetch(
-    `*[_type == "agent" && userId == $userId][0]{ _id }`,
-    { userId },
-  );
+  const agent = await client.fetch(AGENT_ID_BY_USER_QUERY, { userId });
 
   if (!agent) {
     throw new Error("Agent not found");
   }
 
   // Verify ownership
-  const listing = await client.fetch(
-    `*[_type == "property" && _id == $id][0]{ agent }`,
-    { id: listingId },
-  );
+  const listing = await client.fetch(PROPERTY_AGENT_REF_QUERY, {
+    id: listingId,
+  });
 
   if (!listing || listing.agent._ref !== agent._id) {
     throw new Error("Unauthorized");
@@ -187,20 +180,16 @@ export async function deleteListing(listingId: string) {
     throw new Error("Not authenticated");
   }
 
-  const agent = await client.fetch(
-    `*[_type == "agent" && userId == $userId][0]{ _id }`,
-    { userId },
-  );
+  const agent = await client.fetch(AGENT_ID_BY_USER_QUERY, { userId });
 
   if (!agent) {
     throw new Error("Agent not found");
   }
 
   // Verify ownership
-  const listing = await client.fetch(
-    `*[_type == "property" && _id == $id][0]{ agent }`,
-    { id: listingId },
-  );
+  const listing = await client.fetch(PROPERTY_AGENT_REF_QUERY, {
+    id: listingId,
+  });
 
   if (!listing || listing.agent._ref !== agent._id) {
     throw new Error("Unauthorized");

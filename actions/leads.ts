@@ -3,6 +3,12 @@
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import { client } from "@/lib/sanity/client";
+import {
+  AGENT_ID_BY_USER_QUERY,
+  LEAD_AGENT_REF_QUERY,
+  LEAD_EXISTS_QUERY,
+  USER_CONTACT_QUERY,
+} from "@/lib/sanity/queries";
 
 export async function createLead(propertyId: string, agentId: string) {
   const { userId } = await auth();
@@ -12,10 +18,7 @@ export async function createLead(propertyId: string, agentId: string) {
   }
 
   // Get user info from Sanity
-  const user = await client.fetch(
-    `*[_type == "user" && clerkId == $clerkId][0]{ name, email, phone }`,
-    { clerkId: userId },
-  );
+  const user = await client.fetch(USER_CONTACT_QUERY, { clerkId: userId });
 
   if (!user) {
     throw new Error(
@@ -24,10 +27,10 @@ export async function createLead(propertyId: string, agentId: string) {
   }
 
   // Check if lead already exists for this user/property combination
-  const existingLead = await client.fetch(
-    `*[_type == "lead" && property._ref == $propertyId && buyerEmail == $email][0]{ _id }`,
-    { propertyId, email: user.email },
-  );
+  const existingLead = await client.fetch(LEAD_EXISTS_QUERY, {
+    propertyId,
+    email: user.email,
+  });
 
   if (existingLead) {
     return { success: true, message: "You have already contacted this agent." };
@@ -59,20 +62,14 @@ export async function updateLeadStatus(
   }
 
   // Get agent to verify ownership
-  const agent = await client.fetch(
-    `*[_type == "agent" && userId == $userId][0]{ _id }`,
-    { userId },
-  );
+  const agent = await client.fetch(AGENT_ID_BY_USER_QUERY, { userId });
 
   if (!agent) {
     throw new Error("Agent not found");
   }
 
   // Verify lead belongs to this agent
-  const lead = await client.fetch(
-    `*[_type == "lead" && _id == $leadId][0]{ agent }`,
-    { leadId },
-  );
+  const lead = await client.fetch(LEAD_AGENT_REF_QUERY, { leadId });
 
   if (!lead || lead.agent._ref !== agent._id) {
     throw new Error("Unauthorized");

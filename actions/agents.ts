@@ -4,6 +4,10 @@ import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { client } from "@/lib/sanity/client";
+import {
+  AGENT_BY_USER_ID_QUERY,
+  AGENT_ID_BY_USER_QUERY,
+} from "@/lib/sanity/queries";
 import type { AgentOnboardingData, AgentProfileData } from "@/types";
 
 export async function completeAgentOnboarding(data: AgentOnboardingData) {
@@ -13,10 +17,7 @@ export async function completeAgentOnboarding(data: AgentOnboardingData) {
     throw new Error("Not authenticated");
   }
 
-  const agent = await client.fetch(
-    `*[_type == "agent" && userId == $userId][0]{ _id }`,
-    { userId },
-  );
+  const agent = await client.fetch(AGENT_ID_BY_USER_QUERY, { userId });
 
   if (!agent) {
     throw new Error("Agent not found");
@@ -43,10 +44,7 @@ export async function updateAgentProfile(data: AgentProfileData) {
     throw new Error("Not authenticated");
   }
 
-  const agent = await client.fetch(
-    `*[_type == "agent" && userId == $userId][0]{ _id }`,
-    { userId },
-  );
+  const agent = await client.fetch(AGENT_ID_BY_USER_QUERY, { userId });
 
   if (!agent) {
     throw new Error("Agent not found");
@@ -66,10 +64,7 @@ export async function updateAgentProfile(data: AgentProfileData) {
 }
 
 export async function getAgentByUserId(userId: string) {
-  const agent = await client.fetch(
-    `*[_type == "agent" && userId == $userId][0]{ _id, userId, name, email, onboardingComplete }`,
-    { userId },
-  );
+  const agent = await client.fetch(AGENT_BY_USER_ID_QUERY, { userId });
 
   return agent;
 }

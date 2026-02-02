@@ -4,6 +4,10 @@ import { auth, currentUser } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { client } from "@/lib/sanity/client";
+import {
+  USER_EXISTS_QUERY,
+  USER_SAVED_IDS_QUERY,
+} from "@/lib/sanity/queries";
 import type { UserOnboardingData, UserProfileData } from "@/types";
 
 export async function completeUserOnboarding(data: UserOnboardingData) {
@@ -17,10 +21,9 @@ export async function completeUserOnboarding(data: UserOnboardingData) {
   const email = clerkUser?.emailAddresses[0]?.emailAddress || data.email;
 
   // Check if user already exists
-  const existingUser = await client.fetch(
-    `*[_type == "user" && clerkId == $clerkId][0]{ _id }`,
-    { clerkId: userId },
-  );
+  const existingUser = await client.fetch(USER_EXISTS_QUERY, {
+    clerkId: userId,
+  });
 
   if (existingUser) {
     // Update existing user
@@ -54,10 +57,7 @@ export async function updateUserProfile(data: UserProfileData) {
     throw new Error("Not authenticated");
   }
 
-  const user = await client.fetch(
-    `*[_type == "user" && clerkId == $clerkId][0]{ _id }`,
-    { clerkId: userId },
-  );
+  const user = await client.fetch(USER_EXISTS_QUERY, { clerkId: userId });
 
   if (!user) {
     throw new Error("User not found");
@@ -81,10 +81,7 @@ export async function toggleSavedListing(propertyId: string) {
     throw new Error("Not authenticated");
   }
 
-  const user = await client.fetch(
-    `*[_type == "user" && clerkId == $clerkId][0]{ _id, "savedIds": savedListings[]._ref }`,
-    { clerkId: userId },
-  );
+  const user = await client.fetch(USER_SAVED_IDS_QUERY, { clerkId: userId });
 
   if (!user) {
     throw new Error("User not found");
@@ -118,10 +115,7 @@ export async function getUserSavedIds(): Promise<string[]> {
     return [];
   }
 
-  const user = await client.fetch(
-    `*[_type == "user" && clerkId == $clerkId][0]{ "savedIds": savedListings[]._ref }`,
-    { clerkId: userId },
-  );
+  const user = await client.fetch(USER_SAVED_IDS_QUERY, { clerkId: userId });
 
   return user?.savedIds || [];
 }

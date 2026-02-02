@@ -291,3 +291,71 @@ export const AMENITIES_QUERY = defineQuery(/* groq */ `
     icon
   }
 `);
+
+// ============================================
+// Server Action Queries
+// ============================================
+
+// Agent ID lookup by user ID (for actions)
+export const AGENT_ID_BY_USER_QUERY = defineQuery(/* groq */ `
+  *[_type == "agent" && userId == $userId][0]{ _id }
+`);
+
+// Agent with onboarding status (for dashboard)
+export const AGENT_DASHBOARD_QUERY = defineQuery(/* groq */ `
+  *[_type == "agent" && userId == $userId][0]{ _id, name, onboardingComplete }
+`);
+
+// Agent onboarding check (minimal)
+export const AGENT_ONBOARDING_CHECK_QUERY = defineQuery(/* groq */ `
+  *[_type == "agent" && userId == $userId][0]{ _id, onboardingComplete }
+`);
+
+// User contact info for leads
+export const USER_CONTACT_QUERY = defineQuery(/* groq */ `
+  *[_type == "user" && clerkId == $clerkId][0]{ name, email, phone }
+`);
+
+// User with saved IDs
+export const USER_SAVED_IDS_QUERY = defineQuery(/* groq */ `
+  *[_type == "user" && clerkId == $clerkId][0]{ _id, "savedIds": savedListings[]._ref }
+`);
+
+// Check if lead exists for property/email
+export const LEAD_EXISTS_QUERY = defineQuery(/* groq */ `
+  *[_type == "lead" && property._ref == $propertyId && buyerEmail == $email][0]{ _id }
+`);
+
+// Lead with agent ref (for ownership verification)
+export const LEAD_AGENT_REF_QUERY = defineQuery(/* groq */ `
+  *[_type == "lead" && _id == $leadId][0]{ agent }
+`);
+
+// Property ownership check
+export const PROPERTY_AGENT_REF_QUERY = defineQuery(/* groq */ `
+  *[_type == "property" && _id == $id][0]{ agent }
+`);
+
+// ============================================
+// Dashboard Stats Queries
+// ============================================
+
+// Count properties by agent
+export const DASHBOARD_LISTINGS_COUNT_QUERY = defineQuery(/* groq */ `
+  count(*[_type == "property" && agent._ref == $agentId])
+`);
+
+// Count all leads by agent
+export const DASHBOARD_LEADS_COUNT_QUERY = defineQuery(/* groq */ `
+  count(*[_type == "lead" && agent._ref == $agentId])
+`);
+
+// Count new leads by agent
+export const DASHBOARD_NEW_LEADS_COUNT_QUERY = defineQuery(/* groq */ `
+  count(*[_type == "lead" && agent._ref == $agentId && status == "new"])
+`);
+
+// Check if agent exists by user ID (for webhooks)
+export const AGENT_EXISTS_BY_USER_QUERY = defineQuery(/* groq */ `
+  *[_type == "agent" && userId == $userId][0]
+`);

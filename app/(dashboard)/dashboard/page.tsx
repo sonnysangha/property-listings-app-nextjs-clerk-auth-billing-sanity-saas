@@ -6,6 +6,12 @@ import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { client } from "@/lib/sanity/client";
+import {
+  AGENT_DASHBOARD_QUERY,
+  DASHBOARD_LEADS_COUNT_QUERY,
+  DASHBOARD_LISTINGS_COUNT_QUERY,
+  DASHBOARD_NEW_LEADS_COUNT_QUERY,
+} from "@/lib/sanity/queries";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -19,10 +25,7 @@ export default async function DashboardPage() {
     redirect("/sign-in");
   }
 
-  const agent = await client.fetch(
-    `*[_type == "agent" && userId == $userId][0]{ _id, name, onboardingComplete }`,
-    { userId }
-  );
+  const agent = await client.fetch(AGENT_DASHBOARD_QUERY, { userId });
 
   if (!agent) {
     redirect("/pricing");
@@ -34,16 +37,9 @@ export default async function DashboardPage() {
 
   // Get stats
   const [listingsCount, leadsCount, newLeadsCount] = await Promise.all([
-    client.fetch(`count(*[_type == "property" && agent._ref == $agentId])`, {
-      agentId: agent._id,
-    }),
-    client.fetch(`count(*[_type == "lead" && agent._ref == $agentId])`, {
-      agentId: agent._id,
-    }),
-    client.fetch(
-      `count(*[_type == "lead" && agent._ref == $agentId && status == "new"])`,
-      { agentId: agent._id }
-    ),
+    client.fetch(DASHBOARD_LISTINGS_COUNT_QUERY, { agentId: agent._id }),
+    client.fetch(DASHBOARD_LEADS_COUNT_QUERY, { agentId: agent._id }),
+    client.fetch(DASHBOARD_NEW_LEADS_COUNT_QUERY, { agentId: agent._id }),
   ]);
 
   // Get time of day for greeting

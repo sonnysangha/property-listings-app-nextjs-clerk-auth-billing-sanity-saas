@@ -2,6 +2,7 @@ import type { WebhookEvent } from "@clerk/nextjs/server";
 import { headers } from "next/headers";
 import { Webhook } from "svix";
 import { client } from "@/lib/sanity/client";
+import { AGENT_EXISTS_BY_USER_QUERY } from "@/lib/sanity/queries";
 
 export async function POST(req: Request) {
   const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
@@ -59,10 +60,9 @@ export async function POST(req: Request) {
     const metadata = public_metadata as { plan?: string };
     if (metadata?.plan === "agent") {
       // Check if agent already exists
-      const existingAgent = await client.fetch(
-        `*[_type == "agent" && userId == $userId][0]`,
-        { userId: id },
-      );
+      const existingAgent = await client.fetch(AGENT_EXISTS_BY_USER_QUERY, {
+        userId: id,
+      });
 
       if (!existingAgent) {
         // Create agent document
