@@ -1,5 +1,6 @@
 import { auth } from "@clerk/nextjs/server";
 import { notFound, redirect } from "next/navigation";
+import { createAgentDocument } from "@/actions/agents";
 import { ListingForm } from "@/components/forms/ListingForm";
 import { sanityFetch } from "@/lib/sanity/live";
 import {
@@ -14,10 +15,16 @@ export default async function EditListingPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const { userId } = await auth();
+  const { userId, has } = await auth();
 
   if (!userId) {
     redirect("/sign-in");
+  }
+
+  // Check if user has agent plan
+  const hasAgentPlan = has({ plan: "agent" });
+  if (!hasAgentPlan) {
+    redirect("/pricing");
   }
 
   const { data: agent } = await sanityFetch({
@@ -25,7 +32,13 @@ export default async function EditListingPage({
     params: { userId },
   });
 
-  if (!agent?.onboardingComplete) {
+  // Lazy creation or redirect to onboarding
+  if (!agent) {
+    await createAgentDocument();
+    redirect("/dashboard/onboarding");
+  }
+
+  if (!agent.onboardingComplete) {
     redirect("/dashboard/onboarding");
   }
 

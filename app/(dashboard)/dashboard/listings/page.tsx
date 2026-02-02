@@ -3,6 +3,7 @@ import { MoreHorizontal, Pencil, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { createAgentDocument } from "@/actions/agents";
 import { DeleteListingButton } from "@/components/dashboard/DeleteListingButton";
 import { ListingStatusSelect } from "@/components/dashboard/ListingStatusSelect";
 import { Button } from "@/components/ui/button";
@@ -31,10 +32,16 @@ import {
 } from "@/lib/sanity/queries";
 
 export default async function ListingsPage() {
-  const { userId } = await auth();
+  const { userId, has } = await auth();
 
   if (!userId) {
     redirect("/sign-in");
+  }
+
+  // Check if user has agent plan
+  const hasAgentPlan = has({ plan: "agent" });
+  if (!hasAgentPlan) {
+    redirect("/pricing");
   }
 
   const { data: agent } = await sanityFetch({
@@ -42,7 +49,13 @@ export default async function ListingsPage() {
     params: { userId },
   });
 
-  if (!agent?.onboardingComplete) {
+  // Lazy creation or redirect to onboarding
+  if (!agent) {
+    await createAgentDocument();
+    redirect("/dashboard/onboarding");
+  }
+
+  if (!agent.onboardingComplete) {
     redirect("/dashboard/onboarding");
   }
 

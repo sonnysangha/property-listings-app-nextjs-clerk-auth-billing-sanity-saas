@@ -3,6 +3,7 @@ import { ArrowRight, Home, MessageSquare, Plus, TrendingUp } from "lucide-react"
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { createAgentDocument } from "@/actions/agents";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { sanityFetch } from "@/lib/sanity/live";
@@ -19,19 +20,27 @@ export const metadata: Metadata = {
 };
 
 export default async function DashboardPage() {
-  const { userId } = await auth();
+  const { userId, has } = await auth();
 
   if (!userId) {
     redirect("/sign-in");
   }
 
-  const { data: agent } = await sanityFetch({
+  // Check if user has agent plan
+  const hasAgentPlan = has({ plan: "agent" });
+  if (!hasAgentPlan) {
+    redirect("/pricing");
+  }
+
+  let { data: agent } = await sanityFetch({
     query: AGENT_DASHBOARD_QUERY,
     params: { userId },
   });
 
+  // Lazy creation: if no agent document exists, create one
   if (!agent) {
-    redirect("/pricing");
+    await createAgentDocument();
+    redirect("/dashboard/onboarding");
   }
 
   if (!agent.onboardingComplete) {

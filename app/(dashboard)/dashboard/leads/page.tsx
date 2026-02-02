@@ -2,6 +2,7 @@ import { auth } from "@clerk/nextjs/server";
 import { ExternalLink, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { createAgentDocument } from "@/actions/agents";
 import { LeadStatusSelect } from "@/components/dashboard/LeadStatusSelect";
 import { EmptyState } from "@/components/ui/empty-state";
 import { SectionHeader } from "@/components/ui/section-header";
@@ -20,10 +21,16 @@ import {
 } from "@/lib/sanity/queries";
 
 export default async function LeadsPage() {
-  const { userId } = await auth();
+  const { userId, has } = await auth();
 
   if (!userId) {
     redirect("/sign-in");
+  }
+
+  // Check if user has agent plan
+  const hasAgentPlan = has({ plan: "agent" });
+  if (!hasAgentPlan) {
+    redirect("/pricing");
   }
 
   const { data: agent } = await sanityFetch({
@@ -31,7 +38,13 @@ export default async function LeadsPage() {
     params: { userId },
   });
 
-  if (!agent?.onboardingComplete) {
+  // Lazy creation or redirect to onboarding
+  if (!agent) {
+    await createAgentDocument();
+    redirect("/dashboard/onboarding");
+  }
+
+  if (!agent.onboardingComplete) {
     redirect("/dashboard/onboarding");
   }
 
