@@ -1,3 +1,5 @@
+"use client";
+
 import dynamic from "next/dynamic";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -15,5 +17,5 @@ export const DynamicMapView = dynamic(
         <Skeleton className="w-full h-full" />
       </div>
     ),
-  }
+  },
 );

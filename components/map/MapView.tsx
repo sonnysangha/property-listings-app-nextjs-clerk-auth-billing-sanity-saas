@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import Map, { Marker, NavigationControl, Popup } from "react-map-gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
 import type { Property } from "@/types";
@@ -67,7 +68,7 @@ export function MapView({
   };
 
   return (
-    <div className={className}>
+    <div className={className ?? "w-full h-full"}>
       <Map
         {...viewState}
         onMove={(evt) => setViewState(evt.viewState)}
@@ -106,7 +107,10 @@ export function MapView({
             closeOnClick={false}
             className="property-popup"
           >
-            <div className="p-2 min-w-[200px]">
+            <Link
+              href={`/properties/${selectedProperty.slug}`}
+              className="block p-2 min-w-[200px] hover:bg-muted/50 transition-colors rounded-md cursor-pointer"
+            >
               <h3 className="font-semibold text-sm">
                 {selectedProperty.title}
               </h3>
@@ -132,7 +136,7 @@ export function MapView({
                   {selectedProperty.address.state}
                 </p>
               )}
-            </div>
+            </Link>
           </Popup>
         )}
       </Map>
