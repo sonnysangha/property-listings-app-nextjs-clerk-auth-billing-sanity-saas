@@ -24,7 +24,7 @@ todos:
     content: "Phase 7: Build agent dashboard (agent onboarding, full listings CRUD with status updates, leads inbox, agent profile)"
     status: completed
   - id: phase-8-billing
-    content: "Phase 8: Implement agent subscription flow with Clerk billing and webhooks"
+    content: "Phase 8: Implement agent subscription flow with Clerk Billing (native, no webhooks)"
     status: completed
 isProject: false
 ---
@@ -53,8 +53,7 @@ pnpm add sanity @sanity/client @sanity/image-url next-sanity
 pnpm add react-map-gl mapbox-gl
 pnpm add -D @types/mapbox-gl
 
-# Clerk webhook verification
-pnpm add svix
+# Note: No svix/webhooks needed - Clerk Billing manages subscription state natively
 
 # UI utilities (for Shadcn)
 pnpm add lucide-react class-variance-authority clsx tailwind-merge
@@ -97,8 +96,7 @@ Install required components: Button, Card, Input, Select, Dialog, Sheet, Tabs, T
 │   │       ├── leads/page.tsx     # Leads inbox
 │   │       └── profile/page.tsx   # Agent-specific profile (bio, license, agency)
 │   ├── studio/[[...tool]]/page.tsx # Sanity Studio
-│   ├── api/
-│   │   └── webhooks/clerk/route.ts # Clerk webhooks
+│   ├── api/                         # API routes (if needed)
 │   └── layout.tsx                  # Root layout with ClerkProvider
 ├── components/
 │   ├── ui/                         # Shadcn components
@@ -1290,11 +1288,14 @@ export default function PricingPage() {
 
 1. User visits `/pricing` and sees `<PricingTable>`
 2. User clicks "Subscribe" on Agent plan
-3. Clerk handles checkout (Stripe integration)
-4. On success, webhook fires `user.subscription.created`
-5. Webhook handler creates agent doc in Sanity
-6. User redirected to `/dashboard/profile` to complete agent onboarding
-7. Agent fills in: bio, photo, license number, contact details
+3. Clerk handles checkout (Stripe for payment processing only)
+4. On success, Clerk updates user's subscription status internally
+5. User accesses `/dashboard` → layout checks plan via `has({ plan: 'agent' })`
+6. If first access, `getOrCreateAgent()` creates agent doc in Sanity (lazy creation)
+7. User redirected to `/dashboard/onboarding` to complete agent profile
+8. Agent fills in: bio, photo, license number, contact details
+
+**No webhooks needed** - Clerk Billing is the source of truth for subscription status. Agent doc is created lazily on first dashboard access.
 
 ### 8.3 Plan-Based Access Control
 
@@ -1320,10 +1321,9 @@ const isAgent = has({ plan: 'agent' })
 ## Phase 9: Environment Variables
 
 ```env
-# Clerk
+# Clerk (no webhook secret needed - Clerk Billing manages subscriptions natively)
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_xxx
 CLERK_SECRET_KEY=sk_xxx
-CLERK_WEBHOOK_SECRET=whsec_xxx
 
 # Sanity
 NEXT_PUBLIC_SANITY_PROJECT_ID=xxx
@@ -1377,7 +1377,7 @@ flowchart TB
     Actions --> Sanity
     Actions --> Clerk
     Studio --> Sanity
-    Clerk -->|Webhooks| Actions
+    Clerk -->|Plan checks via has()| Pages
 ```
 
 

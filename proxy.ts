@@ -35,7 +35,7 @@ export default clerkMiddleware(async (auth, req) => {
     return NextResponse.redirect(signInUrl);
   }
 
-  // Agent routes require active subscription
+  // Agent routes require active subscription (Clerk Billing)
   if (isAgentRoute(req) && userId) {
     const hasAgentPlan = has({ plan: "agent" });
     if (!hasAgentPlan) {
@@ -43,7 +43,10 @@ export default clerkMiddleware(async (auth, req) => {
     }
   }
 
-  return NextResponse.next();
+  // Inject pathname header for use in layouts
+  const response = NextResponse.next();
+  response.headers.set("x-pathname", req.nextUrl.pathname);
+  return response;
 });
 
 export const config = {
