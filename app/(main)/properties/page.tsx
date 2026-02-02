@@ -56,13 +56,23 @@ export default async function PropertiesPage({
   // Parse amenities from comma-separated string
   const amenitiesList = params.amenities?.split(",").filter(Boolean) || [];
 
+  // Handle "5+" values for beds/baths - extract number and track if it's a "plus" value
+  const bedsValue = params.beds || "0";
+  const bathsValue = params.baths || "0";
+  const bedsIsPlus = bedsValue.includes("+");
+  const bathsIsPlus = bathsValue.includes("+");
+  const bedsNum = Number.parseInt(bedsValue.replace("+", ""), 10) || 0;
+  const bathsNum = Number.parseInt(bathsValue.replace("+", ""), 10) || 0;
+
   const queryParams = {
     minPrice: Number(params.minPrice) || 0,
     maxPrice: Number(params.maxPrice) || 100000000,
-    beds: Number(params.beds) || 0,
-    baths: Number(params.baths) || 0,
+    beds: bedsNum,
+    bedsIsPlus,
+    baths: bathsNum,
+    bathsIsPlus,
     type: params.type === "all" ? "" : params.type || "",
-    city: params.city || "",
+    city: params.city?.toLowerCase() || "",
     // Advanced filters
     minSqft: Number(params.minSqft) || 0,
     maxSqft: Number(params.maxSqft) || 0,

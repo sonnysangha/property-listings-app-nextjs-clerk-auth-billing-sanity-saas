@@ -30,9 +30,10 @@ export const FEATURED_PROPERTIES_QUERY = defineQuery(/* groq */ `
 export const PROPERTIES_SEARCH_QUERY = defineQuery(/* groq */ `
   *[_type == "property" && status == "active"
     && price >= $minPrice && price <= $maxPrice
-    && bedrooms >= $beds && bathrooms >= $baths
+    && ($beds == 0 || ($bedsIsPlus == true && bedrooms >= $beds) || ($bedsIsPlus == false && bedrooms == $beds))
+    && ($baths == 0 || ($bathsIsPlus == true && bathrooms >= $baths) || ($bathsIsPlus == false && bathrooms == $baths))
     && ($type == "" || propertyType == $type)
-    && ($city == "" || address.city == $city)
+    && ($city == "" || lower(address.city) match $city + "*" || lower(address.state) match $city + "*" || lower(address.zipCode) match $city + "*")
     && ($minSqft == 0 || squareFeet >= $minSqft)
     && ($maxSqft == 0 || squareFeet <= $maxSqft)
     && ($minYear == 0 || yearBuilt >= $minYear)
@@ -67,9 +68,10 @@ export const PROPERTIES_SEARCH_QUERY = defineQuery(/* groq */ `
 export const PROPERTIES_COUNT_QUERY = defineQuery(/* groq */ `
   count(*[_type == "property" && status == "active"
     && price >= $minPrice && price <= $maxPrice
-    && bedrooms >= $beds && bathrooms >= $baths
+    && ($beds == 0 || ($bedsIsPlus == true && bedrooms >= $beds) || ($bedsIsPlus == false && bedrooms == $beds))
+    && ($baths == 0 || ($bathsIsPlus == true && bathrooms >= $baths) || ($bathsIsPlus == false && bathrooms == $baths))
     && ($type == "" || propertyType == $type)
-    && ($city == "" || address.city == $city)
+    && ($city == "" || lower(address.city) match $city + "*" || lower(address.state) match $city + "*" || lower(address.zipCode) match $city + "*")
     && ($minSqft == 0 || squareFeet >= $minSqft)
     && ($maxSqft == 0 || squareFeet <= $maxSqft)
     && ($minYear == 0 || yearBuilt >= $minYear)
