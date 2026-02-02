@@ -354,8 +354,3 @@ export const DASHBOARD_LEADS_COUNT_QUERY = defineQuery(/* groq */ `
 export const DASHBOARD_NEW_LEADS_COUNT_QUERY = defineQuery(/* groq */ `
   count(*[_type == "lead" && agent._ref == $agentId && status == "new"])
 `);
-
-// Check if agent exists by user ID (for webhooks)
-export const AGENT_EXISTS_BY_USER_QUERY = defineQuery(/* groq */ `
-  *[_type == "agent" && userId == $userId][0]
-`);
