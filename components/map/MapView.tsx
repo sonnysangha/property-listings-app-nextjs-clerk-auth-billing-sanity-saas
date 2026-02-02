@@ -108,7 +108,7 @@ export function MapView({
             className="property-popup"
           >
             <Link
-              href={`/properties/${selectedProperty.slug}`}
+              href={`/properties/${selectedProperty._id}`}
               className="block p-2 min-w-[200px] hover:bg-muted/50 transition-colors rounded-md cursor-pointer"
             >
               <h3 className="font-semibold text-sm">

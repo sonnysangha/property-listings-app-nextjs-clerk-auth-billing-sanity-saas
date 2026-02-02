@@ -43,7 +43,7 @@ export function PropertyCard({
       : null;
 
   return (
-    <Link href={`/properties/${property.slug}`} className="group block">
+    <Link href={`/properties/${property._id}`} className="group block">
       <article className="bg-card text-card-foreground overflow-hidden rounded-2xl border border-border/50 shadow-warm transition-[transform,box-shadow] duration-300 hover:shadow-warm-lg hover:-translate-y-1">
         {/* Image Container */}
         <div className="relative aspect-[4/3] overflow-hidden">

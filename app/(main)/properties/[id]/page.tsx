@@ -26,12 +26,12 @@ import { PROPERTY_DETAIL_QUERY } from "@/lib/sanity/queries";
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ id: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
+  const { id } = await params;
   const { data: property } = await sanityFetch({
     query: PROPERTY_DETAIL_QUERY,
-    params: { slug },
+    params: { id },
   });
 
   if (!property) {
@@ -55,14 +55,14 @@ export async function generateMetadata({
 export default async function PropertyPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ id: string }>;
 }) {
-  const { slug } = await params;
+  const { id } = await params;
   const { userId } = await auth();
 
   const { data: property } = await sanityFetch({
     query: PROPERTY_DETAIL_QUERY,
-    params: { slug },
+    params: { id },
   });
 
   if (!property) {
@@ -262,7 +262,7 @@ export default async function PropertyPage({
                       properties={[
                         {
                           ...property,
-                          slug: property.slug?.current || slug,
+                          slug: property.slug?.current || id,
                         },
                       ]}
                     />

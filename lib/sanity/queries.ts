@@ -85,7 +85,7 @@ export const PROPERTIES_COUNT_QUERY = defineQuery(/* groq */ `
 
 // Single property with agent details
 export const PROPERTY_DETAIL_QUERY = defineQuery(/* groq */ `
-  *[_type == "property" && slug.current == $slug][0] {
+  *[_type == "property" && _id == $id][0] {
     _id,
     title,
     description,

@@ -107,7 +107,7 @@ export default async function ListingsPage() {
                       )}
                       <div>
                         <Link
-                          href={`/properties/${listing.slug}`}
+                          href={`/properties/${listing._id}`}
                           className="font-medium hover:underline"
                         >
                           {listing.title}
@@ -145,7 +145,7 @@ export default async function ListingsPage() {
                           </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
-                          <Link href={`/properties/${listing.slug}`}>View</Link>
+                          <Link href={`/properties/${listing._id}`}>View</Link>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DeleteListingButton listingId={listing._id} />

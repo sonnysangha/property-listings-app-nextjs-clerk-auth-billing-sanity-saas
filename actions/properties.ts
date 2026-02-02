@@ -84,7 +84,9 @@ export async function createListing(data: ListingFormDataWithImages) {
     squareFeet: data.squareFeet,
     yearBuilt: data.yearBuilt,
     address: data.address,
-    location: data.location,
+    location: data.location
+      ? { _type: "geopoint", lat: data.location.lat, lng: data.location.lng }
+      : undefined,
     amenities: data.amenities || [],
     images: data.images || [],
     agent: { _type: "reference", _ref: agent._id },
@@ -139,7 +141,9 @@ export async function updateListing(
       squareFeet: data.squareFeet,
       yearBuilt: data.yearBuilt,
       address: data.address,
-      location: data.location,
+      location: data.location
+        ? { _type: "geopoint", lat: data.location.lat, lng: data.location.lng }
+        : undefined,
       amenities: data.amenities || [],
       images: data.images || [],
       updatedAt: new Date().toISOString(),

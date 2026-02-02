@@ -87,7 +87,7 @@ export default async function LeadsPage() {
                   </TableCell>
                   <TableCell>
                     <Link
-                      href={`/properties/${lead.property?.slug}`}
+                      href={`/properties/${lead.property?._id}`}
                       className="flex items-center gap-1 text-sm hover:underline"
                     >
                       {lead.property?.title}
