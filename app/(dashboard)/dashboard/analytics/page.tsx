@@ -1,7 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { client } from "@/lib/sanity/client";
+import { sanityFetch } from "@/lib/sanity/live";
 import {
   ANALYTICS_AGENT_QUERY,
   ANALYTICS_LISTINGS_TOTAL_QUERY,
@@ -44,7 +44,10 @@ export default async function AnalyticsPage() {
   // Auth redirect handled by middleware (proxy.ts) and layout
   const { userId } = await auth();
 
-  const agent = await client.fetch(ANALYTICS_AGENT_QUERY, { userId });
+  const { data: agent } = await sanityFetch({
+    query: ANALYTICS_AGENT_QUERY,
+    params: { userId },
+  });
 
   if (!agent) {
     redirect("/pricing");
@@ -54,30 +57,57 @@ export default async function AnalyticsPage() {
     redirect("/dashboard/onboarding");
   }
 
-  // Fetch all analytics data using defineQuery for type safety
+  // Fetch all analytics data using sanityFetch for real-time updates
   const [
-    totalListings,
-    activeListings,
-    pendingListings,
-    soldListings,
-    totalLeads,
-    newLeads,
-    contactedLeads,
-    closedLeads,
-    leadsByProperty,
+    { data: totalListings },
+    { data: activeListings },
+    { data: pendingListings },
+    { data: soldListings },
+    { data: totalLeads },
+    { data: newLeads },
+    { data: contactedLeads },
+    { data: closedLeads },
+    { data: leadsByProperty },
   ] = await Promise.all([
     // Listing counts
-    client.fetch(ANALYTICS_LISTINGS_TOTAL_QUERY, { agentId: agent._id }),
-    client.fetch(ANALYTICS_LISTINGS_ACTIVE_QUERY, { agentId: agent._id }),
-    client.fetch(ANALYTICS_LISTINGS_PENDING_QUERY, { agentId: agent._id }),
-    client.fetch(ANALYTICS_LISTINGS_SOLD_QUERY, { agentId: agent._id }),
+    sanityFetch({
+      query: ANALYTICS_LISTINGS_TOTAL_QUERY,
+      params: { agentId: agent._id },
+    }),
+    sanityFetch({
+      query: ANALYTICS_LISTINGS_ACTIVE_QUERY,
+      params: { agentId: agent._id },
+    }),
+    sanityFetch({
+      query: ANALYTICS_LISTINGS_PENDING_QUERY,
+      params: { agentId: agent._id },
+    }),
+    sanityFetch({
+      query: ANALYTICS_LISTINGS_SOLD_QUERY,
+      params: { agentId: agent._id },
+    }),
     // Lead counts
-    client.fetch(ANALYTICS_LEADS_TOTAL_QUERY, { agentId: agent._id }),
-    client.fetch(ANALYTICS_LEADS_NEW_QUERY, { agentId: agent._id }),
-    client.fetch(ANALYTICS_LEADS_CONTACTED_QUERY, { agentId: agent._id }),
-    client.fetch(ANALYTICS_LEADS_CLOSED_QUERY, { agentId: agent._id }),
+    sanityFetch({
+      query: ANALYTICS_LEADS_TOTAL_QUERY,
+      params: { agentId: agent._id },
+    }),
+    sanityFetch({
+      query: ANALYTICS_LEADS_NEW_QUERY,
+      params: { agentId: agent._id },
+    }),
+    sanityFetch({
+      query: ANALYTICS_LEADS_CONTACTED_QUERY,
+      params: { agentId: agent._id },
+    }),
+    sanityFetch({
+      query: ANALYTICS_LEADS_CLOSED_QUERY,
+      params: { agentId: agent._id },
+    }),
     // Leads grouped by property
-    client.fetch(ANALYTICS_LEADS_BY_PROPERTY_QUERY, { agentId: agent._id }),
+    sanityFetch({
+      query: ANALYTICS_LEADS_BY_PROPERTY_QUERY,
+      params: { agentId: agent._id },
+    }),
   ]);
 
   const analyticsData: AnalyticsData = {

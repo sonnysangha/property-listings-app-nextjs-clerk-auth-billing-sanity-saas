@@ -23,7 +23,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { client } from "@/lib/sanity/client";
 import { urlFor } from "@/lib/sanity/image";
 import { sanityFetch } from "@/lib/sanity/live";
 import {
@@ -38,7 +37,10 @@ export default async function ListingsPage() {
     redirect("/sign-in");
   }
 
-  const agent = await client.fetch(AGENT_ONBOARDING_CHECK_QUERY, { userId });
+  const { data: agent } = await sanityFetch({
+    query: AGENT_ONBOARDING_CHECK_QUERY,
+    params: { userId },
+  });
 
   if (!agent?.onboardingComplete) {
     redirect("/dashboard/onboarding");

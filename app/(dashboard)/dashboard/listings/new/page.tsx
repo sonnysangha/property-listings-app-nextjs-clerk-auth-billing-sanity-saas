@@ -1,7 +1,6 @@
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { ListingForm } from "@/components/forms/ListingForm";
-import { client } from "@/lib/sanity/client";
 import { sanityFetch } from "@/lib/sanity/live";
 import { AGENT_ONBOARDING_CHECK_QUERY, AMENITIES_QUERY } from "@/lib/sanity/queries";
 
@@ -12,7 +11,10 @@ export default async function NewListingPage() {
     redirect("/sign-in");
   }
 
-  const agent = await client.fetch(AGENT_ONBOARDING_CHECK_QUERY, { userId });
+  const { data: agent } = await sanityFetch({
+    query: AGENT_ONBOARDING_CHECK_QUERY,
+    params: { userId },
+  });
 
   if (!agent?.onboardingComplete) {
     redirect("/dashboard/onboarding");

@@ -4,6 +4,7 @@ import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { client } from "@/lib/sanity/client";
+import { sanityFetch } from "@/lib/sanity/live";
 import {
   AGENT_BY_USER_ID_QUERY,
   AGENT_ID_BY_USER_QUERY,
@@ -17,7 +18,10 @@ export async function completeAgentOnboarding(data: AgentOnboardingData) {
     throw new Error("Not authenticated");
   }
 
-  const agent = await client.fetch(AGENT_ID_BY_USER_QUERY, { userId });
+  const { data: agent } = await sanityFetch({
+    query: AGENT_ID_BY_USER_QUERY,
+    params: { userId },
+  });
 
   if (!agent) {
     throw new Error("Agent not found");
@@ -44,7 +48,10 @@ export async function updateAgentProfile(data: AgentProfileData) {
     throw new Error("Not authenticated");
   }
 
-  const agent = await client.fetch(AGENT_ID_BY_USER_QUERY, { userId });
+  const { data: agent } = await sanityFetch({
+    query: AGENT_ID_BY_USER_QUERY,
+    params: { userId },
+  });
 
   if (!agent) {
     throw new Error("Agent not found");
@@ -64,7 +71,10 @@ export async function updateAgentProfile(data: AgentProfileData) {
 }
 
 export async function getAgentByUserId(userId: string) {
-  const agent = await client.fetch(AGENT_BY_USER_ID_QUERY, { userId });
+  const { data: agent } = await sanityFetch({
+    query: AGENT_BY_USER_ID_QUERY,
+    params: { userId },
+  });
 
   return agent;
 }

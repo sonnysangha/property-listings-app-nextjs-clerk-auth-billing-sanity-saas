@@ -1,7 +1,7 @@
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { OnboardingForm } from "@/components/forms/OnboardingForm";
-import { client } from "@/lib/sanity/client";
+import { sanityFetch } from "@/lib/sanity/live";
 import { USER_EXISTS_QUERY } from "@/lib/sanity/queries";
 
 export default async function OnboardingPage() {
@@ -12,8 +12,9 @@ export default async function OnboardingPage() {
   }
 
   // Check if user already completed onboarding
-  const existingUser = await client.fetch(USER_EXISTS_QUERY, {
-    clerkId: userId,
+  const { data: existingUser } = await sanityFetch({
+    query: USER_EXISTS_QUERY,
+    params: { clerkId: userId },
   });
 
   if (existingUser) {

@@ -1,5 +1,5 @@
 import { cache } from "react";
-import { client } from "./client";
+import { sanityFetch } from "./live";
 import {
   AGENT_ONBOARDING_CHECK_QUERY,
   ANALYTICS_AGENT_QUERY,
@@ -14,12 +14,20 @@ import {
  * Cached agent fetch - prevents duplicate requests within the same render pass.
  */
 export const getAgentByUserId = cache(async (userId: string) => {
-  return client.fetch(AGENT_ONBOARDING_CHECK_QUERY, { userId });
+  const { data } = await sanityFetch({
+    query: AGENT_ONBOARDING_CHECK_QUERY,
+    params: { userId },
+  });
+  return data;
 });
 
 /**
  * Cached agent for analytics (includes name)
  */
 export const getAgentForAnalytics = cache(async (userId: string) => {
-  return client.fetch(ANALYTICS_AGENT_QUERY, { userId });
+  const { data } = await sanityFetch({
+    query: ANALYTICS_AGENT_QUERY,
+    params: { userId },
+  });
+  return data;
 });

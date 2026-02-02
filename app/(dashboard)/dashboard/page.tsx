@@ -5,7 +5,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { client } from "@/lib/sanity/client";
+import { sanityFetch } from "@/lib/sanity/live";
 import {
   AGENT_DASHBOARD_QUERY,
   DASHBOARD_LEADS_COUNT_QUERY,
@@ -25,7 +25,10 @@ export default async function DashboardPage() {
     redirect("/sign-in");
   }
 
-  const agent = await client.fetch(AGENT_DASHBOARD_QUERY, { userId });
+  const { data: agent } = await sanityFetch({
+    query: AGENT_DASHBOARD_QUERY,
+    params: { userId },
+  });
 
   if (!agent) {
     redirect("/pricing");
@@ -36,10 +39,23 @@ export default async function DashboardPage() {
   }
 
   // Get stats
-  const [listingsCount, leadsCount, newLeadsCount] = await Promise.all([
-    client.fetch(DASHBOARD_LISTINGS_COUNT_QUERY, { agentId: agent._id }),
-    client.fetch(DASHBOARD_LEADS_COUNT_QUERY, { agentId: agent._id }),
-    client.fetch(DASHBOARD_NEW_LEADS_COUNT_QUERY, { agentId: agent._id }),
+  const [
+    { data: listingsCount },
+    { data: leadsCount },
+    { data: newLeadsCount },
+  ] = await Promise.all([
+    sanityFetch({
+      query: DASHBOARD_LISTINGS_COUNT_QUERY,
+      params: { agentId: agent._id },
+    }),
+    sanityFetch({
+      query: DASHBOARD_LEADS_COUNT_QUERY,
+      params: { agentId: agent._id },
+    }),
+    sanityFetch({
+      query: DASHBOARD_NEW_LEADS_COUNT_QUERY,
+      params: { agentId: agent._id },
+    }),
   ]);
 
   // Get time of day for greeting
