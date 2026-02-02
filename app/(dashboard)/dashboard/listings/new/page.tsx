@@ -1,12 +1,9 @@
-import { requireAgent } from "@/lib/auth/requireAgent";
 import { ListingForm } from "@/components/forms/ListingForm";
 import { sanityFetch } from "@/lib/sanity/live";
-import { AGENT_ONBOARDING_CHECK_QUERY, AMENITIES_QUERY } from "@/lib/sanity/queries";
+import { AMENITIES_QUERY } from "@/lib/sanity/queries";
 
 export default async function NewListingPage() {
-  // Single call handles: auth, plan check, agent fetch/create, onboarding check
-  await requireAgent(AGENT_ONBOARDING_CHECK_QUERY);
-
+  // Middleware guarantees: authenticated + has agent plan + onboarding complete
   const { data: amenities } = await sanityFetch({
     query: AMENITIES_QUERY,
   });

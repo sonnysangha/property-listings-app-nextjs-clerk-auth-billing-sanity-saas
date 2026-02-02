@@ -59,11 +59,24 @@ export default clerkMiddleware(async (auth, req) => {
     }
   }
 
-  // Agent routes require active subscription
+  // Agent routes require active subscription + completed agent onboarding
   if (isAgentRoute(req) && userId) {
     const hasAgentPlan = has({ plan: "agent" });
     if (!hasAgentPlan) {
       return NextResponse.redirect(new URL("/pricing", req.url));
+    }
+
+    // Check agent onboarding status (stored in Clerk metadata)
+    const clerk = await clerkClient();
+    const user = await clerk.users.getUser(userId);
+    const agentOnboardingComplete = user.publicMetadata?.agentOnboardingComplete;
+
+    // If not onboarded, redirect to agent onboarding (unless already there)
+    if (
+      !agentOnboardingComplete &&
+      !req.nextUrl.pathname.startsWith("/dashboard/onboarding")
+    ) {
+      return NextResponse.redirect(new URL("/dashboard/onboarding", req.url));
     }
   }
 

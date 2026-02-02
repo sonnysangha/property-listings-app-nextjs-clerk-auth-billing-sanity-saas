@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
-import { requireAgent } from "@/lib/auth/requireAgent";
+import { auth } from "@clerk/nextjs/server";
 import { ListingForm } from "@/components/forms/ListingForm";
 import { sanityFetch } from "@/lib/sanity/live";
 import {
-  AGENT_ONBOARDING_CHECK_QUERY,
+  AGENT_ID_BY_USER_QUERY,
   AMENITIES_QUERY,
   LISTING_BY_ID_QUERY,
 } from "@/lib/sanity/queries";
@@ -15,18 +15,23 @@ export default async function EditListingPage({
 }) {
   const { id } = await params;
 
-  // Single call handles: auth, plan check, agent fetch/create, onboarding check
-  const agent = await requireAgent<{ _id: string; onboardingComplete: boolean }>(AGENT_ONBOARDING_CHECK_QUERY);
+  // Middleware guarantees: authenticated + has agent plan + onboarding complete
+  const { userId } = await auth();
 
-  const [{ data: listing }, { data: amenities }] = await Promise.all([
-    sanityFetch({
-      query: LISTING_BY_ID_QUERY,
-      params: { id },
-    }),
-    sanityFetch({
-      query: AMENITIES_QUERY,
-    }),
-  ]);
+  const [{ data: agent }, { data: listing }, { data: amenities }] =
+    await Promise.all([
+      sanityFetch({
+        query: AGENT_ID_BY_USER_QUERY,
+        params: { userId },
+      }),
+      sanityFetch({
+        query: LISTING_BY_ID_QUERY,
+        params: { id },
+      }),
+      sanityFetch({
+        query: AMENITIES_QUERY,
+      }),
+    ]);
 
   if (!listing) {
     notFound();

@@ -1,6 +1,6 @@
 import { ExternalLink, MessageSquare } from "lucide-react";
 import Link from "next/link";
-import { requireAgent } from "@/lib/auth/requireAgent";
+import { auth } from "@clerk/nextjs/server";
 import { LeadStatusSelect } from "@/components/dashboard/LeadStatusSelect";
 import { EmptyState } from "@/components/ui/empty-state";
 import { SectionHeader } from "@/components/ui/section-header";
@@ -14,13 +14,18 @@ import {
 } from "@/components/ui/table";
 import { sanityFetch } from "@/lib/sanity/live";
 import {
+  AGENT_ID_BY_USER_QUERY,
   AGENT_LEADS_QUERY,
-  AGENT_ONBOARDING_CHECK_QUERY,
 } from "@/lib/sanity/queries";
 
 export default async function LeadsPage() {
-  // Single call handles: auth, plan check, agent fetch/create, onboarding check
-  const agent = await requireAgent<{ _id: string; onboardingComplete: boolean }>(AGENT_ONBOARDING_CHECK_QUERY);
+  // Middleware guarantees: authenticated + has agent plan + onboarding complete
+  const { userId } = await auth();
+
+  const { data: agent } = await sanityFetch({
+    query: AGENT_ID_BY_USER_QUERY,
+    params: { userId },
+  });
 
   const { data: leads } = await sanityFetch({
     query: AGENT_LEADS_QUERY,

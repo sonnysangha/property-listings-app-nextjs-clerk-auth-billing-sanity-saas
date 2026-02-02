@@ -1,7 +1,7 @@
 import { MoreHorizontal, Pencil, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { requireAgent } from "@/lib/auth/requireAgent";
+import { auth } from "@clerk/nextjs/server";
 import { DeleteListingButton } from "@/components/dashboard/DeleteListingButton";
 import { ListingStatusSelect } from "@/components/dashboard/ListingStatusSelect";
 import { Button } from "@/components/ui/button";
@@ -25,13 +25,18 @@ import {
 import { urlFor } from "@/lib/sanity/image";
 import { sanityFetch } from "@/lib/sanity/live";
 import {
+  AGENT_ID_BY_USER_QUERY,
   AGENT_LISTINGS_QUERY,
-  AGENT_ONBOARDING_CHECK_QUERY,
 } from "@/lib/sanity/queries";
 
 export default async function ListingsPage() {
-  // Single call handles: auth, plan check, agent fetch/create, onboarding check
-  const agent = await requireAgent<{ _id: string; onboardingComplete: boolean }>(AGENT_ONBOARDING_CHECK_QUERY);
+  // Middleware guarantees: authenticated + has agent plan + onboarding complete
+  const { userId } = await auth();
+
+  const { data: agent } = await sanityFetch({
+    query: AGENT_ID_BY_USER_QUERY,
+    params: { userId },
+  });
 
   const { data: listings } = await sanityFetch({
     query: AGENT_LISTINGS_QUERY,

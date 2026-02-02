@@ -1,12 +1,17 @@
-import { requireAgent } from "@/lib/auth/requireAgent";
+import { auth } from "@clerk/nextjs/server";
 import { AgentProfileForm } from "@/components/forms/AgentProfileForm";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { sanityFetch } from "@/lib/sanity/live";
 import { AGENT_PROFILE_QUERY } from "@/lib/sanity/queries";
-import type { AgentProfileData } from "@/types";
 
 export default async function AgentProfilePage() {
-  // Single call handles: auth, plan check, agent fetch/create, onboarding check
-  const agent = await requireAgent<AgentProfileData & { onboardingComplete: boolean }>(AGENT_PROFILE_QUERY);
+  // Middleware guarantees: authenticated + has agent plan + onboarding complete
+  const { userId } = await auth();
+
+  const { data: agent } = await sanityFetch({
+    query: AGENT_PROFILE_QUERY,
+    params: { userId },
+  });
 
   return (
     <div className="max-w-2xl">

@@ -1,7 +1,7 @@
 import { ArrowRight, Home, MessageSquare, Plus, TrendingUp } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { requireAgent } from "@/lib/auth/requireAgent";
+import { auth } from "@clerk/nextjs/server";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { sanityFetch } from "@/lib/sanity/live";
@@ -18,8 +18,13 @@ export const metadata: Metadata = {
 };
 
 export default async function DashboardPage() {
-  // Single call handles: auth, plan check, agent fetch/create, onboarding check
-  const agent = await requireAgent<{ _id: string; name: string; onboardingComplete: boolean }>(AGENT_DASHBOARD_QUERY);
+  // Middleware guarantees: authenticated + has agent plan + onboarding complete
+  const { userId } = await auth();
+
+  const { data: agent } = await sanityFetch({
+    query: AGENT_DASHBOARD_QUERY,
+    params: { userId },
+  });
 
   // Get stats
   const [

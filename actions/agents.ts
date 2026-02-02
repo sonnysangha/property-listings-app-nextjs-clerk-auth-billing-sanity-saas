@@ -1,6 +1,6 @@
 "use server";
 
-import { auth, currentUser } from "@clerk/nextjs/server";
+import { auth, clerkClient, currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { client } from "@/lib/sanity/client";
 import { sanityFetch } from "@/lib/sanity/live";
@@ -72,6 +72,7 @@ export async function completeAgentOnboarding(data: AgentOnboardingData) {
     throw new Error("Agent not found");
   }
 
+  // Update agent in Sanity
   await client
     .patch(agent._id)
     .set({
@@ -82,6 +83,14 @@ export async function completeAgentOnboarding(data: AgentOnboardingData) {
       onboardingComplete: true,
     })
     .commit();
+
+  // Set Clerk metadata so middleware knows onboarding is complete
+  const clerk = await clerkClient();
+  await clerk.users.updateUserMetadata(userId, {
+    publicMetadata: {
+      agentOnboardingComplete: true,
+    },
+  });
 
   redirect("/dashboard");
 }
