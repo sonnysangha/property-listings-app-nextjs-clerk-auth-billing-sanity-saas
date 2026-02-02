@@ -1,8 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CheckCircle2, Loader2, MapPin } from "lucide-react";
-import { useCallback, useEffect, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -19,6 +18,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { LoadingButton } from "@/components/ui/loading-button";
 import {
   Select,
@@ -28,10 +28,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import type { GeocodingResult } from "@/lib/geocoding";
-import { useGeocoding } from "@/lib/hooks";
 import { ImageUpload, type ImageItem } from "./ImageUpload";
 import { LocationPicker } from "./LocationPicker";
+import { AddressAutocomplete, type AddressResult } from "./AddressAutocomplete";
 
 const PROPERTY_TYPES = [
   { value: "house", label: "House" },
@@ -69,7 +68,8 @@ const formSchema = z.object({
     .min(1800)
     .max(new Date().getFullYear())
     .optional(),
-  street: z.string().min(1, "Street is required"),
+  // Address fields are still stored but auto-filled from autocomplete
+  street: z.string().min(1, "Address is required"),
   city: z.string().min(1, "City is required"),
   state: z.string().min(1, "State is required"),
   zipCode: z.string().min(1, "ZIP code is required"),
@@ -139,17 +139,19 @@ export function ListingForm({
     listing?.location,
   );
 
-  // Geocoding hook for auto-filling coordinates from address
-  const {
-    isLoading: isGeocoding,
-    error: geocodeError,
-    geocode,
-  } = useGeocoding({
-    debounceMs: 800,
-    onSuccess: (result: GeocodingResult) => {
-      setLocation({ lat: result.lat, lng: result.lng });
-    },
-  });
+  // Build initial address display value for edit mode
+  const initialAddressValue = listing?.address
+    ? [
+        listing.address.street,
+        listing.address.city,
+        listing.address.state,
+        listing.address.zipCode,
+      ]
+        .filter(Boolean)
+        .join(", ")
+    : "";
+
+  const [addressDisplayValue, setAddressDisplayValue] = useState(initialAddressValue);
 
   const form = useForm<FormDataInput, unknown, FormDataOutput>({
     resolver: zodResolver(formSchema),
@@ -172,22 +174,33 @@ export function ListingForm({
     },
   });
 
-  // Watch address fields and trigger geocoding when they change
-  const street = form.watch("street");
-  const city = form.watch("city");
-  const state = form.watch("state");
-  const zipCode = form.watch("zipCode");
+  // Handle address selection from autocomplete
+  const handleAddressSelect = (address: AddressResult | null) => {
+    if (address) {
+      // Update form fields with parsed address
+      form.setValue("street", address.street, { shouldValidate: true });
+      form.setValue("city", address.city, { shouldValidate: true });
+      form.setValue("state", address.state, { shouldValidate: true });
+      form.setValue("zipCode", address.zipCode, { shouldValidate: true });
 
-  // Trigger geocoding when address fields have enough data
-  const triggerGeocode = useCallback(() => {
-    if (city && state) {
-      geocode({ street, city, state, zipCode });
+      // Update location for map
+      setLocation({ lat: address.lat, lng: address.lng });
+      setAddressDisplayValue(address.formattedAddress);
+    } else {
+      // Clear address fields
+      form.setValue("street", "", { shouldValidate: true });
+      form.setValue("city", "", { shouldValidate: true });
+      form.setValue("state", "", { shouldValidate: true });
+      form.setValue("zipCode", "", { shouldValidate: true });
+      setLocation(undefined);
+      setAddressDisplayValue("");
     }
-  }, [street, city, state, zipCode, geocode]);
+  };
 
-  useEffect(() => {
-    triggerGeocode();
-  }, [triggerGeocode]);
+  // Sync location picker changes back (for manual adjustments)
+  const handleLocationChange = (newLocation: GeoPoint) => {
+    setLocation(newLocation);
+  };
 
   const onSubmit = (data: FormDataOutput) => {
     startTransition(async () => {
@@ -237,6 +250,14 @@ export function ListingForm({
       }
     });
   };
+
+  // Watch for validation errors on address fields to show in autocomplete
+  const addressErrors = [
+    form.formState.errors.street,
+    form.formState.errors.city,
+    form.formState.errors.state,
+    form.formState.errors.zipCode,
+  ].filter(Boolean);
 
   return (
     <Form {...form}>
@@ -537,104 +558,44 @@ export function ListingForm({
 
         <Card>
           <CardHeader>
-            <CardTitle>Address</CardTitle>
+            <CardTitle>Property Address</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <FormField
-              control={form.control}
-              name="street"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Street Address</FormLabel>
-                  <FormControl>
-                    <Input placeholder="123 Main St" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+            {/* Address Autocomplete - single input that replaces separate fields */}
+            <div className="space-y-2">
+              <Label>Search Address</Label>
+              <AddressAutocomplete
+                value={addressDisplayValue}
+                onChange={handleAddressSelect}
+                placeholder="Start typing an address (e.g., 123 Main St, San Francisco)"
+                disabled={isPending}
+              />
+              {addressErrors.length > 0 && !form.getValues("street") && (
+                <p className="text-sm text-destructive">
+                  Please select an address from the suggestions
+                </p>
               )}
-            />
-
-            <div className="grid grid-cols-3 gap-4">
-              <FormField
-                control={form.control}
-                name="city"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>City</FormLabel>
-                    <FormControl>
-                      <Input placeholder="San Francisco" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="state"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>State</FormLabel>
-                    <FormControl>
-                      <Input placeholder="CA" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="zipCode"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>ZIP Code</FormLabel>
-                    <FormControl>
-                      <Input placeholder="94102" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
             </div>
 
-            {/* Geocoding status indicator */}
-            <div className="flex items-center gap-2 text-sm">
-              {isGeocoding && (
-                <>
-                  <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
-                  <span className="text-muted-foreground">
-                    Finding coordinates...
-                  </span>
-                </>
-              )}
-              {!isGeocoding && location && (
-                <>
-                  <CheckCircle2 className="h-4 w-4 text-green-600" />
-                  <span className="text-green-600">
-                    Coordinates: {location.lat.toFixed(4)},{" "}
-                    {location.lng.toFixed(4)}
-                  </span>
-                </>
-              )}
-              {!isGeocoding && geocodeError && !location && (
-                <>
-                  <MapPin className="h-4 w-4 text-amber-500" />
-                  <span className="text-amber-500">{geocodeError}</span>
-                </>
-              )}
-            </div>
+            {/* Hidden form fields - these store the actual values for submission */}
+            <input type="hidden" {...form.register("street")} />
+            <input type="hidden" {...form.register("city")} />
+            <input type="hidden" {...form.register("state")} />
+            <input type="hidden" {...form.register("zipCode")} />
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
             <CardTitle>Location on Map</CardTitle>
+            <p className="text-sm text-muted-foreground">
+              The map updates automatically when you select an address. You can also click to fine-tune the exact location.
+            </p>
           </CardHeader>
           <CardContent>
             <LocationPicker
               value={location}
-              onChange={setLocation}
+              onChange={handleLocationChange}
               disabled={isPending}
             />
           </CardContent>
