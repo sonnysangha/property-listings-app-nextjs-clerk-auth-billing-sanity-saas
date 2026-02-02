@@ -1,4 +1,5 @@
 import type { WebhookEvent } from "@clerk/nextjs/server";
+import { clerkClient } from "@clerk/nextjs/server";
 import { headers } from "next/headers";
 import { Webhook } from "svix";
 import { client } from "@/lib/sanity/client";
@@ -51,13 +52,54 @@ export async function POST(req: Request) {
   }
 
   const eventType = evt.type;
+  console.log(`[Clerk Webhook] Received event: ${eventType}`);
 
-  // Handle subscription created - create agent document
+  // Handle subscription created - create agent document when user subscribes to agent plan
+  if (eventType === "subscription.created") {
+    const subscription = evt.data as unknown as {
+      user_id: string;
+      plan_id: string;
+      status: string;
+    };
+
+    console.log(`[Clerk Webhook] Subscription created:`, subscription);
+
+    // Check if this is the agent plan subscription
+    // The plan_id from Clerk should match your configured plan
+    if (subscription.status === "active") {
+      const clerk = await clerkClient();
+      const user = await clerk.users.getUser(subscription.user_id);
+
+      // Check if agent already exists
+      const { data: existingAgent } = await sanityFetch({
+        query: AGENT_EXISTS_BY_USER_QUERY,
+        params: { userId: subscription.user_id },
+      });
+
+      if (!existingAgent) {
+        // Create agent document
+        await client.create({
+          _type: "agent",
+          userId: subscription.user_id,
+          name:
+            `${user.firstName || ""} ${user.lastName || ""}`.trim() || "Agent",
+          email: user.emailAddresses[0]?.emailAddress || "",
+          onboardingComplete: false,
+          createdAt: new Date().toISOString(),
+        });
+        console.log(
+          `[Clerk Webhook] Created agent document for user ${subscription.user_id}`
+        );
+      }
+    }
+  }
+
+  // Handle legacy user.updated events (fallback)
   if (eventType === "user.updated") {
     const { id, email_addresses, first_name, last_name, public_metadata } =
       evt.data;
 
-    // Check if user has agent plan
+    // Check if user has agent plan in metadata (legacy support)
     const metadata = public_metadata as { plan?: string };
     if (metadata?.plan === "agent") {
       // Check if agent already exists
@@ -76,6 +118,9 @@ export async function POST(req: Request) {
           onboardingComplete: false,
           createdAt: new Date().toISOString(),
         });
+        console.log(
+          `[Clerk Webhook] Created agent document for user ${id} (via user.updated)`
+        );
       }
     }
   }

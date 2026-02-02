@@ -1,13 +1,14 @@
 "use client";
 
 import {
+  Protect,
   SignedIn,
   SignedOut,
   SignInButton,
   SignUpButton,
   UserButton,
 } from "@clerk/nextjs";
-import { Heart, Home, Menu, User, X } from "lucide-react";
+import { Heart, Home, LayoutDashboard, Menu, User, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -63,12 +64,34 @@ export function Navbar() {
             >
               Browse Properties
             </Link>
-            <Link
-              href="/pricing"
-              className="px-4 py-2 text-sm font-medium text-muted-foreground rounded-lg hover:text-foreground hover:bg-accent transition-[color,background-color] duration-200"
-            >
-              Become an Agent
-            </Link>
+            <SignedIn>
+              <Protect
+                plan="agent"
+                fallback={
+                  <Link
+                    href="/pricing"
+                    className="px-4 py-2 text-sm font-medium text-muted-foreground rounded-lg hover:text-foreground hover:bg-accent transition-[color,background-color] duration-200"
+                  >
+                    Become an Agent
+                  </Link>
+                }
+              >
+                <Link
+                  href="/dashboard"
+                  className="px-4 py-2 text-sm font-medium text-muted-foreground rounded-lg hover:text-foreground hover:bg-accent transition-[color,background-color] duration-200"
+                >
+                  Dashboard
+                </Link>
+              </Protect>
+            </SignedIn>
+            <SignedOut>
+              <Link
+                href="/pricing"
+                className="px-4 py-2 text-sm font-medium text-muted-foreground rounded-lg hover:text-foreground hover:bg-accent transition-[color,background-color] duration-200"
+              >
+                Become an Agent
+              </Link>
+            </SignedOut>
           </nav>
         </div>
 
@@ -89,6 +112,15 @@ export function Navbar() {
             >
               <User className="h-5 w-5" aria-hidden="true" />
             </Link>
+            <Protect plan="agent">
+              <Link
+                href="/dashboard"
+                aria-label="Agent dashboard"
+                className="flex h-10 w-10 items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-[color,background-color] duration-200"
+              >
+                <LayoutDashboard className="h-5 w-5" aria-hidden="true" />
+              </Link>
+            </Protect>
             <div className="ml-2">
               <UserButton
                 appearance={{
@@ -163,13 +195,38 @@ export function Navbar() {
                 >
                   Browse Properties
                 </Link>
-                <Link
-                  href="/pricing"
-                  onClick={() => setIsOpen(false)}
-                  className="flex items-center gap-3 px-4 py-3 text-base font-medium rounded-lg hover:bg-accent transition-[background-color] duration-200"
-                >
-                  Become an Agent
-                </Link>
+                <SignedIn>
+                  <Protect
+                    plan="agent"
+                    fallback={
+                      <Link
+                        href="/pricing"
+                        onClick={() => setIsOpen(false)}
+                        className="flex items-center gap-3 px-4 py-3 text-base font-medium rounded-lg hover:bg-accent transition-[background-color] duration-200"
+                      >
+                        Become an Agent
+                      </Link>
+                    }
+                  >
+                    <Link
+                      href="/dashboard"
+                      onClick={() => setIsOpen(false)}
+                      className="flex items-center gap-3 px-4 py-3 text-base font-medium rounded-lg hover:bg-accent transition-[background-color] duration-200"
+                    >
+                      <LayoutDashboard className="h-5 w-5" aria-hidden="true" />
+                      Agent Dashboard
+                    </Link>
+                  </Protect>
+                </SignedIn>
+                <SignedOut>
+                  <Link
+                    href="/pricing"
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center gap-3 px-4 py-3 text-base font-medium rounded-lg hover:bg-accent transition-[background-color] duration-200"
+                  >
+                    Become an Agent
+                  </Link>
+                </SignedOut>
                 <SignedIn>
                   <div className="h-px bg-border my-2" />
                   <Link
