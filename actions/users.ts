@@ -1,7 +1,6 @@
 "use server";
 
-import { auth, currentUser } from "@clerk/nextjs/server";
-import { revalidatePath } from "next/cache";
+import { auth, clerkClient, currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { client } from "@/lib/sanity/client";
 import { sanityFetch } from "@/lib/sanity/live";
@@ -49,6 +48,12 @@ export async function completeUserOnboarding(data: UserOnboardingData) {
     });
   }
 
+  // Mark onboarding complete in Clerk metadata
+  const clerk = await clerkClient();
+  await clerk.users.updateUser(userId, {
+    publicMetadata: { onboardingComplete: true },
+  });
+
   redirect("/");
 }
 
@@ -59,7 +64,7 @@ export async function updateUserProfile(data: UserProfileData) {
     throw new Error("Not authenticated");
   }
 
-  const { data: user } = await sanityFetch({
+const { data: user } = await sanityFetch({
     query: USER_EXISTS_QUERY,
     params: { clerkId: userId },
   });
@@ -75,15 +80,22 @@ export async function updateUserProfile(data: UserProfileData) {
       phone: data.phone,
     })
     .commit();
-
-  revalidatePath("/profile");
 }
 
-export async function toggleSavedListing(propertyId: string) {
+export async function toggleSavedListing(
+  propertyId: string
+): Promise<{ success: boolean; requiresOnboarding?: boolean }> {
   const { userId } = await auth();
 
   if (!userId) {
     throw new Error("Not authenticated");
+  }
+
+// Check if user has completed onboarding
+  const clerk = await clerkClient();
+  const clerkUser = await clerk.users.getUser(userId);
+  if (!clerkUser.publicMetadata?.onboardingComplete) {
+    return { success: false, requiresOnboarding: true };
   }
 
   const { data: user } = await sanityFetch({
@@ -92,7 +104,7 @@ export async function toggleSavedListing(propertyId: string) {
   });
 
   if (!user) {
-    throw new Error("User not found");
+    return { success: false, requiresOnboarding: true };
   }
 
   const isSaved = user.savedIds?.includes(propertyId);
@@ -112,8 +124,7 @@ export async function toggleSavedListing(propertyId: string) {
       .commit();
   }
 
-  revalidatePath("/saved");
-  revalidatePath("/properties");
+  return { success: true };
 }
 
 export async function getUserSavedIds(): Promise<string[]> {
@@ -123,7 +134,7 @@ export async function getUserSavedIds(): Promise<string[]> {
     return [];
   }
 
-  const { data: user } = await sanityFetch({
+const { data: user } = await sanityFetch({
     query: USER_SAVED_IDS_QUERY,
     params: { clerkId: userId },
   });

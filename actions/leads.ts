@@ -1,7 +1,6 @@
 "use server";
 
-import { auth } from "@clerk/nextjs/server";
-import { revalidatePath } from "next/cache";
+import { auth, clerkClient } from "@clerk/nextjs/server";
 import { client } from "@/lib/sanity/client";
 import { sanityFetch } from "@/lib/sanity/live";
 import {
@@ -11,11 +10,25 @@ import {
   USER_CONTACT_QUERY,
 } from "@/lib/sanity/queries";
 
-export async function createLead(propertyId: string, agentId: string) {
+export async function createLead(
+  propertyId: string,
+  agentId: string
+): Promise<{
+  success: boolean;
+  requiresOnboarding?: boolean;
+  message?: string;
+}> {
   const { userId } = await auth();
 
   if (!userId) {
     throw new Error("Not authenticated");
+  }
+
+  // Check if user has completed onboarding
+  const clerk = await clerkClient();
+  const clerkUser = await clerk.users.getUser(userId);
+  if (!clerkUser.publicMetadata?.onboardingComplete) {
+    return { success: false, requiresOnboarding: true };
   }
 
   // Get user info from Sanity
@@ -25,9 +38,7 @@ export async function createLead(propertyId: string, agentId: string) {
   });
 
   if (!user) {
-    throw new Error(
-      "User profile not found. Please complete onboarding first.",
-    );
+    return { success: false, requiresOnboarding: true };
   }
 
   // Check if lead already exists for this user/property combination
@@ -57,7 +68,7 @@ export async function createLead(propertyId: string, agentId: string) {
 
 export async function updateLeadStatus(
   leadId: string,
-  status: "new" | "contacted" | "closed",
+  status: "new" | "contacted" | "closed"
 ) {
   const { userId } = await auth();
 
@@ -86,6 +97,4 @@ export async function updateLeadStatus(
   }
 
   await client.patch(leadId).set({ status }).commit();
-
-  revalidatePath("/dashboard/leads");
 }

@@ -31,6 +31,11 @@ export function ContactAgentButton({
     startTransition(async () => {
       try {
         const result = await createLead(propertyId, agentId);
+        if (result.requiresOnboarding) {
+          toast.info("Please complete your profile first");
+          router.push("/onboarding");
+          return;
+        }
         if (result.success) {
           setIsContacted(true);
           toast.success(

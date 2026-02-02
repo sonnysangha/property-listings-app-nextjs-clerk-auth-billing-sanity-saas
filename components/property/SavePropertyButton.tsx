@@ -1,6 +1,7 @@
 "use client";
 
 import { Heart, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import { toast } from "sonner";
 import { isPropertySaved, toggleSavedListing } from "@/actions/users";
@@ -15,6 +16,7 @@ export function SavePropertyButton({
   propertyId,
   isSaved: initialIsSaved = false,
 }: SavePropertyButtonProps) {
+  const router = useRouter();
   const [isSaved, setIsSaved] = useState(initialIsSaved);
   const [isLoading, setIsLoading] = useState(!initialIsSaved);
   const [isPending, startTransition] = useTransition();
@@ -40,7 +42,12 @@ export function SavePropertyButton({
   const handleClick = () => {
     startTransition(async () => {
       try {
-        await toggleSavedListing(propertyId);
+        const result = await toggleSavedListing(propertyId);
+        if (result.requiresOnboarding) {
+          toast.info("Please complete your profile first");
+          router.push("/onboarding");
+          return;
+        }
         setIsSaved(!isSaved);
         toast.success(isSaved ? "Removed from saved" : "Added to saved");
       } catch (_error) {

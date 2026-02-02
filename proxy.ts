@@ -1,12 +1,17 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import {
+  clerkClient,
+  clerkMiddleware,
+  createRouteMatcher,
+} from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 const isProtectedRoute = createRouteMatcher([
   "/dashboard(.*)",
   "/saved(.*)",
   "/profile(.*)",
-  "/onboarding(.*)",
 ]);
+
+const isOnboardingRoute = createRouteMatcher(["/onboarding(.*)"]);
 
 const isAgentRoute = createRouteMatcher(["/dashboard(.*)"]);
 
@@ -29,10 +34,30 @@ export default clerkMiddleware(async (auth, req) => {
   }
 
   // Protect routes that require authentication
-  if (isProtectedRoute(req) && !userId) {
+  if ((isProtectedRoute(req) || isOnboardingRoute(req)) && !userId) {
     const signInUrl = new URL("/sign-in", req.url);
     signInUrl.searchParams.set("redirect_url", req.url);
     return NextResponse.redirect(signInUrl);
+  }
+
+  // Check onboarding status for authenticated users on protected routes
+  if (userId && isProtectedRoute(req)) {
+    const clerk = await clerkClient();
+    const user = await clerk.users.getUser(userId);
+    const onboardingComplete = user.publicMetadata?.onboardingComplete;
+    if (!onboardingComplete) {
+      return NextResponse.redirect(new URL("/onboarding", req.url));
+    }
+  }
+
+  // If user has completed onboarding but visits /onboarding, redirect to home
+  if (userId && isOnboardingRoute(req)) {
+    const clerk = await clerkClient();
+    const user = await clerk.users.getUser(userId);
+    const onboardingComplete = user.publicMetadata?.onboardingComplete;
+    if (onboardingComplete) {
+      return NextResponse.redirect(new URL("/", req.url));
+    }
   }
 
   // Agent routes require active subscription

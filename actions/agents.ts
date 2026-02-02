@@ -1,7 +1,6 @@
 "use server";
 
 import { auth } from "@clerk/nextjs/server";
-import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { client } from "@/lib/sanity/client";
 import { sanityFetch } from "@/lib/sanity/live";
@@ -18,7 +17,7 @@ export async function completeAgentOnboarding(data: AgentOnboardingData) {
     throw new Error("Not authenticated");
   }
 
-  const { data: agent } = await sanityFetch({
+const { data: agent } = await sanityFetch({
     query: AGENT_ID_BY_USER_QUERY,
     params: { userId },
   });
@@ -66,8 +65,6 @@ export async function updateAgentProfile(data: AgentProfileData) {
       agency: data.agency || "",
     })
     .commit();
-
-  revalidatePath("/dashboard/profile");
 }
 
 export async function getAgentByUserId(userId: string) {

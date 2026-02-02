@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -49,7 +50,11 @@ export function OnboardingForm({ defaultName, email }: OnboardingFormProps) {
           phone: data.phone || "",
           email,
         });
-      } catch (_error) {
+      } catch (error) {
+        // Redirect throws internally - rethrow to let Next.js handle it
+        if (isRedirectError(error)) {
+          throw error;
+        }
         toast.error("Failed to complete onboarding. Please try again.");
       }
     });
@@ -96,7 +101,12 @@ export function OnboardingForm({ defaultName, email }: OnboardingFormProps) {
               )}
             />
 
-            <LoadingButton type="submit" className="w-full" loading={isPending} loadingText="Setting up...">
+            <LoadingButton
+              type="submit"
+              className="w-full"
+              loading={isPending}
+              loadingText="Setting up..."
+            >
               Complete Setup
             </LoadingButton>
           </form>

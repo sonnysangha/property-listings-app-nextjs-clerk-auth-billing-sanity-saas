@@ -9,6 +9,7 @@ import {
 } from "@clerk/nextjs";
 import { Heart, Home, Menu, User, X } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,9 +22,19 @@ import {
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+
+  // Disable sticky header on pricing page to prevent z-index conflicts with Clerk's PricingTable
+  const isPricingPage = pathname === "/pricing";
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+    <header
+      className={
+        isPricingPage
+          ? "w-full border-b border-border/50 bg-background"
+          : "sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80"
+      }
+    >
       <div className="container flex h-16 items-center justify-between">
         {/* Logo and Navigation */}
         <div className="flex items-center gap-8">
@@ -32,14 +43,20 @@ export function Navbar() {
             className="flex items-center gap-2.5 transition-opacity duration-200 hover:opacity-80"
           >
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
-              <Home className="h-5 w-5 text-primary-foreground" aria-hidden="true" />
+              <Home
+                className="h-5 w-5 text-primary-foreground"
+                aria-hidden="true"
+              />
             </div>
             <span className="text-xl font-bold font-heading tracking-tight">
               Nestwell
             </span>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-1" aria-label="Main navigation">
+          <nav
+            className="hidden md:flex items-center gap-1"
+            aria-label="Main navigation"
+          >
             <Link
               href="/properties"
               className="px-4 py-2 text-sm font-medium text-muted-foreground rounded-lg hover:text-foreground hover:bg-accent transition-[color,background-color] duration-200"
@@ -127,12 +144,18 @@ export function Navbar() {
               <SheetHeader>
                 <SheetTitle className="flex items-center gap-2">
                   <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-                    <Home className="h-4 w-4 text-primary-foreground" aria-hidden="true" />
+                    <Home
+                      className="h-4 w-4 text-primary-foreground"
+                      aria-hidden="true"
+                    />
                   </div>
                   <span className="font-heading">Nestwell</span>
                 </SheetTitle>
               </SheetHeader>
-              <nav className="flex flex-col gap-2 mt-8" aria-label="Mobile navigation">
+              <nav
+                className="flex flex-col gap-2 mt-8"
+                aria-label="Mobile navigation"
+              >
                 <Link
                   href="/properties"
                   onClick={() => setIsOpen(false)}
@@ -170,12 +193,19 @@ export function Navbar() {
                   <div className="h-px bg-border my-2" />
                   <div className="flex flex-col gap-2 px-4 mt-2">
                     <SignInButton mode="modal">
-                      <Button variant="outline" className="w-full" onClick={() => setIsOpen(false)}>
+                      <Button
+                        variant="outline"
+                        className="w-full"
+                        onClick={() => setIsOpen(false)}
+                      >
                         Sign In
                       </Button>
                     </SignInButton>
                     <SignUpButton mode="modal">
-                      <Button className="w-full" onClick={() => setIsOpen(false)}>
+                      <Button
+                        className="w-full"
+                        onClick={() => setIsOpen(false)}
+                      >
                         Get Started
                       </Button>
                     </SignUpButton>

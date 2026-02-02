@@ -10,7 +10,7 @@ export async function POST(req: Request) {
 
   if (!WEBHOOK_SECRET) {
     throw new Error(
-      "Please add CLERK_WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local",
+      "Please add CLERK_WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local"
     );
   }
 
@@ -80,10 +80,9 @@ export async function POST(req: Request) {
     }
   }
 
-  // Handle user created - can create user document if needed
+  // Handle user created - user document is created during onboarding
   if (eventType === "user.created") {
-    // User document is created during onboarding flow
-    // This webhook can be used for additional processing if needed
+    // No action needed - onboarding flow handles user creation
   }
 
   return new Response("Webhook received", { status: 200 });

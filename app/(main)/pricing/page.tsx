@@ -1,86 +1,50 @@
 import { PricingTable } from "@clerk/nextjs";
 import { Check } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-const FREE_FEATURES = [
-  "Browse all properties",
-  "Save favorite listings",
-  "Contact agents",
-  "Property search with filters",
-  "Map view",
-];
 
 const AGENT_FEATURES = [
-  "Everything in Free",
-  "Create unlimited listings",
-  "Agent dashboard",
-  "Lead inbox",
-  "Manage property status",
-  "Professional profile",
+  "Unlimited property listings",
+  "Professional agent dashboard",
+  "Lead inbox & management",
+  "Property status tracking",
+  "Public agent profile",
+  "Analytics & insights",
   "Priority support",
+  "Verified agent badge",
 ];
 
 export default function PricingPage() {
   return (
-    <div className="container py-16">
-      <div className="max-w-3xl mx-auto text-center mb-12">
-        <h1 className="text-4xl font-bold mb-4">Become a Real Estate Agent</h1>
-        <p className="text-xl text-muted-foreground">
-          List properties, connect with buyers, and grow your business with our
-          agent subscription.
+    <main className="container py-16">
+      {/* Hero Section */}
+      <header className="max-w-2xl mx-auto text-center mb-8">
+        <h1 className="text-4xl font-bold mb-4 text-balance">
+          Become a Real Estate Agent
+        </h1>
+        <p className="text-lg text-muted-foreground text-pretty">
+          Upgrade to list properties, connect with buyers, and grow your
+          business.
         </p>
-      </div>
+      </header>
 
-      {/* Feature Comparison */}
-      <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-2xl">Free</CardTitle>
-            <p className="text-muted-foreground">For home buyers</p>
-            <p className="text-3xl font-bold mt-4">$0</p>
-          </CardHeader>
-          <CardContent>
-            <ul className="space-y-3">
-              {FREE_FEATURES.map((feature) => (
-                <li key={feature} className="flex items-center gap-2">
-                  <Check className="h-5 w-5 text-primary" />
-                  <span>{feature}</span>
-                </li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
-
-        <Card className="border-primary">
-          <CardHeader>
-            <CardTitle className="text-2xl">Agent</CardTitle>
-            <p className="text-muted-foreground">
-              For real estate professionals
-            </p>
-            <p className="text-3xl font-bold mt-4">
-              $29<span className="text-lg font-normal">/month</span>
-            </p>
-          </CardHeader>
-          <CardContent>
-            <ul className="space-y-3">
-              {AGENT_FEATURES.map((feature) => (
-                <li key={feature} className="flex items-center gap-2">
-                  <Check className="h-5 w-5 text-primary" />
-                  <span>{feature}</span>
-                </li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
+      {/* Features Grid */}
+      <div className="flex justify-center mb-10">
+        <ul className="grid grid-cols-2 gap-x-12 gap-y-3">
+          {AGENT_FEATURES.map((feature) => (
+            <li key={feature} className="flex items-center gap-2">
+              <Check
+                className="h-4 w-4 text-primary shrink-0"
+                aria-hidden="true"
+              />
+              <span className="text-sm">{feature}</span>
+            </li>
+          ))}
+        </ul>
       </div>
 
       {/* Clerk Pricing Table */}
-      <div className="max-w-3xl mx-auto">
-        <h2 className="text-2xl font-bold text-center mb-8">
-          Choose Your Plan
-        </h2>
+      <section className="max-w-md mx-auto" aria-label="Subscribe">
         <PricingTable />
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
