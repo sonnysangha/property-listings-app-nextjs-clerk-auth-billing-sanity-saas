@@ -1,8 +1,6 @@
-import { auth } from "@clerk/nextjs/server";
 import { ExternalLink, MessageSquare } from "lucide-react";
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { createAgentDocument } from "@/actions/agents";
+import { requireAgent } from "@/lib/auth/requireAgent";
 import { LeadStatusSelect } from "@/components/dashboard/LeadStatusSelect";
 import { EmptyState } from "@/components/ui/empty-state";
 import { SectionHeader } from "@/components/ui/section-header";
@@ -21,32 +19,8 @@ import {
 } from "@/lib/sanity/queries";
 
 export default async function LeadsPage() {
-  const { userId, has } = await auth();
-
-  if (!userId) {
-    redirect("/sign-in");
-  }
-
-  // Check if user has agent plan
-  const hasAgentPlan = has({ plan: "agent" });
-  if (!hasAgentPlan) {
-    redirect("/pricing");
-  }
-
-  const { data: agent } = await sanityFetch({
-    query: AGENT_ONBOARDING_CHECK_QUERY,
-    params: { userId },
-  });
-
-  // Lazy creation or redirect to onboarding
-  if (!agent) {
-    await createAgentDocument();
-    redirect("/dashboard/onboarding");
-  }
-
-  if (!agent.onboardingComplete) {
-    redirect("/dashboard/onboarding");
-  }
+  // Single call handles: auth, plan check, agent fetch/create, onboarding check
+  const agent = await requireAgent<{ _id: string; onboardingComplete: boolean }>(AGENT_ONBOARDING_CHECK_QUERY);
 
   const { data: leads } = await sanityFetch({
     query: AGENT_LEADS_QUERY,

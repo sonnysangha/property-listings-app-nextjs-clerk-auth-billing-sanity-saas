@@ -1,9 +1,7 @@
-import { auth } from "@clerk/nextjs/server";
 import { ArrowRight, Home, MessageSquare, Plus, TrendingUp } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { createAgentDocument } from "@/actions/agents";
+import { requireAgent } from "@/lib/auth/requireAgent";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { sanityFetch } from "@/lib/sanity/live";
@@ -20,32 +18,8 @@ export const metadata: Metadata = {
 };
 
 export default async function DashboardPage() {
-  const { userId, has } = await auth();
-
-  if (!userId) {
-    redirect("/sign-in");
-  }
-
-  // Check if user has agent plan
-  const hasAgentPlan = has({ plan: "agent" });
-  if (!hasAgentPlan) {
-    redirect("/pricing");
-  }
-
-  let { data: agent } = await sanityFetch({
-    query: AGENT_DASHBOARD_QUERY,
-    params: { userId },
-  });
-
-  // Lazy creation: if no agent document exists, create one
-  if (!agent) {
-    await createAgentDocument();
-    redirect("/dashboard/onboarding");
-  }
-
-  if (!agent.onboardingComplete) {
-    redirect("/dashboard/onboarding");
-  }
+  // Single call handles: auth, plan check, agent fetch/create, onboarding check
+  const agent = await requireAgent<{ _id: string; name: string; onboardingComplete: boolean }>(AGENT_DASHBOARD_QUERY);
 
   // Get stats
   const [

@@ -1,33 +1,16 @@
-import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { createAgentDocument } from "@/actions/agents";
+import { requireAgent } from "@/lib/auth/requireAgent";
 import { AgentOnboardingForm } from "@/components/forms/AgentOnboardingForm";
-import { sanityFetch } from "@/lib/sanity/live";
 import { AGENT_ONBOARDING_CHECK_QUERY } from "@/lib/sanity/queries";
 
 export default async function AgentOnboardingPage() {
-  const { userId, has } = await auth();
+  // Allow incomplete onboarding (this IS the onboarding page)
+  const agent = await requireAgent<{ _id: string; onboardingComplete: boolean }>(
+    AGENT_ONBOARDING_CHECK_QUERY,
+    { allowIncomplete: true }
+  );
 
-  if (!userId) {
-    redirect("/sign-in");
-  }
-
-  // Check if user has agent plan
-  const hasAgentPlan = has({ plan: "agent" });
-  if (!hasAgentPlan) {
-    redirect("/pricing");
-  }
-
-  let { data: agent } = await sanityFetch({
-    query: AGENT_ONBOARDING_CHECK_QUERY,
-    params: { userId },
-  });
-
-  // Lazy creation: if no agent document exists, create one
-  if (!agent) {
-    agent = await createAgentDocument();
-  }
-
+  // If already onboarded, redirect to dashboard
   if (agent.onboardingComplete) {
     redirect("/dashboard");
   }

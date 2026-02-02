@@ -1,38 +1,12 @@
-import { auth } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
-import { createAgentDocument } from "@/actions/agents";
+import { requireAgent } from "@/lib/auth/requireAgent";
 import { AgentProfileForm } from "@/components/forms/AgentProfileForm";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { sanityFetch } from "@/lib/sanity/live";
 import { AGENT_PROFILE_QUERY } from "@/lib/sanity/queries";
+import type { AgentProfileData } from "@/types";
 
 export default async function AgentProfilePage() {
-  const { userId, has } = await auth();
-
-  if (!userId) {
-    redirect("/sign-in");
-  }
-
-  // Check if user has agent plan
-  const hasAgentPlan = has({ plan: "agent" });
-  if (!hasAgentPlan) {
-    redirect("/pricing");
-  }
-
-  const { data: agent } = await sanityFetch({
-    query: AGENT_PROFILE_QUERY,
-    params: { userId },
-  });
-
-  // Lazy creation: if no agent document exists, create one and redirect to onboarding
-  if (!agent) {
-    await createAgentDocument();
-    redirect("/dashboard/onboarding");
-  }
-
-  if (!agent.onboardingComplete) {
-    redirect("/dashboard/onboarding");
-  }
+  // Single call handles: auth, plan check, agent fetch/create, onboarding check
+  const agent = await requireAgent<AgentProfileData & { onboardingComplete: boolean }>(AGENT_PROFILE_QUERY);
 
   return (
     <div className="max-w-2xl">

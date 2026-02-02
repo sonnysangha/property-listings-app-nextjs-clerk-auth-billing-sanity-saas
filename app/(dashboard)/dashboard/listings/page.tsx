@@ -1,9 +1,7 @@
-import { auth } from "@clerk/nextjs/server";
 import { MoreHorizontal, Pencil, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { createAgentDocument } from "@/actions/agents";
+import { requireAgent } from "@/lib/auth/requireAgent";
 import { DeleteListingButton } from "@/components/dashboard/DeleteListingButton";
 import { ListingStatusSelect } from "@/components/dashboard/ListingStatusSelect";
 import { Button } from "@/components/ui/button";
@@ -32,32 +30,8 @@ import {
 } from "@/lib/sanity/queries";
 
 export default async function ListingsPage() {
-  const { userId, has } = await auth();
-
-  if (!userId) {
-    redirect("/sign-in");
-  }
-
-  // Check if user has agent plan
-  const hasAgentPlan = has({ plan: "agent" });
-  if (!hasAgentPlan) {
-    redirect("/pricing");
-  }
-
-  const { data: agent } = await sanityFetch({
-    query: AGENT_ONBOARDING_CHECK_QUERY,
-    params: { userId },
-  });
-
-  // Lazy creation or redirect to onboarding
-  if (!agent) {
-    await createAgentDocument();
-    redirect("/dashboard/onboarding");
-  }
-
-  if (!agent.onboardingComplete) {
-    redirect("/dashboard/onboarding");
-  }
+  // Single call handles: auth, plan check, agent fetch/create, onboarding check
+  const agent = await requireAgent<{ _id: string; onboardingComplete: boolean }>(AGENT_ONBOARDING_CHECK_QUERY);
 
   const { data: listings } = await sanityFetch({
     query: AGENT_LISTINGS_QUERY,

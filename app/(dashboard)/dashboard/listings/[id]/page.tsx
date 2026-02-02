@@ -1,6 +1,5 @@
-import { auth } from "@clerk/nextjs/server";
-import { notFound, redirect } from "next/navigation";
-import { createAgentDocument } from "@/actions/agents";
+import { notFound } from "next/navigation";
+import { requireAgent } from "@/lib/auth/requireAgent";
 import { ListingForm } from "@/components/forms/ListingForm";
 import { sanityFetch } from "@/lib/sanity/live";
 import {
@@ -15,32 +14,9 @@ export default async function EditListingPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const { userId, has } = await auth();
 
-  if (!userId) {
-    redirect("/sign-in");
-  }
-
-  // Check if user has agent plan
-  const hasAgentPlan = has({ plan: "agent" });
-  if (!hasAgentPlan) {
-    redirect("/pricing");
-  }
-
-  const { data: agent } = await sanityFetch({
-    query: AGENT_ONBOARDING_CHECK_QUERY,
-    params: { userId },
-  });
-
-  // Lazy creation or redirect to onboarding
-  if (!agent) {
-    await createAgentDocument();
-    redirect("/dashboard/onboarding");
-  }
-
-  if (!agent.onboardingComplete) {
-    redirect("/dashboard/onboarding");
-  }
+  // Single call handles: auth, plan check, agent fetch/create, onboarding check
+  const agent = await requireAgent<{ _id: string; onboardingComplete: boolean }>(AGENT_ONBOARDING_CHECK_QUERY);
 
   const [{ data: listing }, { data: amenities }] = await Promise.all([
     sanityFetch({

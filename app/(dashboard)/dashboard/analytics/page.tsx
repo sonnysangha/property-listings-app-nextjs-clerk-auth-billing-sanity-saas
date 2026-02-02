@@ -1,7 +1,5 @@
-import { auth } from "@clerk/nextjs/server";
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
-import { createAgentDocument } from "@/actions/agents";
+import { requireAgent } from "@/lib/auth/requireAgent";
 import { sanityFetch } from "@/lib/sanity/live";
 import {
   ANALYTICS_AGENT_QUERY,
@@ -42,29 +40,8 @@ export type AnalyticsData = {
 };
 
 export default async function AnalyticsPage() {
-  // Auth redirect handled by middleware (proxy.ts) and layout
-  const { userId, has } = await auth();
-
-  // Check if user has agent plan
-  const hasAgentPlan = has({ plan: "agent" });
-  if (!hasAgentPlan) {
-    redirect("/pricing");
-  }
-
-  const { data: agent } = await sanityFetch({
-    query: ANALYTICS_AGENT_QUERY,
-    params: { userId },
-  });
-
-  // Lazy creation: if no agent document exists, create one and redirect to onboarding
-  if (!agent) {
-    await createAgentDocument();
-    redirect("/dashboard/onboarding");
-  }
-
-  if (!agent.onboardingComplete) {
-    redirect("/dashboard/onboarding");
-  }
+  // Single call handles: auth, plan check, agent fetch/create, onboarding check
+  const agent = await requireAgent<{ _id: string; onboardingComplete: boolean }>(ANALYTICS_AGENT_QUERY);
 
   // Fetch all analytics data using sanityFetch for real-time updates
   const [
