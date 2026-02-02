@@ -11,7 +11,7 @@ import {
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { MapView } from "@/components/map/MapView";
+import { DynamicMapView } from "@/components/map/DynamicMapView";
 import { AgentCard } from "@/components/property/AgentCard";
 import { ContactAgentButton } from "@/components/property/ContactAgentButton";
 import { ImageGallery } from "@/components/property/ImageGallery";
@@ -258,7 +258,7 @@ export default async function PropertyPage({
                 </CardHeader>
                 <CardContent className="p-0">
                   <div className="h-[400px]">
-                    <MapView
+                    <DynamicMapView
                       properties={[
                         {
                           ...property,
