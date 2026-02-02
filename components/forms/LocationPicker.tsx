@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Map, { Marker, NavigationControl } from "react-map-gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { MapPin } from "lucide-react";
@@ -22,6 +22,18 @@ export function LocationPicker({
     latitude: value?.lat ?? 39.8283,
     zoom: value ? 14 : 4,
   });
+
+  // Sync viewState when value prop changes (e.g., from address autocomplete)
+  useEffect(() => {
+    if (value) {
+      setViewState((prev) => ({
+        ...prev,
+        longitude: value.lng,
+        latitude: value.lat,
+        zoom: 15, // Zoom in when address is selected
+      }));
+    }
+  }, [value?.lat, value?.lng]);
 
   const handleMapClick = useCallback(
     (event: { lngLat: { lng: number; lat: number } }) => {
@@ -73,7 +85,7 @@ export function LocationPicker({
         </p>
       ) : (
         <p className="text-sm text-muted-foreground">
-          Click on the map to set the property location
+          Select an address above or click on the map to set the property location
         </p>
       )}
     </div>
