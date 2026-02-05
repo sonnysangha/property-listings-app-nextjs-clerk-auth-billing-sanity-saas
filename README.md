@@ -1,5 +1,7 @@
 # 🏠 Nestwell - Find Your Perfect Home
 
+> ⚠️ **Disclaimer:** This project is for **educational purposes only**. We are not affiliated with, associated with, or endorsed by Zillow Group, Inc. in any way. "Zillow" is a registered trademark of Zillow Group, Inc. This project does not intend to infringe on any copyrights or trademarks. It is a learning exercise to demonstrate modern web development techniques.
+
 [![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
 ![Next.js 16](https://img.shields.io/badge/Next.js-16-black?logo=next.js)
 ![React 19](https://img.shields.io/badge/React-19-61DAFB?logo=react)
