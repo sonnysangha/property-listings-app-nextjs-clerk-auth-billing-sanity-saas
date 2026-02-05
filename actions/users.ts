@@ -141,7 +141,7 @@ async function ensureOnboardingCompleteForSave(userId: string) {
 }
 
 export async function toggleSavedListing(
-  propertyId: string
+  propertyId: string,
 ): Promise<{ success: boolean; requiresOnboarding?: boolean }> {
   const { userId } = await auth();
 

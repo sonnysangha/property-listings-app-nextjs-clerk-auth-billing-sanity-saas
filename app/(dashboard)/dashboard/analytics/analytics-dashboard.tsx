@@ -55,7 +55,10 @@ export function AnalyticsDashboard({ data }: Props) {
       : "0";
   const contactRate =
     data.leads.total > 0
-      ? (((data.leads.contacted + data.leads.closed) / data.leads.total) * 100).toFixed(1)
+      ? (
+          ((data.leads.contacted + data.leads.closed) / data.leads.total) *
+          100
+        ).toFixed(1)
       : "0";
 
   // Prepare pie chart data for listing status
@@ -76,7 +79,10 @@ export function AnalyticsDashboard({ data }: Props) {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Calendar className="h-5 w-5 text-muted-foreground" aria-hidden="true" />
+          <Calendar
+            className="h-5 w-5 text-muted-foreground"
+            aria-hidden="true"
+          />
           <Select value={dateRange} onValueChange={setDateRange}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Select range" />
@@ -129,7 +135,10 @@ export function AnalyticsDashboard({ data }: Props) {
       {/* Lead KPIs */}
       <div>
         <h2 className="text-lg font-semibold font-heading mb-4 flex items-center gap-2">
-          <MessageSquare className="h-5 w-5 text-secondary" aria-hidden="true" />
+          <MessageSquare
+            className="h-5 w-5 text-secondary"
+            aria-hidden="true"
+          />
           Leads Performance
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -207,7 +216,9 @@ export function AnalyticsDashboard({ data }: Props) {
         {/* Listing Status Pie Chart */}
         <Card className="shadow-warm">
           <CardHeader>
-            <CardTitle className="font-heading">Listing Status Breakdown</CardTitle>
+            <CardTitle className="font-heading">
+              Listing Status Breakdown
+            </CardTitle>
           </CardHeader>
           <CardContent>
             {listingStatusData.length > 0 ? (
@@ -223,8 +234,8 @@ export function AnalyticsDashboard({ data }: Props) {
                       paddingAngle={3}
                       dataKey="value"
                     >
-                      {listingStatusData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      {listingStatusData.map((entry) => (
+                        <Cell key={entry.name} fill={entry.color} />
                       ))}
                     </Pie>
                     <Tooltip
@@ -287,7 +298,9 @@ function KPICard({ title, value, icon: Icon, color }: KPICardProps) {
           <Icon className="h-6 w-6" aria-hidden="true" />
         </div>
       </div>
-      <div className="text-3xl font-bold font-heading tabular-nums">{value}</div>
+      <div className="text-3xl font-bold font-heading tabular-nums">
+        {value}
+      </div>
       <p className="text-sm text-muted-foreground mt-1">{title}</p>
     </div>
   );

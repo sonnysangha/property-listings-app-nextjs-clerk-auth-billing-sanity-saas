@@ -21,7 +21,7 @@ function EmptyState({
     <div
       className={cn(
         "text-center py-16 border rounded-lg bg-muted/50",
-        className
+        className,
       )}
     >
       {Icon && (

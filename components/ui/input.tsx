@@ -28,7 +28,7 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
         "transition-[border-color,box-shadow] duration-200",
         // Responsive text size
         "md:text-sm",
-        className
+        className,
       )}
       {...props}
     />

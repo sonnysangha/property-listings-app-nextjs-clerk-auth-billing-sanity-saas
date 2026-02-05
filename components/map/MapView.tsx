@@ -1,8 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import Map, { Marker, NavigationControl, Popup } from "react-map-gl/mapbox";
+import { useCallback, useEffect, useRef, useState } from "react";
+import MapGL, { Marker, NavigationControl, Popup } from "react-map-gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
 import type { Property } from "@/types";
 
@@ -69,7 +69,7 @@ export function MapView({
 
   return (
     <div className={className ?? "w-full h-full"}>
-      <Map
+      <MapGL
         {...viewState}
         onMove={(evt) => setViewState(evt.viewState)}
         style={{ width: "100%", height: "100%" }}
@@ -139,7 +139,7 @@ export function MapView({
             </Link>
           </Popup>
         )}
-      </Map>
+      </MapGL>
     </div>
   );
 }

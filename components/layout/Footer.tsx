@@ -3,9 +3,9 @@
 import { Home, Mail } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
 
 export function Footer() {
   const [email, setEmail] = useState("");
@@ -24,7 +24,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="border-t border-border/50 bg-accent/30" role="contentinfo">
+    <footer className="border-t border-border/50 bg-accent/30">
       <div className="container py-16">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-5 lg:gap-8">
           {/* Brand Column */}
@@ -34,7 +34,10 @@ export function Footer() {
               className="flex items-center gap-2.5 mb-4 w-fit transition-opacity duration-200 hover:opacity-80"
             >
               <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
-                <Home className="h-5 w-5 text-primary-foreground" aria-hidden="true" />
+                <Home
+                  className="h-5 w-5 text-primary-foreground"
+                  aria-hidden="true"
+                />
               </div>
               <span className="text-xl font-bold font-heading tracking-tight">
                 Nestwell
@@ -65,7 +68,11 @@ export function Footer() {
                     className="h-11"
                   />
                 </div>
-                <Button type="submit" disabled={isSubmitting} className="h-11 px-4">
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="h-11 px-4"
+                >
                   {isSubmitting ? (
                     <span className="flex items-center gap-2">
                       <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
@@ -74,7 +81,9 @@ export function Footer() {
                   ) : (
                     <>
                       <Mail className="h-4 w-4" aria-hidden="true" />
-                      <span className="sr-only sm:not-sr-only sm:ml-2">Subscribe</span>
+                      <span className="sr-only sm:not-sr-only sm:ml-2">
+                        Subscribe
+                      </span>
                     </>
                   )}
                 </Button>

@@ -1,6 +1,6 @@
 "use client";
 
-import { PricingTable, UserProfile } from "@clerk/nextjs";
+import { UserProfile } from "@clerk/nextjs";
 
 export default function BillingPage() {
   return (

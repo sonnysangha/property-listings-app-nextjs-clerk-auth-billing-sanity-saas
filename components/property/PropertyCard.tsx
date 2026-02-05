@@ -19,7 +19,7 @@ export function PropertyCard({
   property,
   onSave,
   isSaved,
-  showRemoveButton,
+  showRemoveButton: _showRemoveButton,
 }: PropertyCardProps) {
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("en-US", {
@@ -91,7 +91,9 @@ export function PropertyCard({
               size="icon"
               className="absolute top-3 right-3 bg-background/90 backdrop-blur-sm hover:bg-background shadow-sm"
               onClick={handleSaveClick}
-              aria-label={isSaved ? "Remove from saved properties" : "Save property"}
+              aria-label={
+                isSaved ? "Remove from saved properties" : "Save property"
+              }
             >
               <Heart
                 className={`h-5 w-5 transition-colors duration-200 ${

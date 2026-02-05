@@ -4,8 +4,8 @@
  */
 
 import type {
-  GeocodeResponse,
   GeocodeFeature,
+  GeocodeResponse,
 } from "@mapbox/mapbox-sdk/services/geocoding";
 
 export interface GeocodingResult {

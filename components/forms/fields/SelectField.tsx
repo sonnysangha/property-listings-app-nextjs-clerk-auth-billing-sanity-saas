@@ -1,6 +1,11 @@
 "use client";
 
-import type { ControllerRenderProps, FieldValues, Path } from "react-hook-form";
+import type {
+  Control,
+  ControllerRenderProps,
+  FieldValues,
+  Path,
+} from "react-hook-form";
 import {
   FormControl,
   FormDescription,
@@ -16,7 +21,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { Control } from "react-hook-form";
 
 interface SelectOption {
   value: string;

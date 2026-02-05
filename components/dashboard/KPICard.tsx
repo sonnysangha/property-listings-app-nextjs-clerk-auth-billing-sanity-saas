@@ -1,4 +1,4 @@
-import { colorVariants, type ColorVariant } from "@/lib/styles";
+import { type ColorVariant, colorVariants } from "@/lib/styles";
 
 type KPICardProps = {
   title: string;
@@ -17,7 +17,9 @@ export function KPICard({ title, value, icon: Icon, color }: KPICardProps) {
           <Icon className="h-6 w-6" aria-hidden="true" />
         </div>
       </div>
-      <div className="text-3xl font-bold font-heading tabular-nums">{value}</div>
+      <div className="text-3xl font-bold font-heading tabular-nums">
+        {value}
+      </div>
       <p className="text-sm text-muted-foreground mt-1">{title}</p>
     </div>
   );

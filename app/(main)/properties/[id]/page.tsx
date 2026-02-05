@@ -229,7 +229,7 @@ export default async function PropertyPage({
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    {property.amenities.map((amenity) => (
+                    {property.amenities.map((amenity: string) => (
                       <div
                         key={amenity}
                         className="flex items-center gap-3 p-3 rounded-lg bg-accent/50"

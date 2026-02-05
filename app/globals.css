@@ -97,7 +97,7 @@
   --destructive: oklch(0.55 0.2 25);
 
   /* Success: Forest green */
-  --success: oklch(0.45 0.10 160);
+  --success: oklch(0.45 0.1 160);
 
   /* Borders: Stone gray */
   --border: oklch(0.88 0.015 80);
@@ -105,11 +105,11 @@
   --ring: oklch(0.55 0.12 35);
 
   /* Chart colors - earth tones */
-  --chart-1: oklch(0.55 0.12 35);  /* Terracotta */
+  --chart-1: oklch(0.55 0.12 35); /* Terracotta */
   --chart-2: oklch(0.65 0.08 145); /* Sage */
-  --chart-3: oklch(0.45 0.10 160); /* Forest */
-  --chart-4: oklch(0.75 0.08 55);  /* Clay */
-  --chart-5: oklch(0.70 0.02 80);  /* Stone */
+  --chart-3: oklch(0.45 0.1 160); /* Forest */
+  --chart-4: oklch(0.75 0.08 55); /* Clay */
+  --chart-5: oklch(0.7 0.02 80); /* Stone */
 
   /* Sidebar - Warm cream */
   --sidebar: oklch(0.96 0.01 85);
@@ -152,14 +152,14 @@
   --muted-foreground: oklch(0.65 0.01 80);
 
   /* Accent */
-  --accent: oklch(0.30 0.02 55);
+  --accent: oklch(0.3 0.02 55);
   --accent-foreground: oklch(0.94 0.01 85);
 
   /* Destructive */
   --destructive: oklch(0.65 0.18 25);
 
   /* Success */
-  --success: oklch(0.55 0.10 160);
+  --success: oklch(0.55 0.1 160);
 
   /* Borders */
   --border: oklch(0.32 0.015 50);
@@ -169,12 +169,12 @@
   /* Chart colors - adjusted for dark */
   --chart-1: oklch(0.65 0.12 35);
   --chart-2: oklch(0.55 0.08 145);
-  --chart-3: oklch(0.55 0.10 160);
+  --chart-3: oklch(0.55 0.1 160);
   --chart-4: oklch(0.65 0.08 55);
-  --chart-5: oklch(0.60 0.02 80);
+  --chart-5: oklch(0.6 0.02 80);
 
   /* Sidebar */
-  --sidebar: oklch(0.20 0.015 50);
+  --sidebar: oklch(0.2 0.015 50);
   --sidebar-foreground: oklch(0.94 0.01 85);
   --sidebar-primary: oklch(0.65 0.12 35);
   --sidebar-primary-foreground: oklch(0.18 0.015 50);
@@ -199,11 +199,18 @@
 
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
   }
 
   /* Balanced headings - prevent widows */
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     text-wrap: balance;
   }
 
@@ -276,10 +283,10 @@
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+    transition-duration: 0.01ms;
+    scroll-behavior: auto;
   }
 }
 
@@ -308,7 +315,8 @@ input[type="button"] {
 
 /* Heading font */
 .font-heading {
-  font-family: var(--font-plus-jakarta), var(--font-inter), system-ui, sans-serif;
+  font-family:
+    var(--font-plus-jakarta), var(--font-inter), system-ui, sans-serif;
 }
 
 /* Body font */
@@ -322,26 +330,28 @@ input[type="button"] {
 
 /* Warm shadow for cards */
 .shadow-warm {
-  box-shadow: 
+  box-shadow:
     0 1px 3px 0 oklch(0.55 0.05 35 / 0.08),
     0 1px 2px -1px oklch(0.55 0.05 35 / 0.08);
 }
 
 .shadow-warm-md {
-  box-shadow: 
+  box-shadow:
     0 4px 6px -1px oklch(0.55 0.05 35 / 0.08),
     0 2px 4px -2px oklch(0.55 0.05 35 / 0.08);
 }
 
 .shadow-warm-lg {
-  box-shadow: 
+  box-shadow:
     0 10px 15px -3px oklch(0.55 0.05 35 / 0.08),
     0 4px 6px -4px oklch(0.55 0.05 35 / 0.08);
 }
 
 /* Hover lift effect */
 .hover-lift {
-  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  transition:
+    transform 0.2s ease-out,
+    box-shadow 0.2s ease-out;
 }
 
 .hover-lift:hover {

@@ -63,7 +63,7 @@ async function ensureOnboardingComplete(userId: string) {
 
 export async function createLead(
   propertyId: string,
-  agentId: string
+  agentId: string,
 ): Promise<{
   success: boolean;
   requiresOnboarding?: boolean;
@@ -109,7 +109,7 @@ export async function createLead(
 
 export async function updateLeadStatus(
   leadId: string,
-  status: "new" | "contacted" | "closed"
+  status: "new" | "contacted" | "closed",
 ) {
   const { userId } = await auth();
 

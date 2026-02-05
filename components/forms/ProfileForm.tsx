@@ -72,8 +72,15 @@ export function ProfileForm({ user }: ProfileFormProps) {
         />
 
         <div className="space-y-2">
-          <label className="text-sm font-medium">Email</label>
-          <Input value={user.email} disabled className="bg-muted" />
+          <label htmlFor="profile-email" className="text-sm font-medium">
+            Email
+          </label>
+          <Input
+            id="profile-email"
+            value={user.email}
+            disabled
+            className="bg-muted"
+          />
           <p className="text-xs text-muted-foreground">
             Email is managed by your account settings
           </p>
@@ -93,7 +100,11 @@ export function ProfileForm({ user }: ProfileFormProps) {
           )}
         />
 
-        <LoadingButton type="submit" loading={isPending} loadingText="Saving...">
+        <LoadingButton
+          type="submit"
+          loading={isPending}
+          loadingText="Saving..."
+        >
           Save Changes
         </LoadingButton>
       </form>

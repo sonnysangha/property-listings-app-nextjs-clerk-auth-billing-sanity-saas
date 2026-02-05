@@ -1,6 +1,6 @@
+import { auth } from "@clerk/nextjs/server";
 import { ExternalLink, MessageSquare } from "lucide-react";
 import Link from "next/link";
-import { auth } from "@clerk/nextjs/server";
 import { LeadStatusSelect } from "@/components/dashboard/LeadStatusSelect";
 import { EmptyState } from "@/components/ui/empty-state";
 import { SectionHeader } from "@/components/ui/section-header";
@@ -17,6 +17,7 @@ import {
   AGENT_ID_BY_USER_QUERY,
   AGENT_LEADS_QUERY,
 } from "@/lib/sanity/queries";
+import type { Lead } from "@/types";
 
 export default async function LeadsPage() {
   // Middleware guarantees: authenticated + has agent plan + onboarding complete
@@ -62,7 +63,7 @@ export default async function LeadsPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {leads.map((lead) => (
+              {leads.map((lead: Lead) => (
                 <TableRow key={lead._id}>
                   <TableCell>
                     <div className="font-medium">{lead.buyerName}</div>

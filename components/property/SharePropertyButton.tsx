@@ -9,7 +9,10 @@ interface SharePropertyButtonProps {
   price: string;
 }
 
-export function SharePropertyButton({ title, price }: SharePropertyButtonProps) {
+export function SharePropertyButton({
+  title,
+  price,
+}: SharePropertyButtonProps) {
   const handleShare = async () => {
     const shareUrl = window.location.href;
     const shareText = `Check out this property: ${title} - ${price}`;

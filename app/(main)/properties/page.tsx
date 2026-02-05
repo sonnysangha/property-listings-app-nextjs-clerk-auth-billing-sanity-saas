@@ -1,4 +1,10 @@
-import { ChevronLeft, ChevronRight, Home, LayoutGrid, Map } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Home,
+  LayoutGrid,
+  Map as MapIcon,
+} from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -191,7 +197,7 @@ export default async function PropertiesPage({
                   value="map"
                   className="flex items-center gap-2 rounded-lg data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
                 >
-                  <Map className="h-4 w-4" aria-hidden="true" />
+                  <MapIcon className="h-4 w-4" aria-hidden="true" />
                   Map View
                 </TabsTrigger>
               </TabsList>

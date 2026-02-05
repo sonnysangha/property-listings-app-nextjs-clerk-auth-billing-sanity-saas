@@ -1,7 +1,7 @@
-import { createClient } from "@sanity/client";
-import * as dotenv from "dotenv";
 import * as fs from "node:fs";
 import * as path from "node:path";
+import { createClient } from "@sanity/client";
+import * as dotenv from "dotenv";
 
 // Load environment variables from .env.local (Next.js convention)
 dotenv.config({ path: path.resolve(process.cwd(), ".env.local") });
@@ -9,7 +9,7 @@ dotenv.config({ path: path.resolve(process.cwd(), ".env.local") });
 dotenv.config({ path: path.resolve(process.cwd(), ".env") });
 
 const client = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? "",
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
   apiVersion: "2025-01-01",
   token: process.env.SANITY_API_TOKEN,
@@ -22,19 +22,19 @@ const shouldClean = process.argv.includes("--clean");
 // Load JSON data
 const dataDir = path.join(__dirname, "data");
 const amenities = JSON.parse(
-  fs.readFileSync(path.join(dataDir, "amenities.json"), "utf-8")
+  fs.readFileSync(path.join(dataDir, "amenities.json"), "utf-8"),
 );
 const agents = JSON.parse(
-  fs.readFileSync(path.join(dataDir, "agents.json"), "utf-8")
+  fs.readFileSync(path.join(dataDir, "agents.json"), "utf-8"),
 );
 const properties = JSON.parse(
-  fs.readFileSync(path.join(dataDir, "properties.json"), "utf-8")
+  fs.readFileSync(path.join(dataDir, "properties.json"), "utf-8"),
 );
 const users = JSON.parse(
-  fs.readFileSync(path.join(dataDir, "users.json"), "utf-8")
+  fs.readFileSync(path.join(dataDir, "users.json"), "utf-8"),
 );
 const leads = JSON.parse(
-  fs.readFileSync(path.join(dataDir, "leads.json"), "utf-8")
+  fs.readFileSync(path.join(dataDir, "leads.json"), "utf-8"),
 );
 
 async function uploadImage(url: string): Promise<string | null> {
@@ -51,7 +51,7 @@ async function uploadImage(url: string): Promise<string | null> {
       Buffer.from(buffer) as unknown as Blob,
       {
         filename: `seed-image-${Date.now()}.jpg`,
-      }
+      },
     );
     return asset._id;
   } catch (error) {
@@ -288,7 +288,7 @@ async function main() {
   console.log("\n🌱 Starting seed process...\n");
   console.log(`Project ID: ${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}`);
   console.log(
-    `Dataset: ${process.env.NEXT_PUBLIC_SANITY_DATASET || "production"}`
+    `Dataset: ${process.env.NEXT_PUBLIC_SANITY_DATASET || "production"}`,
   );
 
   if (!process.env.SANITY_API_TOKEN) {
@@ -300,7 +300,7 @@ async function main() {
   if (!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
     console.error("\n❌ Error: NEXT_PUBLIC_SANITY_PROJECT_ID is required.\n");
     console.error(
-      "Please add NEXT_PUBLIC_SANITY_PROJECT_ID to your .env.local file."
+      "Please add NEXT_PUBLIC_SANITY_PROJECT_ID to your .env.local file.",
     );
     process.exit(1);
   }

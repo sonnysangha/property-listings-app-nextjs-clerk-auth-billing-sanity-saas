@@ -1,7 +1,13 @@
-import { ArrowRight, Home, MessageSquare, Plus, TrendingUp } from "lucide-react";
+import { auth } from "@clerk/nextjs/server";
+import {
+  ArrowRight,
+  Home,
+  MessageSquare,
+  Plus,
+  TrendingUp,
+} from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { auth } from "@clerk/nextjs/server";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { sanityFetch } from "@/lib/sanity/live";
@@ -95,7 +101,10 @@ export default async function DashboardPage() {
         <div className="bg-background rounded-2xl border border-border/50 p-6 shadow-warm">
           <div className="flex items-center justify-between mb-4">
             <div className="w-12 h-12 rounded-xl bg-secondary/20 flex items-center justify-center">
-              <MessageSquare className="h-6 w-6 text-secondary" aria-hidden="true" />
+              <MessageSquare
+                className="h-6 w-6 text-secondary"
+                aria-hidden="true"
+              />
             </div>
             <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
               Leads
@@ -104,9 +113,7 @@ export default async function DashboardPage() {
           <div className="text-4xl font-bold font-heading tabular-nums">
             {leadsCount}
           </div>
-          <p className="text-sm text-muted-foreground mt-1">
-            Total inquiries
-          </p>
+          <p className="text-sm text-muted-foreground mt-1">Total inquiries</p>
         </div>
 
         {/* New Leads */}
@@ -147,13 +154,18 @@ export default async function DashboardPage() {
                     <Plus className="h-5 w-5 text-primary" aria-hidden="true" />
                   </div>
                   <span>
-                    <span className="block font-semibold">Create New Listing</span>
+                    <span className="block font-semibold">
+                      Create New Listing
+                    </span>
                     <span className="block text-xs text-muted-foreground">
                       Add a new property to your portfolio
                     </span>
                   </span>
                 </span>
-                <ArrowRight className="h-5 w-5 text-muted-foreground" aria-hidden="true" />
+                <ArrowRight
+                  className="h-5 w-5 text-muted-foreground"
+                  aria-hidden="true"
+                />
               </Link>
             </Button>
             <Button
@@ -164,16 +176,24 @@ export default async function DashboardPage() {
               <Link href="/dashboard/listings">
                 <span className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-lg bg-secondary/20 flex items-center justify-center">
-                    <Home className="h-5 w-5 text-secondary" aria-hidden="true" />
+                    <Home
+                      className="h-5 w-5 text-secondary"
+                      aria-hidden="true"
+                    />
                   </div>
                   <span>
-                    <span className="block font-semibold">View All Listings</span>
+                    <span className="block font-semibold">
+                      View All Listings
+                    </span>
                     <span className="block text-xs text-muted-foreground">
                       Manage your property listings
                     </span>
                   </span>
                 </span>
-                <ArrowRight className="h-5 w-5 text-muted-foreground" aria-hidden="true" />
+                <ArrowRight
+                  className="h-5 w-5 text-muted-foreground"
+                  aria-hidden="true"
+                />
               </Link>
             </Button>
             <Button
@@ -184,7 +204,10 @@ export default async function DashboardPage() {
               <Link href="/dashboard/leads">
                 <span className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                    <MessageSquare className="h-5 w-5 text-primary" aria-hidden="true" />
+                    <MessageSquare
+                      className="h-5 w-5 text-primary"
+                      aria-hidden="true"
+                    />
                   </div>
                   <span>
                     <span className="block font-semibold">View Lead Inbox</span>
@@ -193,7 +216,10 @@ export default async function DashboardPage() {
                     </span>
                   </span>
                 </span>
-                <ArrowRight className="h-5 w-5 text-muted-foreground" aria-hidden="true" />
+                <ArrowRight
+                  className="h-5 w-5 text-muted-foreground"
+                  aria-hidden="true"
+                />
               </Link>
             </Button>
           </CardContent>

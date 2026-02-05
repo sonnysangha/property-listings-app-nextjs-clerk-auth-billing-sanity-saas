@@ -1,7 +1,7 @@
+import { auth } from "@clerk/nextjs/server";
 import { MoreHorizontal, Pencil, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { auth } from "@clerk/nextjs/server";
 import { DeleteListingButton } from "@/components/dashboard/DeleteListingButton";
 import { ListingStatusSelect } from "@/components/dashboard/ListingStatusSelect";
 import { Button } from "@/components/ui/button";
@@ -28,6 +28,7 @@ import {
   AGENT_ID_BY_USER_QUERY,
   AGENT_LISTINGS_QUERY,
 } from "@/lib/sanity/queries";
+import type { Property } from "@/types";
 
 export default async function ListingsPage() {
   // Middleware guarantees: authenticated + has agent plan + onboarding complete
@@ -88,7 +89,7 @@ export default async function ListingsPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {listings.map((listing) => (
+              {listings.map((listing: Property) => (
                 <TableRow key={listing._id}>
                   <TableCell>
                     <div className="flex items-center gap-3">

@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 import { createAgentDocument } from "@/actions/agents";
 import { AgentOnboardingForm } from "@/components/forms/AgentOnboardingForm";
 import { sanityFetch } from "@/lib/sanity/live";

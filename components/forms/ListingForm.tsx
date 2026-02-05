@@ -28,9 +28,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { ImageUpload, type ImageItem } from "./ImageUpload";
-import { LocationPicker } from "./LocationPicker";
 import { AddressAutocomplete, type AddressResult } from "./AddressAutocomplete";
+import { type ImageItem, ImageUpload } from "./ImageUpload";
+import { LocationPicker } from "./LocationPicker";
 
 const PROPERTY_TYPES = [
   { value: "house", label: "House" },

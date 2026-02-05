@@ -1,13 +1,13 @@
+import * as path from "node:path";
 import { createClient } from "@sanity/client";
 import * as dotenv from "dotenv";
-import * as path from "node:path";
 
 // Load environment variables from .env.local (Next.js convention)
 dotenv.config({ path: path.resolve(process.cwd(), ".env.local") });
 dotenv.config({ path: path.resolve(process.cwd(), ".env") });
 
 const client = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? "",
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
   apiVersion: "2025-01-01",
   token: process.env.SANITY_API_TOKEN,
@@ -390,7 +390,7 @@ async function uploadImage(url: string): Promise<string | null> {
       Buffer.from(buffer) as unknown as Blob,
       {
         filename: `seed-image-${Date.now()}.jpg`,
-      }
+      },
     );
     return asset._id;
   } catch (error) {
@@ -400,11 +400,11 @@ async function uploadImage(url: string): Promise<string | null> {
 }
 
 async function findAgentByEmail(
-  email: string
+  email: string,
 ): Promise<{ _id: string; name: string } | null> {
   const agent = await client.fetch(
     `*[_type == "agent" && email == $email][0]{ _id, name }`,
-    { email }
+    { email },
   );
   return agent;
 }
@@ -484,7 +484,7 @@ async function main() {
   console.log("\n🌱 Starting agent listings seed process...\n");
   console.log(`Project ID: ${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}`);
   console.log(
-    `Dataset: ${process.env.NEXT_PUBLIC_SANITY_DATASET || "production"}`
+    `Dataset: ${process.env.NEXT_PUBLIC_SANITY_DATASET || "production"}`,
   );
   console.log(`Target agent email: ${AGENT_EMAIL}`);
 
@@ -507,7 +507,7 @@ async function main() {
     if (!agent) {
       console.error(`\n❌ Error: No agent found with email: ${AGENT_EMAIL}`);
       console.error(
-        "Make sure the agent has completed onboarding before running this script."
+        "Make sure the agent has completed onboarding before running this script.",
       );
       process.exit(1);
     }

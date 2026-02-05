@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import Map, { Marker, NavigationControl } from "react-map-gl/mapbox";
+import MapGL, { Marker, NavigationControl } from "react-map-gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { MapPin } from "lucide-react";
 import type { GeoPoint } from "@/types";
@@ -33,7 +33,7 @@ export function LocationPicker({
         zoom: 15, // Zoom in when address is selected
       }));
     }
-  }, [value?.lat, value?.lng]);
+  }, [value?.lat, value?.lng, value]);
 
   const handleMapClick = useCallback(
     (event: { lngLat: { lng: number; lat: number } }) => {
@@ -58,7 +58,7 @@ export function LocationPicker({
       <div
         className={`relative h-[300px] w-full rounded-lg overflow-hidden border ${disabled ? "opacity-50 pointer-events-none" : ""}`}
       >
-        <Map
+        <MapGL
           {...viewState}
           onMove={(evt) => setViewState(evt.viewState)}
           onClick={handleMapClick}
@@ -76,7 +76,7 @@ export function LocationPicker({
               </div>
             </Marker>
           )}
-        </Map>
+        </MapGL>
       </div>
 
       {value ? (
@@ -85,7 +85,8 @@ export function LocationPicker({
         </p>
       ) : (
         <p className="text-sm text-muted-foreground">
-          Select an address above or click on the map to set the property location
+          Select an address above or click on the map to set the property
+          location
         </p>
       )}
     </div>

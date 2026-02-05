@@ -34,7 +34,7 @@ export function ImageGallery({ images, title }: ImageGalleryProps) {
         goToNext();
       }
     },
-    [goToPrevious, goToNext]
+    [goToPrevious, goToNext],
   );
 
   if (!images || images.length === 0) {
@@ -47,19 +47,16 @@ export function ImageGallery({ images, title }: ImageGalleryProps) {
 
   return (
     <>
-      <div className="space-y-4" onKeyDown={handleKeyDown}>
+      <section
+        className="space-y-4"
+        aria-label="Image gallery"
+        onKeyDown={handleKeyDown}
+      >
         {/* Main Image */}
-        <div
-          className="relative aspect-[16/9] rounded-2xl overflow-hidden cursor-pointer group shadow-warm"
+        <button
+          type="button"
+          className="relative aspect-[16/9] w-full rounded-2xl overflow-hidden cursor-pointer group shadow-warm"
           onClick={() => setLightboxOpen(true)}
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              setLightboxOpen(true);
-            }
-          }}
           aria-label="Open image gallery"
         >
           <Image
@@ -112,7 +109,7 @@ export function ImageGallery({ images, title }: ImageGalleryProps) {
               </Button>
             </>
           )}
-        </div>
+        </button>
 
         {/* Thumbnails */}
         {images.length > 1 && (
@@ -146,12 +143,16 @@ export function ImageGallery({ images, title }: ImageGalleryProps) {
             ))}
           </div>
         )}
-      </div>
+      </section>
 
       {/* Lightbox */}
       <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
         <DialogContent className="max-w-6xl p-0 bg-black/95 border-none overscroll-contain">
-          <div className="relative aspect-[16/9]" onKeyDown={handleKeyDown}>
+          <section
+            className="relative aspect-[16/9]"
+            aria-label="Lightbox image viewer"
+            onKeyDown={handleKeyDown}
+          >
             <Image
               src={urlFor(images[selectedIndex]).width(1920).height(1080).url()}
               alt={images[selectedIndex].alt || title}
@@ -188,7 +189,7 @@ export function ImageGallery({ images, title }: ImageGalleryProps) {
             <span className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/60 text-white px-4 py-2 rounded-full text-sm font-medium tabular-nums">
               {selectedIndex + 1} / {images.length}
             </span>
-          </div>
+          </section>
         </DialogContent>
       </Dialog>
     </>

@@ -1,13 +1,13 @@
+import * as path from "node:path";
 import { createClient } from "@sanity/client";
 import * as dotenv from "dotenv";
-import * as path from "node:path";
 
 // Load environment variables from .env.local (Next.js convention)
 dotenv.config({ path: path.resolve(process.cwd(), ".env.local") });
 dotenv.config({ path: path.resolve(process.cwd(), ".env") });
 
 const client = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? "",
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
   apiVersion: "2025-01-01",
   token: process.env.SANITY_API_TOKEN,
@@ -261,11 +261,11 @@ const leadsData = [
 ];
 
 async function findAgentByEmail(
-  email: string
+  email: string,
 ): Promise<{ _id: string; name: string } | null> {
   const agent = await client.fetch(
     `*[_type == "agent" && email == $email][0]{ _id, name }`,
-    { email }
+    { email },
   );
   return agent;
 }
@@ -310,7 +310,7 @@ async function main() {
   console.log("\n🌱 Starting agent leads seed process...\n");
   console.log(`Project ID: ${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}`);
   console.log(
-    `Dataset: ${process.env.NEXT_PUBLIC_SANITY_DATASET || "production"}`
+    `Dataset: ${process.env.NEXT_PUBLIC_SANITY_DATASET || "production"}`,
   );
   console.log(`Target agent email: ${AGENT_EMAIL}`);
 
@@ -343,7 +343,7 @@ async function main() {
     // Summary by status
     const newLeads = leadsData.filter((l) => l.status === "new").length;
     const contactedLeads = leadsData.filter(
-      (l) => l.status === "contacted"
+      (l) => l.status === "contacted",
     ).length;
     const closedLeads = leadsData.filter((l) => l.status === "closed").length;
 
@@ -355,7 +355,7 @@ async function main() {
     console.log(`    - Contacted: ${contactedLeads}`);
     console.log(`    - Closed: ${closedLeads}`);
     console.log(
-      "\nYou can view the leads in the Agent Dashboard at /dashboard/leads\n"
+      "\nYou can view the leads in the Agent Dashboard at /dashboard/leads\n",
     );
   } catch (error) {
     console.error("\n❌ Seed failed:", error);

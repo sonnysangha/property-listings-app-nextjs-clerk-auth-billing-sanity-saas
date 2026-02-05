@@ -28,8 +28,7 @@ const buttonVariants = cva(
         // Link: Text link style
         link: "text-primary underline-offset-4 hover:underline",
         // Success: Forest green
-        success:
-          "bg-success text-white shadow-warm hover:bg-success/90",
+        success: "bg-success text-white shadow-warm hover:bg-success/90",
       },
       size: {
         default: "h-10 px-5 py-2 has-[>svg]:px-4",
@@ -47,7 +46,7 @@ const buttonVariants = cva(
       variant: "default",
       size: "default",
     },
-  }
+  },
 );
 
 function Button({

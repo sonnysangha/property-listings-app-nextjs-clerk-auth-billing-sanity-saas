@@ -1,17 +1,17 @@
 "use client";
 
-import { useCallback, useState } from "react";
-import { useDropzone } from "react-dropzone";
 import {
   DragDropContext,
-  Droppable,
   Draggable,
+  Droppable,
   type DropResult,
 } from "@hello-pangea/dnd";
-import { ImagePlus, X, GripVertical, Loader2 } from "lucide-react";
+import { GripVertical, ImagePlus, Loader2, X } from "lucide-react";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
+import { useCallback, useState } from "react";
+import { useDropzone } from "react-dropzone";
 import { uploadImageToSanity } from "@/lib/sanity/upload";
+import { cn } from "@/lib/utils";
 
 export interface ImageItem {
   id: string;
@@ -178,7 +178,8 @@ export function ImageUpload({
                         {...provided.draggableProps}
                         className={cn(
                           "relative group rounded-lg overflow-hidden border bg-muted",
-                          snapshot.isDragging && "ring-2 ring-primary shadow-lg",
+                          snapshot.isDragging &&
+                            "ring-2 ring-primary shadow-lg",
                           image.isUploading && "opacity-50",
                         )}
                         style={{

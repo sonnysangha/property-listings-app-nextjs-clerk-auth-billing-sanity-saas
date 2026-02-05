@@ -502,7 +502,7 @@ export function FilterSidebar({ amenities }: FilterSidebarProps) {
                   <Checkbox
                     id="openHouse"
                     checked={filters.openHouse}
-                    onCheckedChange={(checked) =>
+                    onCheckedChange={(checked: boolean | "indeterminate") =>
                       handleFilterChange("openHouse", checked === true)
                     }
                   />
@@ -517,7 +517,7 @@ export function FilterSidebar({ amenities }: FilterSidebarProps) {
                   <Checkbox
                     id="priceReduced"
                     checked={filters.priceReduced}
-                    onCheckedChange={(checked) =>
+                    onCheckedChange={(checked: boolean | "indeterminate") =>
                       handleFilterChange("priceReduced", checked === true)
                     }
                   />

@@ -1,9 +1,6 @@
 import { cache } from "react";
 import { sanityFetch } from "./live";
-import {
-  AGENT_ONBOARDING_CHECK_QUERY,
-  ANALYTICS_AGENT_QUERY,
-} from "./queries";
+import { AGENT_ONBOARDING_CHECK_QUERY, ANALYTICS_AGENT_QUERY } from "./queries";
 
 /**
  * Cached queries for React deduplication.

@@ -69,7 +69,8 @@ export default clerkMiddleware(async (auth, req) => {
     // Check agent onboarding status (stored in Clerk metadata)
     const clerk = await clerkClient();
     const user = await clerk.users.getUser(userId);
-    const agentOnboardingComplete = user.publicMetadata?.agentOnboardingComplete;
+    const agentOnboardingComplete =
+      user.publicMetadata?.agentOnboardingComplete;
 
     // If not onboarded, redirect to agent onboarding (unless already there)
     if (

@@ -1,17 +1,17 @@
-import type { Metadata } from "next";
 import { auth } from "@clerk/nextjs/server";
+import type { Metadata } from "next";
 import { sanityFetch } from "@/lib/sanity/live";
 import {
   AGENT_ID_BY_USER_QUERY,
-  ANALYTICS_LISTINGS_TOTAL_QUERY,
+  ANALYTICS_LEADS_BY_PROPERTY_QUERY,
+  ANALYTICS_LEADS_CLOSED_QUERY,
+  ANALYTICS_LEADS_CONTACTED_QUERY,
+  ANALYTICS_LEADS_NEW_QUERY,
+  ANALYTICS_LEADS_TOTAL_QUERY,
   ANALYTICS_LISTINGS_ACTIVE_QUERY,
   ANALYTICS_LISTINGS_PENDING_QUERY,
   ANALYTICS_LISTINGS_SOLD_QUERY,
-  ANALYTICS_LEADS_TOTAL_QUERY,
-  ANALYTICS_LEADS_NEW_QUERY,
-  ANALYTICS_LEADS_CONTACTED_QUERY,
-  ANALYTICS_LEADS_CLOSED_QUERY,
-  ANALYTICS_LEADS_BY_PROPERTY_QUERY,
+  ANALYTICS_LISTINGS_TOTAL_QUERY,
 } from "@/lib/sanity/queries";
 import { AnalyticsDashboard } from "./analytics-dashboard";
 
@@ -121,7 +121,7 @@ export default async function AnalyticsPage() {
             ? `${p.title.slice(0, 20)}...`
             : (p.title ?? "Unknown"),
         leads: p.leadCount,
-      })
+      }),
     ),
   };
 

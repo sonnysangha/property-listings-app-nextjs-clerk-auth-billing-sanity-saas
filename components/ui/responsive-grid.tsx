@@ -86,7 +86,7 @@ function ResponsiveGrid({
     cols.lg && lgColClasses[cols.lg as keyof typeof lgColClasses],
     cols.xl && xlColClasses[cols.xl as keyof typeof xlColClasses],
     gapClasses[gap as keyof typeof gapClasses] || "gap-6",
-    className
+    className,
   );
 
   return <div className={gridClasses}>{children}</div>;

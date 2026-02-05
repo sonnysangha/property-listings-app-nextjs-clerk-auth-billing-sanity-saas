@@ -1,7 +1,7 @@
 "use client";
 
 import debounce from "lodash.debounce";
-import { MapPin, Loader2, X, CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Loader2, MapPin, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -51,7 +51,9 @@ export function AddressAutocomplete({
   const [suggestions, setSuggestions] = useState<MapboxFeature[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedAddress, setSelectedAddress] = useState<AddressResult | null>(null);
+  const [selectedAddress, setSelectedAddress] = useState<AddressResult | null>(
+    null,
+  );
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -60,7 +62,10 @@ export function AddressAutocomplete({
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
@@ -100,7 +105,7 @@ export function AddressAutocomplete({
   // Debounced search
   const debouncedSearch = useMemo(
     () => debounce((query: string) => fetchSuggestions(query), 300),
-    [fetchSuggestions]
+    [fetchSuggestions],
   );
 
   // Cleanup debounce on unmount
@@ -186,13 +191,13 @@ export function AddressAutocomplete({
       case "ArrowDown":
         e.preventDefault();
         setHighlightedIndex((prev) =>
-          prev < suggestions.length - 1 ? prev + 1 : 0
+          prev < suggestions.length - 1 ? prev + 1 : 0,
         );
         break;
       case "ArrowUp":
         e.preventDefault();
         setHighlightedIndex((prev) =>
-          prev > 0 ? prev - 1 : suggestions.length - 1
+          prev > 0 ? prev - 1 : suggestions.length - 1,
         );
         break;
       case "Enter":
@@ -223,7 +228,9 @@ export function AddressAutocomplete({
           className="pl-10 pr-10"
         />
         <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
-          {isLoading && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
+          {isLoading && (
+            <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+          )}
           {selectedAddress && !isLoading && (
             <CheckCircle2 className="h-4 w-4 text-green-600" />
           )}
@@ -250,7 +257,7 @@ export function AddressAutocomplete({
               onMouseEnter={() => setHighlightedIndex(index)}
               className={cn(
                 "w-full px-4 py-3 text-left text-sm flex items-start gap-3 hover:bg-muted transition-colors",
-                highlightedIndex === index && "bg-muted"
+                highlightedIndex === index && "bg-muted",
               )}
             >
               <MapPin className="h-4 w-4 text-muted-foreground mt-0.5 shrink-0" />
@@ -269,20 +276,25 @@ export function AddressAutocomplete({
           </div>
           <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-muted-foreground text-xs mt-2">
             <div>
-              <span className="font-medium text-foreground">Street:</span> {selectedAddress.street}
+              <span className="font-medium text-foreground">Street:</span>{" "}
+              {selectedAddress.street}
             </div>
             <div>
-              <span className="font-medium text-foreground">City:</span> {selectedAddress.city}
+              <span className="font-medium text-foreground">City:</span>{" "}
+              {selectedAddress.city}
             </div>
             <div>
-              <span className="font-medium text-foreground">State:</span> {selectedAddress.state}
+              <span className="font-medium text-foreground">State:</span>{" "}
+              {selectedAddress.state}
             </div>
             <div>
-              <span className="font-medium text-foreground">ZIP:</span> {selectedAddress.zipCode}
+              <span className="font-medium text-foreground">ZIP:</span>{" "}
+              {selectedAddress.zipCode}
             </div>
           </div>
           <div className="text-xs text-muted-foreground mt-1">
-            📍 Coordinates: {selectedAddress.lat.toFixed(6)}, {selectedAddress.lng.toFixed(6)}
+            📍 Coordinates: {selectedAddress.lat.toFixed(6)},{" "}
+            {selectedAddress.lng.toFixed(6)}
           </div>
         </div>
       )}

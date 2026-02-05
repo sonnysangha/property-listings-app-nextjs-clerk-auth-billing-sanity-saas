@@ -1,4 +1,12 @@
-import { ArrowRight, Heart, Home, MapPin, Search, Shield, Users } from "lucide-react";
+import {
+  ArrowRight,
+  Heart,
+  Home,
+  MapPin,
+  Search,
+  Shield,
+  Users,
+} from "lucide-react";
 import Link from "next/link";
 import { PropertyGrid } from "@/components/property/PropertyGrid";
 import { Button } from "@/components/ui/button";
@@ -30,12 +38,12 @@ export default async function HomePage() {
             </div>
 
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-heading tracking-tight mb-6">
-              Find Your{" "}
-              <span className="text-primary">Perfect Nest</span>
+              Find Your <span className="text-primary">Perfect Nest</span>
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
-              Making your first home journey simple and stress-free. Browse curated
-              properties, save your favorites, and connect with trusted agents.
+              Making your first home journey simple and stress-free. Browse
+              curated properties, save your favorites, and connect with trusted
+              agents.
             </p>
 
             {/* Search Bar */}
@@ -69,15 +77,24 @@ export default async function HomePage() {
             {/* Quick Stats */}
             <div className="flex flex-wrap items-center justify-center gap-8 mt-12 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
-                <div className="h-2 w-2 rounded-full bg-success" aria-hidden="true" />
+                <div
+                  className="h-2 w-2 rounded-full bg-success"
+                  aria-hidden="true"
+                />
                 <span>1,000+ Active Listings</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="h-2 w-2 rounded-full bg-primary" aria-hidden="true" />
+                <div
+                  className="h-2 w-2 rounded-full bg-primary"
+                  aria-hidden="true"
+                />
                 <span>500+ Happy Homeowners</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="h-2 w-2 rounded-full bg-secondary" aria-hidden="true" />
+                <div
+                  className="h-2 w-2 rounded-full bg-secondary"
+                  aria-hidden="true"
+                />
                 <span>50+ Trusted Agents</span>
               </div>
             </div>
@@ -109,7 +126,10 @@ export default async function HomePage() {
             <PropertyGrid properties={featuredProperties} />
           ) : (
             <div className="text-center py-16 bg-accent/50 rounded-2xl border border-border/50">
-              <Home className="h-12 w-12 text-muted-foreground mx-auto mb-4" aria-hidden="true" />
+              <Home
+                className="h-12 w-12 text-muted-foreground mx-auto mb-4"
+                aria-hidden="true"
+              />
               <p className="text-muted-foreground text-lg">
                 No featured properties available at the moment.
               </p>
@@ -129,8 +149,8 @@ export default async function HomePage() {
               How Nestwell Works
             </h2>
             <p className="text-muted-foreground mt-3 max-w-2xl mx-auto">
-              Finding your first home has never been easier. Follow these simple steps
-              to start your journey.
+              Finding your first home has never been easier. Follow these simple
+              steps to start your journey.
             </p>
           </div>
 
@@ -140,11 +160,16 @@ export default async function HomePage() {
               <div className="w-20 h-20 bg-background border-2 border-primary/20 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-warm transition-[transform,box-shadow] duration-300 group-hover:-translate-y-1 group-hover:shadow-warm-md group-hover:border-primary/40">
                 <Search className="h-9 w-9 text-primary" aria-hidden="true" />
               </div>
-              <div className="absolute top-10 left-[60%] right-0 h-px bg-border hidden md:block" aria-hidden="true" />
+              <div
+                className="absolute top-10 left-[60%] right-0 h-px bg-border hidden md:block"
+                aria-hidden="true"
+              />
               <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-3">
                 Step 1
               </span>
-              <h3 className="text-xl font-semibold font-heading mb-3">Search Properties</h3>
+              <h3 className="text-xl font-semibold font-heading mb-3">
+                Search Properties
+              </h3>
               <p className="text-muted-foreground">
                 Browse our curated catalog with advanced filters, map view, and
                 neighborhood insights.
@@ -156,11 +181,16 @@ export default async function HomePage() {
               <div className="w-20 h-20 bg-background border-2 border-secondary/20 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-warm transition-[transform,box-shadow] duration-300 group-hover:-translate-y-1 group-hover:shadow-warm-md group-hover:border-secondary/40">
                 <Heart className="h-9 w-9 text-secondary" aria-hidden="true" />
               </div>
-              <div className="absolute top-10 left-[60%] right-0 h-px bg-border hidden md:block" aria-hidden="true" />
+              <div
+                className="absolute top-10 left-[60%] right-0 h-px bg-border hidden md:block"
+                aria-hidden="true"
+              />
               <span className="inline-block px-3 py-1 rounded-full bg-secondary/10 text-secondary-foreground text-sm font-medium mb-3">
                 Step 2
               </span>
-              <h3 className="text-xl font-semibold font-heading mb-3">Save Favorites</h3>
+              <h3 className="text-xl font-semibold font-heading mb-3">
+                Save Favorites
+              </h3>
               <p className="text-muted-foreground">
                 Save properties you love and compare them side by side to find
                 your perfect match.
@@ -175,7 +205,9 @@ export default async function HomePage() {
               <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-3">
                 Step 3
               </span>
-              <h3 className="text-xl font-semibold font-heading mb-3">Connect with Agents</h3>
+              <h3 className="text-xl font-semibold font-heading mb-3">
+                Connect with Agents
+              </h3>
               <p className="text-muted-foreground">
                 Reach out to trusted agents, schedule viewings, and get expert
                 guidance throughout your journey.
@@ -198,43 +230,61 @@ export default async function HomePage() {
               </h2>
               <p className="text-lg text-muted-foreground mb-8">
                 We understand that buying your first home can be overwhelming.
-                That&apos;s why we&apos;ve designed Nestwell to make the process as
-                simple and stress-free as possible.
+                That&apos;s why we&apos;ve designed Nestwell to make the process
+                as simple and stress-free as possible.
               </p>
 
               <div className="space-y-6">
                 <div className="flex gap-4">
                   <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                    <Shield className="h-6 w-6 text-primary" aria-hidden="true" />
+                    <Shield
+                      className="h-6 w-6 text-primary"
+                      aria-hidden="true"
+                    />
                   </div>
                   <div>
-                    <h3 className="font-semibold font-heading mb-1">Verified Listings</h3>
+                    <h3 className="font-semibold font-heading mb-1">
+                      Verified Listings
+                    </h3>
                     <p className="text-muted-foreground text-sm">
-                      Every property is verified by our team to ensure accuracy and quality.
+                      Every property is verified by our team to ensure accuracy
+                      and quality.
                     </p>
                   </div>
                 </div>
 
                 <div className="flex gap-4">
                   <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center">
-                    <Users className="h-6 w-6 text-secondary" aria-hidden="true" />
+                    <Users
+                      className="h-6 w-6 text-secondary"
+                      aria-hidden="true"
+                    />
                   </div>
                   <div>
-                    <h3 className="font-semibold font-heading mb-1">Trusted Agents</h3>
+                    <h3 className="font-semibold font-heading mb-1">
+                      Trusted Agents
+                    </h3>
                     <p className="text-muted-foreground text-sm">
-                      Connect with experienced agents who specialize in helping first-time buyers.
+                      Connect with experienced agents who specialize in helping
+                      first-time buyers.
                     </p>
                   </div>
                 </div>
 
                 <div className="flex gap-4">
                   <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                    <Heart className="h-6 w-6 text-primary" aria-hidden="true" />
+                    <Heart
+                      className="h-6 w-6 text-primary"
+                      aria-hidden="true"
+                    />
                   </div>
                   <div>
-                    <h3 className="font-semibold font-heading mb-1">Personalized Experience</h3>
+                    <h3 className="font-semibold font-heading mb-1">
+                      Personalized Experience
+                    </h3>
                     <p className="text-muted-foreground text-sm">
-                      Save favorites, get recommendations, and track your home search journey.
+                      Save favorites, get recommendations, and track your home
+                      search journey.
                     </p>
                   </div>
                 </div>
@@ -248,19 +298,27 @@ export default async function HomePage() {
               </h3>
               <div className="grid grid-cols-2 gap-8">
                 <div>
-                  <div className="text-4xl md:text-5xl font-bold tabular-nums mb-2">500+</div>
+                  <div className="text-4xl md:text-5xl font-bold tabular-nums mb-2">
+                    500+
+                  </div>
                   <p className="text-primary-foreground/80">Happy Homeowners</p>
                 </div>
                 <div>
-                  <div className="text-4xl md:text-5xl font-bold tabular-nums mb-2">1,000+</div>
+                  <div className="text-4xl md:text-5xl font-bold tabular-nums mb-2">
+                    1,000+
+                  </div>
                   <p className="text-primary-foreground/80">Active Listings</p>
                 </div>
                 <div>
-                  <div className="text-4xl md:text-5xl font-bold tabular-nums mb-2">50+</div>
+                  <div className="text-4xl md:text-5xl font-bold tabular-nums mb-2">
+                    50+
+                  </div>
                   <p className="text-primary-foreground/80">Trusted Agents</p>
                 </div>
                 <div>
-                  <div className="text-4xl md:text-5xl font-bold tabular-nums mb-2">4.9</div>
+                  <div className="text-4xl md:text-5xl font-bold tabular-nums mb-2">
+                    4.9
+                  </div>
                   <p className="text-primary-foreground/80">Average Rating</p>
                 </div>
               </div>
@@ -278,8 +336,9 @@ export default async function HomePage() {
                 Are You a Real Estate Agent?
               </h2>
               <p className="text-lg text-secondary-foreground/80 mb-8">
-                Join our platform to list properties, connect with motivated buyers,
-                and grow your business. Get started with our agent subscription today.
+                Join our platform to list properties, connect with motivated
+                buyers, and grow your business. Get started with our agent
+                subscription today.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button size="lg" asChild>
@@ -288,7 +347,12 @@ export default async function HomePage() {
                     <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
                   </Link>
                 </Button>
-                <Button size="lg" variant="outline" asChild className="bg-background/10 border-secondary-foreground/20 text-secondary-foreground hover:bg-background/20">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  asChild
+                  className="bg-background/10 border-secondary-foreground/20 text-secondary-foreground hover:bg-background/20"
+                >
                   <Link href="/dashboard">Go to Agent Dashboard</Link>
                 </Button>
               </div>

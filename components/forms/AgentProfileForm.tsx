@@ -66,16 +66,30 @@ export function AgentProfileForm({ agent }: AgentProfileFormProps) {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <div className="space-y-2">
-          <label className="text-sm font-medium">Name</label>
-          <Input value={agent.name} disabled className="bg-muted" />
+          <label htmlFor="agent-name" className="text-sm font-medium">
+            Name
+          </label>
+          <Input
+            id="agent-name"
+            value={agent.name}
+            disabled
+            className="bg-muted"
+          />
           <p className="text-xs text-muted-foreground">
             Name is managed in your user profile
           </p>
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium">Email</label>
-          <Input value={agent.email} disabled className="bg-muted" />
+          <label htmlFor="agent-email" className="text-sm font-medium">
+            Email
+          </label>
+          <Input
+            id="agent-email"
+            value={agent.email}
+            disabled
+            className="bg-muted"
+          />
           <p className="text-xs text-muted-foreground">
             Email is managed by your account settings
           </p>
@@ -144,7 +158,11 @@ export function AgentProfileForm({ agent }: AgentProfileFormProps) {
           )}
         />
 
-        <LoadingButton type="submit" loading={isPending} loadingText="Saving...">
+        <LoadingButton
+          type="submit"
+          loading={isPending}
+          loadingText="Saving..."
+        >
           Save Changes
         </LoadingButton>
       </form>

@@ -80,8 +80,15 @@ export function OnboardingForm({ defaultName, email }: OnboardingFormProps) {
             />
 
             <div className="space-y-2">
-              <label className="text-sm font-medium">Email</label>
-              <Input value={email} disabled className="bg-muted" />
+              <label htmlFor="onboarding-email" className="text-sm font-medium">
+                Email
+              </label>
+              <Input
+                id="onboarding-email"
+                value={email}
+                disabled
+                className="bg-muted"
+              />
               <p className="text-xs text-muted-foreground">
                 Email is managed by your account settings
               </p>

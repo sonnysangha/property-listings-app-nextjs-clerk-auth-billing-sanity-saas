@@ -10,8 +10,7 @@ const badgeVariants = cva(
     variants: {
       variant: {
         // Primary: Terracotta
-        default:
-          "bg-primary text-primary-foreground [a&]:hover:bg-primary/90",
+        default: "bg-primary text-primary-foreground [a&]:hover:bg-primary/90",
         // Secondary: Sage green
         secondary:
           "bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90",
@@ -19,8 +18,7 @@ const badgeVariants = cva(
         destructive:
           "bg-destructive text-white [a&]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40",
         // Success: Forest green
-        success:
-          "bg-success text-white [a&]:hover:bg-success/90",
+        success: "bg-success text-white [a&]:hover:bg-success/90",
         // Outline: Warm border
         outline:
           "border-border text-foreground bg-background [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
@@ -28,8 +26,7 @@ const badgeVariants = cva(
         ghost:
           "text-muted-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
         // Muted: Soft background
-        muted:
-          "bg-muted text-muted-foreground [a&]:hover:bg-muted/80",
+        muted: "bg-muted text-muted-foreground [a&]:hover:bg-muted/80",
         // Link
         link: "text-primary underline-offset-4 [a&]:hover:underline",
       },
@@ -37,7 +34,7 @@ const badgeVariants = cva(
     defaultVariants: {
       variant: "default",
     },
-  }
+  },
 );
 
 function Badge({

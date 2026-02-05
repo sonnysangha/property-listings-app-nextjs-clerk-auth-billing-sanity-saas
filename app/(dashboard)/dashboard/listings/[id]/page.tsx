@@ -1,5 +1,5 @@
-import { notFound } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
+import { notFound } from "next/navigation";
 import { ListingForm } from "@/components/forms/ListingForm";
 import { sanityFetch } from "@/lib/sanity/live";
 import {

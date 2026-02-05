@@ -1,6 +1,11 @@
 "use client";
 
-import type { ControllerRenderProps, FieldValues, Path } from "react-hook-form";
+import type {
+  Control,
+  ControllerRenderProps,
+  FieldValues,
+  Path,
+} from "react-hook-form";
 import {
   FormControl,
   FormDescription,
@@ -10,7 +15,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import type { Control } from "react-hook-form";
 
 interface TextareaFieldProps<T extends FieldValues> {
   control: Control<T>;
