@@ -18,8 +18,10 @@
 
 > 🔥 **Technical highlights:**
 > - Real-time content with Sanity Live (no page refreshes!)
+> - Sanity Studio as your super admin dashboard
 > - Clerk Billing integration (no webhooks needed)
 > - Interactive Mapbox maps with property markers
+> - Type-safe schemas with auto-generated TypeScript (typegen)
 > - Server Actions + Server Components for optimal performance
 > - React 19 + React Compiler for blazing fast renders
 
@@ -123,6 +125,8 @@ I teach you how to build production-ready full-stack applications step-by-step o
 | Feature | Why It Matters |
 |---------|----------------|
 | 🔄 **Real-Time Updates** | Sanity Live pushes content changes instantly — no page refreshes |
+| 🎛️ **Sanity Studio** | Built-in super admin dashboard at `/studio` for content management |
+| 📐 **Schema + Typegen** | Define content schemas once, auto-generate TypeScript types |
 | 💳 **Clerk Billing** | Subscription management without complex webhook setups |
 | 🗄️ **Type-Safe Queries** | GROQ queries with `defineQuery` + auto-generated types |
 | ⚙️ **Server Actions** | Form submissions handled server-side for security |
@@ -285,6 +289,14 @@ pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to see the app.
+
+**8. Access Sanity Studio (Admin Dashboard)**
+
+Navigate to [http://localhost:3000/studio](http://localhost:3000/studio) to manage content:
+- Create/edit properties
+- Manage agents and users
+- View leads
+- Full CMS control with real-time preview
 
 ### ✅ First Time Setup Checklist
 
